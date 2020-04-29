@@ -11,6 +11,7 @@ Makefile*
 mta-*
 sqlite.db
 .DS_store
+keys.js
 
 # added by cds deploy
 default-env.json

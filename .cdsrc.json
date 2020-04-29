@@ -1,0 +1,74 @@
+{
+  "auth": {
+    "passport": {
+      "strategy": "mock",
+      "users": {
+        "alice": {
+          "roles": [
+            "admin"
+          ]
+        },
+        "scott": {
+          "roles": [
+            "user"
+          ]
+        }
+      }
+    }
+  },
+  "requires": {
+    "uaa": {
+      "kind": "xsuaa"
+    },
+    "db": {
+      "kind": "sqlite",
+      "model": [
+        "db/",
+        "srv/index.cds",
+        "srv/map-sqlite.cds",
+        "srv/approver.cds"
+      ],
+      "[production]": {
+        "kind": "hana",
+        "model": [
+          "db/",
+          "srv/index.cds",
+          "srv/map-hana.cds",
+          "srv/approver.cds"
+        ]
+      }
+    }
+  },
+  "odata": {
+    "version": "v4"
+  },
+  "build": {
+    "target": ".",
+    "tasks": [
+      {
+        "for": "hana",
+        "src": "db",
+        "options": {
+          "model": [
+            "db/",
+            "srv/index.cds",
+            "srv/map-hana.cds",
+            "srv/approver.cds"
+          ]
+        }
+      },
+      {
+        "for": "node-cf",
+        "src": "srv",
+        "options": {
+          "model": [
+            "db/",
+            "srv/index.cds",
+            "srv/map-hana.cds",
+            "srv/approver.cds"
+          ]
+        }
+      }
+    ]
+  }
+}

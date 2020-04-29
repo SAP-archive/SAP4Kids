@@ -1,0 +1,1 @@
+sap.ui.define("openui5/googlemaps/MapTypeId",["jquery.sap.global"],function(e){"use strict";var a={ROADMAP:"roadmap",SATELLITE:"satellite",HYBRID:"hybrid",TERRAIN:"terrain"};return a},true);

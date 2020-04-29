@@ -1,0 +1,56 @@
+{
+  "_version": "1.9.0",
+  "sap.app": {
+    "id": "openui5.googlemaps",
+    "type": "library",
+    "embeds": [],
+    "applicationVersion": {
+      "version": "1.0.5"
+    },
+    "title": "UI5 library: openui5.googlemaps",
+    "description": "UI5 library: openui5.googlemaps",
+    "resources": "resources.json",
+    "offline": true
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "supportedThemes": [
+      "sap_fiori_3"
+    ]
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.76",
+      "libs": {
+        "sap.ui.core": {
+          "minVersion": "1.76.0"
+        }
+      }
+    },
+    "library": {
+      "i18n": false,
+      "content": {
+        "controls": [
+          "openui5.googlemaps.loadScripts",
+          "openui5.googlemaps.Map",
+          "openui5.googlemaps.Marker",
+          "openui5.googlemaps.Polyline",
+          "openui5.googlemaps.Polygon",
+          "openui5.googlemaps.Directions",
+          "openui5.googlemaps.Waypoint",
+          "openui5.googlemaps.MarkerCluster"
+        ],
+        "elements": [
+          "openui5.googlemaps.MapsApi"
+        ],
+        "types": [
+          "openui5.googlemaps.MapTypeId",
+          "openui5.googlemaps.Animation",
+          "openui5.googlemaps.TravelMode",
+          "openui5.googlemaps.UnitSystem"
+        ],
+        "interfaces": []
+      }
+    }
+  }
+}

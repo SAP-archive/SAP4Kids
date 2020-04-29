@@ -1,0 +1,36 @@
+specVersion: "2.0"
+type: application
+metadata:
+  name: resourcelocator
+framework:
+  name: SAPUI5
+  version: 1.76.0
+  libraries:
+    - name: sap.ui.core
+    - name: sap.m
+    - name: sap.ui.unified
+    - name: sap.f
+    - name: themelib_sap_fiori_3
+resources:
+  configuration:
+    propertiesFileSourceEncoding: "UTF-8"
+    paths:
+      webapp: ui_map/webapp
+server:
+  customMiddleware:
+    - name: ui5-middleware-livereload
+      afterMiddleware: compression
+      configuration:
+        port: 35730
+        watchPath: ui_map/webapp
+    - name: ui5-middleware-cfdestination
+      afterMiddleware: compression
+      configuration:
+        debug: true
+        port: 1092
+        xsappJson: approuter/xs-app.json
+        destinations:
+          - name: "SAP4KidsService"
+            # url: "http://localhost:4004/"
+            # url: "https://sap4good-dev-sap4kids.cfapps.us10.hana.ondemand.com/public"
+            url: "https://sap4kids-prod-sap4kids.cfapps.us10.hana.ondemand.com/public/"

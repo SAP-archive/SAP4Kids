@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SAP4Kids - Entry Form</title>
+
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+
+	<!-- ui5 bootstrap -->
+	<script id="sap-ui-bootstrap" src="https://ui5.sap.com/1.75.0/resources/sap-ui-core.js"
+					data-sap-ui-theme="sap_fiori_3"
+					data-sap-ui-libs="sap.ui.core,sap.f,sap.ui.layout,sap.ui.unified,sap.m,openui5.googlemaps"
+					data-sap-ui-resourceroots='{
+				"openui5.googlemaps": "./thirdparty/openui5/googlemaps/",
+				"com.sap4kids.assistanceentry": "./"
+			}' data-sap-ui-oninit="module:sap/ui/core/ComponentSupport" data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true" data-sap-ui-frameOptions="trusted" data-sap-ui-language="en"
+		data-sap-ui-xx-supportedLanguages=",en" data-sap-ui-xx-waitForTheme="true">
+		</script>
+	<script src="resources/keys.js"></script>
+
+	<!-- web analytics -->
+	<script>
+		if (window.sap4kidsTokens.webAnalytics.baseUrl) {
+			var swa = window.sap4kidsTokens.webAnalytics;
+			(function () {
+				var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+				g.type = 'text/javascript'; g.defer = true; g.async = true; g.src = swa.baseUrl + 'js/track.js';
+				s.parentNode.insertBefore(g, s);
+			})();
+		}
+	</script>
+
+	<!-- helpdesk widget -->
+	<script>
+		if (window.sap4kidsTokens.helpDeskWidgetId) {
+			window.fwSettings = {
+				'widget_id': window.sap4kidsTokens.helpDeskWidgetId
+			};
+			(function () {
+				var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+				g.type = 'text/javascript'; g.defer = true; g.async = true; g.src = 'https://widget.freshworks.com/widgets/' + window.sap4kidsTokens.helpDeskWidgetId + '.js';
+				s.parentNode.insertBefore(g, s);
+			})();
+
+			!function () { if ("function" != typeof window.FreshworksWidget) { var n = function () { n.q.push(arguments) }; n.q = [], window.FreshworksWidget = n } }()
+		}
+	</script>
+
+	<!-- helpdesk widget -->
+	<script>
+		window.fwSettings={
+			'widget_id':64000000130
+		};
+		!function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
+	</script>
+	<script type='text/javascript' src='https://widget.freshworks.com/widgets/64000000130.js' async defer></script>
+</head>
+
+<body class="sapUiBody">
+	<div id="splashScreen">
+		<div class="splashAnimation splashAnimationStandard">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<div data-sap-ui-component data-name="com.sap4kids.assistanceentry" data-id="container"
+		data-settings='{"id" : "com.sap4kids.assistanceentry"}'></div>
+</body>
+
+</html>

@@ -1,0 +1,316 @@
+/* Enter your custom styles here */
+.sap4kids .sapMPlanCal>.sapMPCHead>.sapMPCHeadActionsToolbar {
+  display: none;
+}
+
+/* .sap4kids .filterbar{
+  background: white;
+} */
+
+.sap4kids .sapFShellBar .sapMBtn .sapMBtnInner:after {
+  content: "\e1ef";
+}
+
+.sap4kids .sapFShellBar .sapFSHMegaMenu .sapMBtnInner::after,
+.sap4kids .sapFShellBar .sapMTB-Transparent-CTX .sapFShellBarItem.sapMBtn .sapMBtnInner::after {
+  display: none;
+}
+
+.sap4kids .sapFShellBar .sapFShellBarHomeIcon {
+  height: auto;
+}
+
+.sap4kids .sapFShellBar .sapFSHMegaMenu .sapMBtnInner>img {
+  height: auto;
+  margin-top: 5px;
+}
+
+
+/* hide scrollbar but keep functionality (scrolls away header image) */
+/* .sap4kids .sapMPage .sapMPageEnableScrolling::-webkit-scrollbar { */
+/* display: none; */
+/* } */
+
+.sap4kids .sapMDialog .sapMDialogScrollCont>* {
+  padding: 30px;
+}
+
+.sap4kids .sapMPanelWrappingDiv {
+  display: none;
+}
+
+.sap4kids .sapMPanel {
+  min-height: 0px;
+}
+
+.sap4kids .sapUiCalendarAppType01.sapUiCalendarApp {
+  border-left-color: #F5A623;
+}
+
+.sap4kids .sapUiCalendarRowVisFilled>.sapUiCalendarRowApps>.sapUiCalendarAppType01.sapUiCalendarApp:not(.sapUiCalendarAppSel)>.sapUiCalendarAppCont {
+  background-color: #FFE7BE;
+}
+
+.sap4kids .sapUiCalendarRowNow,
+.sap4kids .sapUiCalItem.sapUiCalItemNow {
+  border-color: #0954a0;
+}
+
+.sap4kids .headerText {
+  color: white;
+  display: block;
+  position: fixed;
+  top: calc(250px - 2.75rem);
+  padding: 0 3rem 1rem 2rem;
+  font-size: 1.5rem;
+  width: 100%;
+  text-shadow: 0 0 0.125rem black;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sap4kids .maincontent {
+  position: relative;
+  height: calc(100% - 300px) !important;
+}
+
+.sap-phone .sap4kids .maincontent,
+.sap-tablet .sap4kids .maincontent {
+  height: 100% !important;
+}
+
+.enterResourceLink {
+  padding-top: 10px;
+}
+
+.maincontent> :first-child {
+  flex-grow: 1 !important;
+}
+
+.sap-phone .sap4kids .mobileSearch,
+.sap-tablet .sap4kids .mobileSearch {
+  padding: 0.5rem;
+}
+
+.sap-phone .sap4kids .mobileSearch> :first-child,
+.sap-tablet .sap4kids .mobileSearch> :first-child {
+  flex-grow: 1 !important;
+}
+
+.sap-phone .sap4kids .mobileSearch> :not(:first-child),
+.sap-tablet .sap4kids .mobileSearch> :not(:first-child) {
+  padding-left: 0.5rem;
+}
+
+#__xmlview0--map,
+.sap-phone .maincontent> :first-child,
+.sap-tablet .maincontent> :first-child {
+  height: 100% !important;
+  height: 100vh !important;
+}
+
+.providerOverlay {
+  width: calc(100% - 6px);
+  position: fixed;
+  bottom: 0px;
+  margin: 3px;
+}
+
+.sap-phone .calander-item.providerOverlay,
+.sap-tablet .calander-item.providerOverlay {
+  width: calc(100% - 26px);
+  color: white;
+  background: #35495e;
+}
+
+.sap-phone #__xmlview0--map,
+.sap-tablet #__xmlview0--map {
+  height: 100% !important;
+}
+
+.sap4kids .filterbarItem {
+  padding: 10px;
+  overflow: hidden;
+}
+
+.sap4kids .sapUiCalendarAppIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.sap4kids .sapUiCalendarRow .sapUiCalendarAppTitleOnly>.sapUiCalendarAppCont .sapUiCalendarAppIcon,
+.sapUiCalendarRow .sapUiCalendarRowAppsIntHead .sapUiCalendarRowAppsIntHeadIcon {
+  top: 0.375rem;
+}
+
+.gm-style-iw.gm-style-iw-c,
+.gm-style-iw-d * {
+  color: #354a5f !important;
+  max-height: none !important;
+  background-color: white !important;
+}
+
+.gm-style-iw.gm-style-iw-c {
+  padding: 12px !important;
+}
+
+.gm-style-iw.gm-style-iw-c>.gm-style-iw-d {
+  overflow: auto !important;
+  max-height: none !important;
+}
+
+.gmnoprint,
+.gm-style-cc {
+  top: 0px;
+  height: 14px;
+}
+
+.userLocationPopover {
+  margin: 15px 15px 15px 5px;
+}
+
+.institution-popup {
+  border-radius: 5px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.institution-popup a {
+  color: white;
+}
+
+.institution-popup .name {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px 10px 0px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.institution-popup .items .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding: 10px 10px;
+  width: fit-content;
+}
+
+.item-food {
+  color: orange;
+}
+
+.item-water {
+  color: #6ea6e8;
+}
+
+.item .img {
+  padding-left: 10px;
+  padding-right: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.item .mode {
+  padding: 10px 0px 0px 0px;
+  font-weight: bold;
+}
+
+.sub-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-item {
+  padding: 5px 0px 5px 0px;
+}
+
+.sub-item .type {
+  font-weight: bold;
+}
+
+.sub-item .time {
+  font-weight: lighter;
+}
+
+.sub-item-days {
+  display: flex;
+  flex-direction: column;
+}
+
+.calander-item {
+  padding: 5px 10px;
+  color: #10284e;
+  border-radius: 4px;
+}
+
+.calander-item .institution {
+  max-width: 225px;
+  padding: 5px 15px 10px 5px;
+}
+
+.calander-item .institution-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+  margin-bottom: 10px;
+}
+
+.calander-item .buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.calander-item .institution .name {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.calander-item .institution .address {
+  font-size: 0.75rem;
+}
+
+.calander-item .comments {
+  max-width: 50%;
+  min-width: 50%;
+}
+
+.calander-item .comments .comment {
+  font-weight: lighter;
+  margin-top: 10px;
+}
+
+.institution-assistance-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-assistance-container .assistance {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  font-size: 0.85rem;
+}
+
+.assistance .items {
+  max-width: 50%;
+  min-width: 50%;
+}
+
+.assistance .items .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.assistance-type {
+  font-weight: bold;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,254 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#splashScreen {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1000;
+  background-image: url('../resources/img/logo.png');
+  background-color: #354a5f;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.splashAnimation>div {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  display: block;
+  float: left;
+  margin: 0px;
+  position: relative;
+  top: -0.5em;
+  left: -1.5em;
+  text-indent: 1px
+}
+
+.splashAnimation {
+  position: absolute;
+  width: 3em;
+  top: 55%;
+  left: 50%
+}
+
+.splashAnimation>div {
+  width: 1em;
+  height: 1em;
+  border-radius: 100%;
+  display: block;
+  float: left;
+  margin: 0px;
+  position: relative;
+  top: -0.5em;
+  left: -1.5em;
+  text-indent: 1px
+}
+
+.splashAnimation>div::before,
+.splashAnimation>div::after {
+  content: "";
+  opacity: 1;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%
+}
+
+.splashAnimation>div::before {
+  background: #0a6ed1
+}
+
+.splashAnimation>div::after {
+  box-shadow: inset 0 0 2px 1px rgba(10, 110, 209, 0.8)
+}
+
+.splashAnimation>div,
+.splashAnimation>div::before,
+.splashAnimation>div::after {
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both
+}
+
+.splashAnimationStandard>div {
+  -webkit-animation: sapUiBusyAnimationStandard 1.8s infinite ease-in-out;
+  animation: sapUiBusyAnimationStandard 1.8s infinite ease-in-out
+}
+
+.splashAnimationStandard>div::before {
+  -webkit-animation: sapUiBusyAnimationStandardBackground 1.8s infinite ease-in-out;
+  animation: sapUiBusyAnimationStandardBackground 1.8s infinite ease-in-out
+}
+
+.splashAnimationStandard>div::after {
+  -webkit-animation: sapUiBusyAnimationStandardShadow 1.8s infinite ease-in-out;
+  animation: sapUiBusyAnimationStandardShadow 1.8s infinite ease-in-out
+}
+
+.splashAnimationStandard>div:nth-child(1) {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s
+}
+
+.splashAnimationStandard>div:nth-child(2) {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s
+}
+
+
+
+@keyframes sapUiBusyAnimationStandard {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(.4)
+  }
+
+  40% {
+    transform: scale(1)
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationStandard {
+
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(.4)
+  }
+
+  40% {
+    -webkit-transform: scale(1)
+  }
+}
+
+@keyframes sapUiBusyAnimationStandardBackground {
+
+  0%,
+  80%,
+  100% {
+    opacity: 1
+  }
+
+  40% {
+    opacity: 0.1
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationStandardBackground {
+
+  0%,
+  80%,
+  100% {
+    opacity: 1
+  }
+
+  40% {
+    opacity: 0.1
+  }
+}
+
+@keyframes sapUiBusyAnimationStandardShadow {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0
+  }
+
+  40% {
+    opacity: 1
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationStandardShadow {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0
+  }
+
+  40% {
+    opacity: 1
+  }
+}
+
+@keyframes sapUiBusyAnimationSmall {
+
+  0%,
+  100% {
+    transform: scale(.2)
+  }
+
+  50% {
+    transform: scale(1)
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationSmall {
+
+  0%,
+  100% {
+    -webkit-transform: scale(.2)
+  }
+
+  50% {
+    -webkit-transform: scale(1)
+  }
+}
+
+@keyframes sapUiBusyAnimationSmallBackground {
+
+  0%,
+  100% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0.1
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationSmallBackground {
+
+  0%,
+  100% {
+    opacity: 1
+  }
+
+  50% {
+    opacity: 0.1
+  }
+}
+
+@keyframes sapUiBusyAnimationSmallShadow {
+
+  0%,
+  100% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+}
+
+@-webkit-keyframes sapUiBusyAnimationSmallShadow {
+
+  0%,
+  100% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 1
+  }
+}

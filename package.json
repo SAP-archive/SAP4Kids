@@ -1,0 +1,59 @@
+{
+  "name": "sap4kids",
+  "version": "1.0.0",
+  "engines": {
+    "node": "12.X"
+  },
+  "scripts": {
+    "build:cds": "cds build/all --clean",
+    "deploy:cds": "cds deploy",
+    "start": "run-p serveMap serveForm serveCDS serveApprover",
+    "serveCDS": "cds watch",
+    "serveApprover": "ui5 serve --config ui_approver/ui5.yaml --port 8082",
+    "serveMap": "ui5 serve --config ui_map/ui5.yaml --port 8081",
+    "serveForm": "ui5 serve --config ui_form/ui5.yaml",
+    "openApprover": "ui5 serve --config ui_approver/ui5.yaml  --port 8082 --open index.html",
+    "openMap": "ui5 serve --config ui_map/ui5.yaml  --port 8081 --open index.html",
+    "openForm": "ui5 serve --config ui_form/ui5.yaml --open index.html",
+    "test": "run-s lint",
+    "lint": "eslint .",
+    "workaround": "find . -name '.DS_Store' -delete",
+    "build:mta": "mbt build",
+    "deploy:cf": "cross-var cf deploy mta_archives/sap4kids_$npm_package_version.mtar",
+    "deploy:cf:trial": "cross-var cf deploy mta_archives/sap4kids_$npm_package_version.mtar -e trial.mtaext",
+    "deploy:cf:prod": "cross-var cf deploy mta_archives/sap4kids_$npm_package_version.mtar -e production.mtaext",
+    "deploy": "run-s build:mta deploy:cf",
+    "deploy:trial": "run-s build:mta deploy:cf:trial",
+    "deploy:prod": "run-s build:mta deploy:cf:prod",
+    "build:ui": "run-p build:map build:form build:approver",
+    "build:map": "ui5 build --config ui_map/ui5.yaml  --clean-dest --include-task=generateManifestBundle --dest deployer/resources/map",
+    "build:approver": "ui5 build --config ui_approver/ui5.yaml  --clean-dest --include-task=generateManifestBundle --dest deployer/resources/approver",
+    "build:form": "ui5 build --config ui_form/ui5.yaml --clean-dest --include-task=generateManifestBundle --dest deployer/resources/form"
+  },
+  "dependencies": {
+    "@sap/cds": "^3.33.1",
+    "express": "^4.17.1",
+    "hdb": "^0.17.1",
+    "passport": "^0.4.1",
+    "shx": "^0.3.2"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^1.7.1",
+    "cross-var": "^1.1.0",
+    "mbt": "1.0.13",
+    "ui5-middleware-cfdestination": "^0.1.7",
+    "@ui5/cli": "^2.0.2",
+    "ui5-middleware-livereload": "^0.1.10",
+    "ui5-middleware-simpleproxy": "^0.2.1",
+    "npm-run-all": "^4.1.5",
+    "sqlite3": "^4.1.1",
+    "eslint": "^6.8.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-middleware-simpleproxy",
+      "ui5-middleware-cfdestination",
+      "ui5-middleware-livereload"
+    ]
+  }
+}

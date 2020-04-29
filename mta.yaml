@@ -1,0 +1,109 @@
+ID: sap4kids
+_schema-version: 3.2.0
+description: Enter description here
+version: 1.0.0
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: sap4kids
+    type: nodejs
+    path: approuter
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+      instances: 1
+    requires:
+      - name: sap4kids_uaa
+      - name: sap4kids_html5_repo_runtime
+      - name: srv_api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          strictSSL: false
+          name: SAP4KidsService
+          url: ~{url}
+      - name: web_api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          strictSSL: false
+          name: webanalytics
+          url: ~{url}
+    build-parameters:
+      ignore: ["node_modules/"]
+
+  - name: sap4kids_ui_deployer
+    type: com.sap.html5.application-content
+    path: deployer
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: sap4kids_html5_repo_host
+    build-parameters:
+      ignore: ["node_modules/"]
+      builder: custom
+      commands:
+        - npm run build:ui --prefix ..
+
+  - name: sap4kids-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: SAP4KIDS-db-hdi-container
+    build-parameters:
+      ignore: ["node_modules/"]
+      builder: custom
+      commands:
+        - npm run build:cds --prefix ..
+
+  - name: sap4kids-srv
+    type: nodejs
+    path: srv
+    parameters:
+      memory: 512M
+      disk-quota: 512M
+      instances: 1
+    requires:
+      - name: SAP4KIDS-db-hdi-container
+      - name: sap4kids_uaa
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+      - name: web_api
+        properties:
+          url: https://sap4kids.wa.cfapps.us10.hana.ondemand.com/
+    build-parameters:
+      ignore: ["node_modules/"]
+
+resources:
+  - name: sap4kids_uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+  - name: sap4kids_html5_repo_runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+  - name: SAP4KIDS-db-hdi-container
+    type: com.sap.xs.hdi-container
+    parameters:
+      service-plan: hdi-shared
+      service: hana
+    properties:
+      hdi-container-name: ${service-name}
+  - name: sap4kids_html5_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+      config:
+        sizeLimit: 5

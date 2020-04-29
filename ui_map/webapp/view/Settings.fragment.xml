@@ -1,0 +1,54 @@
+<core:FragmentDefinition xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <FlexBox class="filterbar" wrap="Wrap" justifyContent="SpaceBetween">
+    <VBox visible="{=${device>/system/desktop}}">
+      <Label text="{i18n>search}" />
+      <HBox>
+        <SearchField class="locationSearch" placeholder="{i18n>searchPlaceholder}" value="{state>/locationName}" search=".onAddressSearch">
+          <layoutData>
+            <FlexItemData growFactor="1" baseSize="0" />
+          </layoutData>
+        </SearchField>
+        <ToggleButton width="100%" icon="sap-icon://locate-me" text="{i18n>useLocation}" pressed="{state>/determineLocation}" busy="{state>/locatingUser}" press=".onToggleButtonPress" />
+      </HBox>
+      <layoutData>
+        <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>
+      </layoutData>
+    </VBox>
+    <!-- <VBox>
+      <Label text="{i18n>eligible}" />
+      <MultiComboBox selectedKeys="{state>/selectedEligibilities}" items="{srv>/EligiblityCategories}" selectionFinish="updateMarkerBinding">
+        <core:Item key="{srv>ID}" text="{srv>eligibilityCategory}" />
+      </MultiComboBox>
+      <layoutData>
+        <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>
+      </layoutData>
+    </VBox> -->
+    <!-- <VBox>
+      <Label text="{i18n>daysOfWeek}" />
+      <MultiComboBox selectedKeys="{state>/selectedDays}" selectionFinish="updateMarkerBinding">
+        <items>
+          <core:Item key="availableMon" text="{i18n>monday}" />
+          <core:Item key="availableTue" text="{i18n>tuesday}" />
+          <core:Item key="availableWed" text="{i18n>wednesday}" />
+          <core:Item key="availableThr" text="{i18n>thursday}" />
+          <core:Item key="availableFri" text="{i18n>friday}" />
+          <core:Item key="availableSat" text="{i18n>saturday}" />
+          <core:Item key="availableSun" text="{i18n>sunday}" />
+        </items>
+      </MultiComboBox>
+      <layoutData>
+        <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>
+      </layoutData>
+    </VBox> -->
+    <!-- <VBox>
+      <Label text="{i18n>foodTypes}" />
+      <MultiComboBox selectedKeys="{state>/selectedResources}" items="{srv>/AssistanceSubTypes}" selectionFinish="updateMarkerBinding">
+        <core:Item key="{srv>ID}" text="{srv>subType}" />
+      </MultiComboBox>
+      <layoutData>
+        <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>
+      </layoutData>
+    </VBox> -->
+  </FlexBox>
+</core:FragmentDefinition>

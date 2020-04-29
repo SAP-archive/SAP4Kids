@@ -1,0 +1,73 @@
+/* remove arrow in shell header */
+.sap4kids .sapFShellBar .sapFSHMegaMenu .sapMBtnInner::after {
+	display: none;
+}
+.sap4kids .sapMMenuBtn .sapMMenuBtnRegular .sapFSHMegaMenu .sapFShellBarItem .sapMBarChild:nth-child(2) {
+	margin-right: -1rem;
+}
+
+.sap4kids .sapFShellBar .sapFShellBarHomeIcon {
+  height: auto;
+}
+
+/* hide scrollbar but keep functionality (scrolls away header image) */
+.sap4kids .sapMPage .sapMPageEnableScrolling::-webkit-scrollbar {
+	display: none;
+}
+
+/* position header on top of image */
+.sap4kids .headerText {
+	color: white;
+	display: block;
+	position: fixed;
+	top: calc(200px - 2.75rem);
+	padding: 0 3rem 1rem 3rem;
+	font-size: 1.5rem;
+	width: 100%;
+	text-shadow: 0 0 0.125rem black;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+/* bugfix for Flex without specific height issue */
+.sap4kids .assistanceHelpFixFlex {
+	height: 4.5rem !important;
+}
+
+/* bugfix for Flex without specific height issue */
+.sap4kids .associationToSchoolHelpFixFlex {
+	height: 3rem !important;
+}
+
+/* bugfix for proper Checkbox label truncation in form */
+.sap-phone .sap4kids .associationToSchoolCheckbox .sapMLabelTextWrapper {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: calc(100vw - 9rem);
+}
+
+/* bugfix for message strip in editable form */
+.sap4kids .entriesExistStrip .sapMText {
+	min-height: inherit;
+	padding: inherit;
+}
+
+/* class for reCAPTCHA errors */
+.sap4kids .g-recaptcha.validationError {
+	border: 3px solid orange;
+	height: 76px !important;
+	width: 302px !important;
+}
+
+.sap4kids .validationErrorMessage {
+	background: #fef7f1;
+	padding: 0.5625rem 1rem;
+}
+
+/* move web analytics banner to bottom and avoid horizontal scrollbar */
+.swa_banner {
+	bottom: 0 !important;
+	top: inherit !important;
+	width: calc(100% - 20px) !important;
+}

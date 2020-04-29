@@ -1,0 +1,135 @@
+{
+  "_version": "1.15.0",
+  "sap.app": {
+    "id": "com.sap4kids.approver",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "ach": "CA-UI5-FE",
+    "dataSources": {
+      "backend": {
+        "uri": "/dataadmin/approver/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "offline": false,
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "ui5template.fiorielements.v4.lrop",
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "resources": {
+      "js": [],
+      "css": []
+    },
+    "dependencies": {
+      "minUI5Version": "",
+      "libs": {
+        "sap.fe": {},
+        "sap.ui.fl": {}
+      }
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      },
+      "": {
+        "dataSource": "backend",
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      }
+    },
+    "routing": {
+      "targets": {
+        "AssistanceOfferingsList": {
+          "type": "Component",
+          "id": "AssistanceOfferingsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "entitySet": "AssistanceOfferings",
+              "variantManagement": "Page",
+              "navigation": {
+                "AssistanceOfferings": {
+                  "detail": {
+                    "route": "AssistanceOfferingsObjectPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "AssistanceOfferingsObjectPage": {
+          "type": "Component",
+          "id": "AssistanceOfferingsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "entitySet": "AssistanceOfferings",
+              "navigation": {}
+            }
+          }
+        }
+      },
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "AssistanceOfferingsList",
+          "target": "AssistanceOfferingsList"
+        },
+        {
+          "pattern": "AssistanceOfferings({key}):?query:",
+          "name": "AssistanceOfferingsObjectPage",
+          "target": "AssistanceOfferingsObjectPage"
+        }
+      ]
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  },
+  "sap.platform.abap": {
+    "_version": "1.1.0",
+    "uri": ""
+  },
+  "sap.platform.hcp": {
+    "_version": "1.1.0",
+    "uri": ""
+  },
+  "sap.fiori": {
+    "_version": "1.1.0",
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

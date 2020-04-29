@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="57px" height="64px" viewBox="0 0 57 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>Group 18</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-35.6%" y="-30.2%" width="171.1%" height="160.4%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-Copy-16" transform="translate(-352.000000, -54.000000)">
+            <g id="Group-18" transform="translate(358.000000, 58.000000)">
+                <g id="Group-10">
+                    <g id="Group-6-Copy-2">
+                        <g id="Group-4-Copy-3" filter="url(#filter-1)">
+                            <g id="Group-3-Copy-3" fill="#048359" stroke="#FFFFFF" stroke-width="1.5">
+                                <rect id="Rectangle" x="0.75" y="0.75" width="43.5" height="43.5" rx="8"></rect>
+                            </g>
+                            <polygon id="Triangle" fill="#FFFFFF" transform="translate(22.500000, 49.500000) rotate(180.000000) translate(-22.500000, -49.500000) " points="22.5 47 26 52 19 52"></polygon>
+                            <polygon id="Triangle" fill="#FFFFFF" transform="translate(22.500000, 49.000000) rotate(180.000000) translate(-22.500000, -49.000000) " points="22.5 45 28 53 17 53"></polygon>
+                        </g>
+                    </g>
+                    <g id="Group-9" transform="translate(21.000000, 5.000000)" fill="#FFFFFF" font-family="72-Bold, 72" font-size="24" font-weight="bold">
+                        <text id="$">
+                            <tspan x="0" y="22">$</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Phone" transform="translate(8.000000, 21.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <path d="M2.02293488,0.281000606 C0.968844496,1.39281764 0.17336654,2.42948709 0,3.44585489 C0.028702948,5.7387349 2.19088503,8.57821194 4.78915101,11.1725479 C7.37368059,13.7532444 10.366976,16.3010754 12.5434978,15.9710555 C13.5662413,15.79718 14.6096301,14.9955009 15.7308575,13.9336511 C16.090986,13.5903066 16.0907761,12.8511849 15.7238017,12.484706 L13.510939,10.2751834 C13.1291974,9.89398975 12.3890296,9.89383238 11.9028159,10.1512227 L10.4130613,11.24182 C9.6180266,11.9191188 7.9431048,10.2572687 6.83119409,9.14699916 C5.72186961,8.03935262 4.02910649,6.53543044 4.74271691,5.56365283 L5.8318132,4.08037329 C6.08571482,3.59997957 6.08566236,2.86098898 5.7215837,2.49747401 L3.51737933,0.296554714 C3.12410199,-0.0961274797 2.38390796,-0.0963373159 2.02299521,0.281079295 L2.02293488,0.281000606 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

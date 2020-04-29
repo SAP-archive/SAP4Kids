@@ -1,0 +1,7 @@
+ID,ASSISTANCETYPE,DESCRIPTION
+11605ca6-3326-4b3f-9722-89ea1bf770a7,Food,A program being offered to provide food
+4e4e2690-560f-4ce9-98e4-eea1dfdf11cf,Healthcare,A program to provide Healthcare services
+d19a7059-d22d-478b-8bf6-ecfc728e8ede,Licensed Childcare, A program to help provide Childcare
+df18e591-f087-4366-81e7-01beec8142a3,Housing Assistance, A program to help provide Housing Assistance
+ffc27506-c57a-4073-bf8a-1d2c0a0584c5,Workforce Assistance, A program to help provide Workforce Assistance
+e488ef60-bc20-452b-b8aa-bdd8c2934edb,Financial Assistance, A program to help provide Financial Assistance

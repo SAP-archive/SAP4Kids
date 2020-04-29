@@ -1,0 +1,6613 @@
+{
+  "definitions": {
+    "Country": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Country}",
+      "@Core.Description": "{i18n>CountryCode.Description}",
+      "@cds.persistence.name": "COUNTRY",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Currency}",
+      "@Core.Description": "{i18n>CurrencyCode.Description}",
+      "@cds.persistence.name": "CURRENCY",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "GenYouth": {
+      "kind": "service"
+    },
+    "GenYouth.Address": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_ADDRESS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.Address"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "Address Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "street": {
+          "@Common.Label": "Street",
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 100
+        },
+        "city": {
+          "@Common.Label": "City",
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 50
+        },
+        "zip": {
+          "@Common.Label": "Zip",
+          "@cds.persistence.name": "ZIP",
+          "type": "cds.Integer"
+        },
+        "lat": {
+          "@Common.Label": "Latitude",
+          "@cds.persistence.name": "LAT",
+          "type": "cds.Decimal",
+          "precision": 23,
+          "scale": 15
+        },
+        "long": {
+          "@Common.Label": "Longitude",
+          "@cds.persistence.name": "LONG",
+          "type": "cds.Decimal",
+          "precision": 23,
+          "scale": 15
+        },
+        "state": {
+          "@cds.persistence.name": "STATE",
+          "type": "cds.Association",
+          "target": "GenYouth.State",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "state_ID"
+            }
+          ]
+        },
+        "state_ID": {
+          "@cds.persistence.name": "STATE_ID",
+          "@odata.foreignKey4": "state",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.Assistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_ASSISTANCE",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.Assistance"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactName": {
+          "@Common.Label": "Assistance Contact Name",
+          "@cds.persistence.name": "CONTACTNAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactEmail": {
+          "@Common.Label": "Contact Email",
+          "@cds.persistence.name": "CONTACTEMAIL",
+          "type": "cds.String",
+          "length": 50
+        },
+        "documentationRequired": {
+          "@Common.Label": "Documentation Required Indicator",
+          "@cds.persistence.name": "DOCUMENTATIONREQUIRED",
+          "type": "cds.Boolean"
+        },
+        "additionalDetails": {
+          "@Common.Label": "Assistance Notes",
+          "@cds.persistence.name": "ADDITIONALDETAILS",
+          "type": "cds.String",
+          "length": 1000
+        },
+        "active": {
+          "@Common.Label": "Active Indicator",
+          "@cds.persistence.name": "ACTIVE",
+          "type": "cds.Boolean"
+        },
+        "assistanceType": {
+          "@Common.Label": "Assistance Type;",
+          "@Common.ValueList.viaAssociation": {
+            "=": "assistanceType"
+          },
+          "@cds.persistence.name": "ASSISTANCETYPE",
+          "type": "cds.Association",
+          "target": "GenYouth.AssistanceType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceType_code"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "districtAssistance": {
+          "@cds.persistence.name": "DISTRICTASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.DistrictOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "districtAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceType_code": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE_CODE",
+          "@odata.foreignKey4": "assistanceType",
+          "type": "cds.String",
+          "length": 20
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.AssistanceLocation": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_ASSISTANCELOCATION",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceLocation"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Location",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "address": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "GenYouth.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "locationType": {
+          "@Common.Label": "Location Type",
+          "@Common.ValueList.viaAssociation": {
+            "=": "locationType"
+          },
+          "@cds.persistence.name": "LOCATIONTYPE",
+          "type": "cds.Association",
+          "target": "GenYouth.LocationType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "locationType_code"
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistanceLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "address_ID": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        },
+        "locationType_code": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE_CODE",
+          "@odata.foreignKey4": "locationType",
+          "type": "cds.String",
+          "length": 20
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.AssistanceOffering": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_ASSISTANCEOFFERING",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceOffering"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "timeFrom": {
+          "@Common.Label": "Time From",
+          "@cds.persistence.name": "TIMEFROM",
+          "type": "cds.Time"
+        },
+        "timeTo": {
+          "@Common.Label": "Time To",
+          "@cds.persistence.name": "TIMETO",
+          "type": "cds.Time"
+        },
+        "availableMon": {
+          "@Common.Label": "Monday Availability",
+          "@cds.persistence.name": "AVAILABLEMON",
+          "type": "cds.Boolean"
+        },
+        "availableTue": {
+          "@Common.Label": "Tuesday Availability",
+          "@cds.persistence.name": "AVAILABLETUE",
+          "type": "cds.Boolean"
+        },
+        "availableWed": {
+          "@Common.Label": "Wednesday Availability",
+          "@cds.persistence.name": "AVAILABLEWED",
+          "type": "cds.Boolean"
+        },
+        "availableThr": {
+          "@Common.Label": "Thursday Availability",
+          "@cds.persistence.name": "AVAILABLETHR",
+          "type": "cds.Boolean"
+        },
+        "availableFri": {
+          "@Common.Label": "Friday Availability",
+          "@cds.persistence.name": "AVAILABLEFRI",
+          "type": "cds.Boolean"
+        },
+        "availableSat": {
+          "@Common.Label": "Saturday Availability",
+          "@cds.persistence.name": "AVAILABLESAT",
+          "type": "cds.Boolean"
+        },
+        "availableSun": {
+          "@Common.Label": "Sunday Availability",
+          "@cds.persistence.name": "AVAILABLESUN",
+          "type": "cds.Boolean"
+        },
+        "offerStartDate": {
+          "@Common.Label": "Offering Start Date",
+          "@cds.persistence.name": "OFFERSTARTDATE",
+          "type": "cds.Date"
+        },
+        "offerEndDate": {
+          "@Common.Label": "Offering End Date",
+          "@cds.persistence.name": "OFFERENDDATE",
+          "type": "cds.Date"
+        },
+        "assistance": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "GenYouth.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "assistanceLocation": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION",
+          "type": "cds.Association",
+          "target": "GenYouth.AssistanceLocation",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistanceLocation_ID"
+            }
+          ]
+        },
+        "assistanceDeliveryMode": {
+          "@Common.Label": "Delivery Mode",
+          "@Common.ValueList.viaAssociation": {
+            "=": "assistanceDeliveryMode"
+          },
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE",
+          "type": "cds.Association",
+          "target": "GenYouth.DeliveryMode",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceDeliveryMode_code"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "assistanceLocation_ID": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION_ID",
+          "@odata.foreignKey4": "assistanceLocation",
+          "type": "cds.UUID"
+        },
+        "assistanceDeliveryMode_code": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE_CODE",
+          "@odata.foreignKey4": "assistanceDeliveryMode",
+          "type": "cds.String",
+          "length": 20
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.AssistanceType": {
+      "kind": "entity",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "GENYOUTH_ASSISTANCETYPE",
+      "@cds.persistence.skip": "if-unused",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceType"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.AssistanceType_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.autoexposed": true,
+      "@cds.persistence.name": "GENYOUTH_ASSISTANCETYPE_TEXTS",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceType_texts"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "GenYouth.DeliveryMode": {
+      "kind": "entity",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "GENYOUTH_DELIVERYMODE",
+      "@cds.persistence.skip": "if-unused",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.DeliveryMode"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.DeliveryMode_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.autoexposed": true,
+      "@cds.persistence.name": "GENYOUTH_DELIVERYMODE_TEXTS",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.DeliveryMode_texts"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "GenYouth.District": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_DISTRICT",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.District"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "leaid": {
+          "@Common.Label": "Local Education Agency ID",
+          "@cds.persistence.name": "LEAID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "District Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "state": {
+          "@Common.Label": "State",
+          "@cds.persistence.name": "STATE",
+          "type": "cds.Association",
+          "target": "GenYouth.State",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "state_ID"
+            }
+          ]
+        },
+        "state_ID": {
+          "@Common.Label": "State",
+          "@cds.persistence.name": "STATE_ID",
+          "@odata.foreignKey4": "state",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.LocationType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.autoexposed": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "GENYOUTH_LOCATIONTYPE",
+      "@cds.persistence.skip": "if-unused",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.LocationType"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "GenYouth.LocationType_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.autoexposed": true,
+      "@cds.persistence.name": "GENYOUTH_LOCATIONTYPE_TEXTS",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.LocationType_texts"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "GenYouth.School": {
+      "kind": "entity",
+      "@cds.persistence.name": "GENYOUTH_SCHOOL",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.School"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "School Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "School Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "district": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "GenYouth.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "website": {
+          "@Common.Label": "School Website",
+          "@cds.persistence.name": "WEBSITE",
+          "type": "cds.String",
+          "length": 100
+        },
+        "address": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "GenYouth.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "school"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "district_leaid": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        },
+        "address_ID": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "GenYouth.State": {
+      "kind": "entity",
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@cds.persistence.name": "GENYOUTH_STATE",
+      "@readonly": true,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.State"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@Common.Label": "Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "StateCode": {
+          "@Common.Label": "State Code",
+          "@cds.persistence.name": "STATECODE",
+          "type": "cds.String",
+          "length": 2
+        },
+        "Name": {
+          "@Common.Label": "name of state",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "FIPS": {
+          "@Common.Label": "FIPS ID",
+          "@cds.persistence.name": "FIPS",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "Language": {
+      "kind": "type",
+      "@Common.Label": "{i18n>Language}",
+      "@Core.Description": "{i18n>LanguageCode.Description}",
+      "@cds.persistence.name": "LANGUAGE",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "User": {
+      "kind": "type",
+      "@Common.Label": "{i18n>UserID}",
+      "@Core.Description": "{i18n>UserID.Description}",
+      "@cds.persistence.name": "USER",
+      "type": "cds.String",
+      "length": 255
+    },
+    "cuid": {
+      "kind": "entity",
+      "@cds.persistence.name": "CUID",
+      "abstract": true,
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "localized.GenYouth.Assistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_ASSISTANCE",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.Assistance"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactName": {
+          "@Common.Label": "Assistance Contact Name",
+          "@cds.persistence.name": "CONTACTNAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactEmail": {
+          "@Common.Label": "Contact Email",
+          "@cds.persistence.name": "CONTACTEMAIL",
+          "type": "cds.String",
+          "length": 50
+        },
+        "documentationRequired": {
+          "@Common.Label": "Documentation Required Indicator",
+          "@cds.persistence.name": "DOCUMENTATIONREQUIRED",
+          "type": "cds.Boolean"
+        },
+        "additionalDetails": {
+          "@Common.Label": "Assistance Notes",
+          "@cds.persistence.name": "ADDITIONALDETAILS",
+          "type": "cds.String",
+          "length": 1000
+        },
+        "active": {
+          "@Common.Label": "Active Indicator",
+          "@cds.persistence.name": "ACTIVE",
+          "type": "cds.Boolean"
+        },
+        "assistanceType": {
+          "@Common.Label": "Assistance Type;",
+          "@Common.ValueList.viaAssociation": {
+            "=": "assistanceType"
+          },
+          "@cds.persistence.name": "ASSISTANCETYPE",
+          "type": "cds.Association",
+          "target": "localized.GenYouth.AssistanceType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceType_code"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "districtAssistance": {
+          "@cds.persistence.name": "DISTRICTASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.DistrictOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "districtAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.GenYouth.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceType_code": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE_CODE",
+          "@odata.foreignKey4": "assistanceType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.GenYouth.AssistanceLocation": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_ASSISTANCELOCATION",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.AssistanceLocation"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Location",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "address": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "GenYouth.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "locationType": {
+          "@Common.Label": "Location Type",
+          "@Common.ValueList.viaAssociation": {
+            "=": "locationType"
+          },
+          "@cds.persistence.name": "LOCATIONTYPE",
+          "type": "cds.Association",
+          "target": "localized.GenYouth.LocationType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "locationType_code"
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.GenYouth.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistanceLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "address_ID": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        },
+        "locationType_code": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE_CODE",
+          "@odata.foreignKey4": "locationType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.GenYouth.AssistanceOffering": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_ASSISTANCEOFFERING",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.AssistanceOffering"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "timeFrom": {
+          "@Common.Label": "Time From",
+          "@cds.persistence.name": "TIMEFROM",
+          "type": "cds.Time"
+        },
+        "timeTo": {
+          "@Common.Label": "Time To",
+          "@cds.persistence.name": "TIMETO",
+          "type": "cds.Time"
+        },
+        "availableMon": {
+          "@Common.Label": "Monday Availability",
+          "@cds.persistence.name": "AVAILABLEMON",
+          "type": "cds.Boolean"
+        },
+        "availableTue": {
+          "@Common.Label": "Tuesday Availability",
+          "@cds.persistence.name": "AVAILABLETUE",
+          "type": "cds.Boolean"
+        },
+        "availableWed": {
+          "@Common.Label": "Wednesday Availability",
+          "@cds.persistence.name": "AVAILABLEWED",
+          "type": "cds.Boolean"
+        },
+        "availableThr": {
+          "@Common.Label": "Thursday Availability",
+          "@cds.persistence.name": "AVAILABLETHR",
+          "type": "cds.Boolean"
+        },
+        "availableFri": {
+          "@Common.Label": "Friday Availability",
+          "@cds.persistence.name": "AVAILABLEFRI",
+          "type": "cds.Boolean"
+        },
+        "availableSat": {
+          "@Common.Label": "Saturday Availability",
+          "@cds.persistence.name": "AVAILABLESAT",
+          "type": "cds.Boolean"
+        },
+        "availableSun": {
+          "@Common.Label": "Sunday Availability",
+          "@cds.persistence.name": "AVAILABLESUN",
+          "type": "cds.Boolean"
+        },
+        "offerStartDate": {
+          "@Common.Label": "Offering Start Date",
+          "@cds.persistence.name": "OFFERSTARTDATE",
+          "type": "cds.Date"
+        },
+        "offerEndDate": {
+          "@Common.Label": "Offering End Date",
+          "@cds.persistence.name": "OFFERENDDATE",
+          "type": "cds.Date"
+        },
+        "assistance": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "localized.GenYouth.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "assistanceLocation": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION",
+          "type": "cds.Association",
+          "target": "localized.GenYouth.AssistanceLocation",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistanceLocation_ID"
+            }
+          ]
+        },
+        "assistanceDeliveryMode": {
+          "@Common.Label": "Delivery Mode",
+          "@Common.ValueList.viaAssociation": {
+            "=": "assistanceDeliveryMode"
+          },
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE",
+          "type": "cds.Association",
+          "target": "localized.GenYouth.DeliveryMode",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceDeliveryMode_code"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "assistanceLocation_ID": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION_ID",
+          "@odata.foreignKey4": "assistanceLocation",
+          "type": "cds.UUID"
+        },
+        "assistanceDeliveryMode_code": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE_CODE",
+          "@odata.foreignKey4": "assistanceDeliveryMode",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.GenYouth.AssistanceType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_ASSISTANCETYPE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.AssistanceType"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.GenYouth.DeliveryMode": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_DELIVERYMODE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.DeliveryMode"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.GenYouth.LocationType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_LOCATIONTYPE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.LocationType"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "GenYouth.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "GenYouth.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.GenYouth.School": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_GENYOUTH_SCHOOL",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "localized.scp.cloud.School"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "School Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "School Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "district": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "GenYouth.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "website": {
+          "@Common.Label": "School Website",
+          "@cds.persistence.name": "WEBSITE",
+          "type": "cds.String",
+          "length": 100
+        },
+        "address": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "GenYouth.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "school"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "district_leaid": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        },
+        "address_ID": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "localized.sap.common.Countries": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_COUNTRIES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Countries"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.sap.common.Currencies": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_CURRENCIES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Currencies"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@Common.Label": "{i18n>CurrencySymbol}",
+          "@cds.persistence.name": "SYMBOL",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.sap.common.Languages": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SAP_COMMON_LANGUAGES",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "sap.common.Languages"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.scp.cloud.Assistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_ASSISTANCE",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.Assistance"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactName": {
+          "@Common.Label": "Assistance Contact Name",
+          "@cds.persistence.name": "CONTACTNAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactEmail": {
+          "@Common.Label": "Contact Email",
+          "@cds.persistence.name": "CONTACTEMAIL",
+          "type": "cds.String",
+          "length": 50
+        },
+        "documentationRequired": {
+          "@Common.Label": "Documentation Required Indicator",
+          "@cds.persistence.name": "DOCUMENTATIONREQUIRED",
+          "type": "cds.Boolean"
+        },
+        "additionalDetails": {
+          "@Common.Label": "Assistance Notes",
+          "@cds.persistence.name": "ADDITIONALDETAILS",
+          "type": "cds.String",
+          "length": 1000
+        },
+        "active": {
+          "@Common.Label": "Active Indicator",
+          "@cds.persistence.name": "ACTIVE",
+          "type": "cds.Boolean"
+        },
+        "assistanceType": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.AssistanceType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceType_code"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "districtAssistance": {
+          "@cds.persistence.name": "DISTRICTASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.DistrictOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "districtAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceType_code": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE_CODE",
+          "@odata.foreignKey4": "assistanceType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.scp.cloud.AssistanceLocation": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_ASSISTANCELOCATION",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceLocation"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Location",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "address": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "scp.cloud.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "locationType": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.LocationType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "locationType_code"
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistanceLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "address_ID": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        },
+        "locationType_code": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE_CODE",
+          "@odata.foreignKey4": "locationType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.scp.cloud.AssistanceOffering": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_ASSISTANCEOFFERING",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceOffering"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "timeFrom": {
+          "@Common.Label": "Time From",
+          "@cds.persistence.name": "TIMEFROM",
+          "type": "cds.Time"
+        },
+        "timeTo": {
+          "@Common.Label": "Time To",
+          "@cds.persistence.name": "TIMETO",
+          "type": "cds.Time"
+        },
+        "availableMon": {
+          "@Common.Label": "Monday Availability",
+          "@cds.persistence.name": "AVAILABLEMON",
+          "type": "cds.Boolean"
+        },
+        "availableTue": {
+          "@Common.Label": "Tuesday Availability",
+          "@cds.persistence.name": "AVAILABLETUE",
+          "type": "cds.Boolean"
+        },
+        "availableWed": {
+          "@Common.Label": "Wednesday Availability",
+          "@cds.persistence.name": "AVAILABLEWED",
+          "type": "cds.Boolean"
+        },
+        "availableThr": {
+          "@Common.Label": "Thursday Availability",
+          "@cds.persistence.name": "AVAILABLETHR",
+          "type": "cds.Boolean"
+        },
+        "availableFri": {
+          "@Common.Label": "Friday Availability",
+          "@cds.persistence.name": "AVAILABLEFRI",
+          "type": "cds.Boolean"
+        },
+        "availableSat": {
+          "@Common.Label": "Saturday Availability",
+          "@cds.persistence.name": "AVAILABLESAT",
+          "type": "cds.Boolean"
+        },
+        "availableSun": {
+          "@Common.Label": "Sunday Availability",
+          "@cds.persistence.name": "AVAILABLESUN",
+          "type": "cds.Boolean"
+        },
+        "offerStartDate": {
+          "@Common.Label": "Offering Start Date",
+          "@cds.persistence.name": "OFFERSTARTDATE",
+          "type": "cds.Date"
+        },
+        "offerEndDate": {
+          "@Common.Label": "Offering End Date",
+          "@cds.persistence.name": "OFFERENDDATE",
+          "type": "cds.Date"
+        },
+        "assistance": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "assistanceLocation": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.AssistanceLocation",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistanceLocation_ID"
+            }
+          ]
+        },
+        "assistanceDeliveryMode": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.DeliveryMode",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceDeliveryMode_code"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "assistanceLocation_ID": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION_ID",
+          "@odata.foreignKey4": "assistanceLocation",
+          "type": "cds.UUID"
+        },
+        "assistanceDeliveryMode_code": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE_CODE",
+          "@odata.foreignKey4": "assistanceDeliveryMode",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "localized.scp.cloud.AssistanceType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_ASSISTANCETYPE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.AssistanceType"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.scp.cloud.DeliveryMode": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_DELIVERYMODE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.DeliveryMode"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.scp.cloud.DistrictOfferingAssistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_DISTRICTOFFERINGASSISTANCE",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.DistrictOfferingAssistance"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "assistance": {
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "district": {
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "scp.cloud.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "district_leaid": {
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "localized.scp.cloud.LocationType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_LOCATIONTYPE",
+      "@cds.persistence.skip": "if-unused",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.LocationType"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*",
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "name"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "name"
+                  ]
+                }
+              ],
+              "as": "name"
+            },
+            {
+              "func": "coalesce",
+              "args": [
+                {
+                  "ref": [
+                    "L",
+                    "localized",
+                    "descr"
+                  ]
+                },
+                {
+                  "ref": [
+                    "L",
+                    "descr"
+                  ]
+                }
+              ],
+              "as": "descr"
+            }
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@Core.Computed": true,
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "localized.scp.cloud.School": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_SCHOOL",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.School"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "School Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "School Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "district": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "scp.cloud.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "website": {
+          "@Common.Label": "School Website",
+          "@cds.persistence.name": "WEBSITE",
+          "type": "cds.String",
+          "length": 100
+        },
+        "address": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "scp.cloud.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "localized.scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "school"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "district_leaid": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        },
+        "address_ID": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "localized.scp.cloud.SchoolOfferingAssistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "LOCALIZED_SCP_CLOUD_SCHOOLOFFERINGASSISTANCE",
+      "@odata.draft.enabled": false,
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "scp.cloud.SchoolOfferingAssistance"
+            ],
+            "as": "L"
+          },
+          "columns": [
+            "*"
+          ]
+        }
+      },
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "assistance": {
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "school": {
+          "@cds.persistence.name": "SCHOOL",
+          "type": "cds.Association",
+          "target": "localized.scp.cloud.School",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "school_ID"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "school_ID": {
+          "@cds.persistence.name": "SCHOOL_ID",
+          "@odata.foreignKey4": "school",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "managed": {
+      "kind": "type",
+      "@cds.persistence.name": "MANAGED",
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        }
+      },
+      "$syntax": "aspect"
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.CodeList": {
+      "kind": "type",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_CODELIST",
+      "@cds.persistence.skip": "if-unused",
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      },
+      "$syntax": "aspect"
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_COUNTRIES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Countries_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_COUNTRIES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CountryCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_CURRENCIES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@Common.Label": "{i18n>CurrencySymbol}",
+          "@cds.persistence.name": "SYMBOL",
+          "type": "cds.String",
+          "length": 5
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Currencies_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_CURRENCIES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>CurrencyCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SAP_COMMON_LANGUAGES",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "sap.common.Languages_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Languages_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SAP_COMMON_LANGUAGES_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Label": "{i18n>LanguageCode}",
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        }
+      }
+    },
+    "scp.cloud.Address": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_ADDRESS",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "Address Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "street": {
+          "@Common.Label": "Street",
+          "@cds.persistence.name": "STREET",
+          "type": "cds.String",
+          "length": 100
+        },
+        "city": {
+          "@Common.Label": "City",
+          "@cds.persistence.name": "CITY",
+          "type": "cds.String",
+          "length": 50
+        },
+        "zip": {
+          "@Common.Label": "Zip",
+          "@cds.persistence.name": "ZIP",
+          "type": "cds.Integer"
+        },
+        "lat": {
+          "@Common.Label": "Latitude",
+          "@cds.persistence.name": "LAT",
+          "type": "cds.Decimal",
+          "precision": 23,
+          "scale": 15
+        },
+        "long": {
+          "@Common.Label": "Longitude",
+          "@cds.persistence.name": "LONG",
+          "type": "cds.Decimal",
+          "precision": 23,
+          "scale": 15
+        },
+        "state": {
+          "@cds.persistence.name": "STATE",
+          "type": "cds.Association",
+          "target": "scp.cloud.State",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "state_ID"
+            }
+          ]
+        },
+        "state_ID": {
+          "@cds.persistence.name": "STATE_ID",
+          "@odata.foreignKey4": "state",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "scp.cloud.Assistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_ASSISTANCE",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactName": {
+          "@Common.Label": "Assistance Contact Name",
+          "@cds.persistence.name": "CONTACTNAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "contactEmail": {
+          "@Common.Label": "Contact Email",
+          "@cds.persistence.name": "CONTACTEMAIL",
+          "type": "cds.String",
+          "length": 50
+        },
+        "documentationRequired": {
+          "@Common.Label": "Documentation Required Indicator",
+          "@cds.persistence.name": "DOCUMENTATIONREQUIRED",
+          "type": "cds.Boolean"
+        },
+        "additionalDetails": {
+          "@Common.Label": "Assistance Notes",
+          "@cds.persistence.name": "ADDITIONALDETAILS",
+          "type": "cds.String",
+          "length": 1000
+        },
+        "active": {
+          "@Common.Label": "Active Indicator",
+          "@cds.persistence.name": "ACTIVE",
+          "type": "cds.Boolean"
+        },
+        "assistanceType": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE",
+          "type": "cds.Association",
+          "target": "scp.cloud.AssistanceType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceType_code"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "districtAssistance": {
+          "@cds.persistence.name": "DISTRICTASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.DistrictOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "districtAssistance",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistance"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "assistanceType_code": {
+          "@Common.Label": "Assistance Type;",
+          "@cds.persistence.name": "ASSISTANCETYPE_CODE",
+          "@odata.foreignKey4": "assistanceType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.AssistanceLocation": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_ASSISTANCELOCATION",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "name": {
+          "@Common.Label": "Assistance Location",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "address": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "scp.cloud.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "locationType": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE",
+          "type": "cds.Association",
+          "target": "scp.cloud.LocationType",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "locationType_code"
+            }
+          ]
+        },
+        "assistanceOfferings": {
+          "@cds.persistence.name": "ASSISTANCEOFFERINGS",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.AssistanceOffering",
+          "on": [
+            {
+              "ref": [
+                "assistanceOfferings",
+                "assistanceLocation"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "address_ID": {
+          "@Common.Label": "Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        },
+        "locationType_code": {
+          "@Common.Label": "Location Type",
+          "@cds.persistence.name": "LOCATIONTYPE_CODE",
+          "@odata.foreignKey4": "locationType",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.AssistanceOffering": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_ASSISTANCEOFFERING",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "timeFrom": {
+          "@Common.Label": "Time From",
+          "@cds.persistence.name": "TIMEFROM",
+          "type": "cds.Time"
+        },
+        "timeTo": {
+          "@Common.Label": "Time To",
+          "@cds.persistence.name": "TIMETO",
+          "type": "cds.Time"
+        },
+        "availableMon": {
+          "@Common.Label": "Monday Availability",
+          "@cds.persistence.name": "AVAILABLEMON",
+          "type": "cds.Boolean"
+        },
+        "availableTue": {
+          "@Common.Label": "Tuesday Availability",
+          "@cds.persistence.name": "AVAILABLETUE",
+          "type": "cds.Boolean"
+        },
+        "availableWed": {
+          "@Common.Label": "Wednesday Availability",
+          "@cds.persistence.name": "AVAILABLEWED",
+          "type": "cds.Boolean"
+        },
+        "availableThr": {
+          "@Common.Label": "Thursday Availability",
+          "@cds.persistence.name": "AVAILABLETHR",
+          "type": "cds.Boolean"
+        },
+        "availableFri": {
+          "@Common.Label": "Friday Availability",
+          "@cds.persistence.name": "AVAILABLEFRI",
+          "type": "cds.Boolean"
+        },
+        "availableSat": {
+          "@Common.Label": "Saturday Availability",
+          "@cds.persistence.name": "AVAILABLESAT",
+          "type": "cds.Boolean"
+        },
+        "availableSun": {
+          "@Common.Label": "Sunday Availability",
+          "@cds.persistence.name": "AVAILABLESUN",
+          "type": "cds.Boolean"
+        },
+        "offerStartDate": {
+          "@Common.Label": "Offering Start Date",
+          "@cds.persistence.name": "OFFERSTARTDATE",
+          "type": "cds.Date"
+        },
+        "offerEndDate": {
+          "@Common.Label": "Offering End Date",
+          "@cds.persistence.name": "OFFERENDDATE",
+          "type": "cds.Date"
+        },
+        "assistance": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "assistanceLocation": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION",
+          "type": "cds.Association",
+          "target": "scp.cloud.AssistanceLocation",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistanceLocation_ID"
+            }
+          ]
+        },
+        "assistanceDeliveryMode": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE",
+          "type": "cds.Association",
+          "target": "scp.cloud.DeliveryMode",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ],
+              "$generatedFieldName": "assistanceDeliveryMode_code"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@Common.Label": "Assistance",
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "assistanceLocation_ID": {
+          "@Common.Label": "Assistance Center",
+          "@cds.persistence.name": "ASSISTANCELOCATION_ID",
+          "@odata.foreignKey4": "assistanceLocation",
+          "type": "cds.UUID"
+        },
+        "assistanceDeliveryMode_code": {
+          "@Common.Label": "Delivery Mode",
+          "@cds.persistence.name": "ASSISTANCEDELIVERYMODE_CODE",
+          "@odata.foreignKey4": "assistanceDeliveryMode",
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.AssistanceType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SCP_CLOUD_ASSISTANCETYPE",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "scp.cloud.GenYouthCodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.AssistanceType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "scp.cloud.AssistanceType_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SCP_CLOUD_ASSISTANCETYPE_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.DeliveryMode": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SCP_CLOUD_DELIVERYMODE",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "scp.cloud.GenYouthCodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.DeliveryMode_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "scp.cloud.DeliveryMode_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SCP_CLOUD_DELIVERYMODE_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.District": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_DISTRICT",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "leaid": {
+          "@Common.Label": "Local Education Agency ID",
+          "@cds.persistence.name": "LEAID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "District Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "state": {
+          "@Common.Label": "State",
+          "@cds.persistence.name": "STATE",
+          "type": "cds.Association",
+          "target": "scp.cloud.State",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "state_ID"
+            }
+          ]
+        },
+        "state_ID": {
+          "@Common.Label": "State",
+          "@cds.persistence.name": "STATE_ID",
+          "@odata.foreignKey4": "state",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "scp.cloud.DistrictOfferingAssistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_DISTRICTOFFERINGASSISTANCE",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "assistance": {
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "district": {
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "scp.cloud.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "district_leaid": {
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "scp.cloud.GenYouthCodeList": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SCP_CLOUD_GENYOUTHCODELIST",
+      "@cds.persistence.skip": "if-unused",
+      "abstract": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.LocationType": {
+      "kind": "entity",
+      "@UI.Identification": [
+        {
+          "=": "name"
+        }
+      ],
+      "@cds.autoexpose": true,
+      "@cds.odata.valuelist": true,
+      "@cds.persistence.name": "SCP_CLOUD_LOCATIONTYPE",
+      "@cds.persistence.skip": "if-unused",
+      "includes": [
+        "scp.cloud.GenYouthCodeList"
+      ],
+      "elements": {
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        },
+        "texts": {
+          "@cds.persistence.name": "TEXTS",
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "@cds.persistence.name": "LOCALIZED",
+          "type": "cds.Association",
+          "target": "scp.cloud.LocationType_texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "scp.cloud.LocationType_texts": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.name": "SCP_CLOUD_LOCATIONTYPE_TEXTS",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "@cds.persistence.name": "LOCALE",
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@Common.Label": "{i18n>Name}",
+          "@cds.persistence.name": "NAME",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@Common.Label": "{i18n>Description}",
+          "@cds.persistence.name": "DESCR",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@cds.persistence.name": "CODE",
+          "key": true,
+          "type": "cds.String",
+          "length": 20
+        }
+      }
+    },
+    "scp.cloud.School": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_SCHOOL",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "ID": {
+          "@Common.Label": "School Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "name": {
+          "@Common.Label": "School Name",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 100
+        },
+        "district": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT",
+          "type": "cds.Association",
+          "target": "scp.cloud.District",
+          "keys": [
+            {
+              "ref": [
+                "leaid"
+              ],
+              "$generatedFieldName": "district_leaid"
+            }
+          ]
+        },
+        "website": {
+          "@Common.Label": "School Website",
+          "@cds.persistence.name": "WEBSITE",
+          "type": "cds.String",
+          "length": 100
+        },
+        "address": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS",
+          "type": "cds.Association",
+          "target": "scp.cloud.Address",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "address_ID"
+            }
+          ]
+        },
+        "schoolAssistance": {
+          "@cds.persistence.name": "SCHOOLASSISTANCE",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "scp.cloud.SchoolOfferingAssistance",
+          "on": [
+            {
+              "ref": [
+                "schoolAssistance",
+                "school"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
+        "district_leaid": {
+          "@Common.Label": "LEAID District ID",
+          "@cds.persistence.name": "DISTRICT_LEAID",
+          "@odata.foreignKey4": "district",
+          "type": "cds.Integer"
+        },
+        "address_ID": {
+          "@Common.Label": "School Address",
+          "@cds.persistence.name": "ADDRESS_ID",
+          "@odata.foreignKey4": "address",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "scp.cloud.SchoolOfferingAssistance": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_SCHOOLOFFERINGASSISTANCE",
+      "includes": [
+        "managed"
+      ],
+      "elements": {
+        "createdAt": {
+          "@Common.Label": "{i18n>CreatedAt}",
+          "@Core.Computed": true,
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "CREATEDAT",
+          "@odata.on.insert": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@Common.Label": "{i18n>CreatedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@Core.Immutable": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "CREATEDBY",
+          "@odata.on.insert": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@Common.Label": "{i18n>ChangedAt}",
+          "@Core.Computed": true,
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@cds.persistence.name": "MODIFIEDAT",
+          "@odata.on.update": {
+            "#": "now"
+          },
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@Common.Label": "{i18n>ChangedBy}",
+          "@Core.Computed": true,
+          "@Core.Description": "{i18n>UserID.Description}",
+          "@UI.HiddenFilter": true,
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@cds.persistence.name": "MODIFIEDBY",
+          "@odata.on.update": {
+            "#": "user"
+          },
+          "@readonly": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "assistance": {
+          "@cds.persistence.name": "ASSISTANCE",
+          "type": "cds.Association",
+          "target": "scp.cloud.Assistance",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "assistance_ID"
+            }
+          ]
+        },
+        "school": {
+          "@cds.persistence.name": "SCHOOL",
+          "type": "cds.Association",
+          "target": "scp.cloud.School",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ],
+              "$generatedFieldName": "school_ID"
+            }
+          ]
+        },
+        "assistance_ID": {
+          "@cds.persistence.name": "ASSISTANCE_ID",
+          "@odata.foreignKey4": "assistance",
+          "type": "cds.UUID"
+        },
+        "school_ID": {
+          "@cds.persistence.name": "SCHOOL_ID",
+          "@odata.foreignKey4": "school",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "scp.cloud.State": {
+      "kind": "entity",
+      "@cds.persistence.name": "SCP_CLOUD_STATE",
+      "elements": {
+        "ID": {
+          "@Common.Label": "Identifier",
+          "@cds.persistence.name": "ID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "StateCode": {
+          "@Common.Label": "State Code",
+          "@cds.persistence.name": "STATECODE",
+          "type": "cds.String",
+          "length": 2
+        },
+        "Name": {
+          "@Common.Label": "name of state",
+          "@cds.persistence.name": "NAME",
+          "type": "cds.String",
+          "length": 50
+        },
+        "FIPS": {
+          "@Common.Label": "FIPS ID",
+          "@cds.persistence.name": "FIPS",
+          "type": "cds.Integer"
+        }
+      }
+    },
+    "temporal": {
+      "kind": "type",
+      "@cds.persistence.name": "TEMPORAL",
+      "elements": {
+        "validFrom": {
+          "@cds.persistence.name": "VALIDFROM",
+          "@cds.valid.from": true,
+          "type": "cds.DateTime"
+        },
+        "validTo": {
+          "@cds.persistence.name": "VALIDTO",
+          "@cds.valid.to": true,
+          "type": "cds.DateTime"
+        }
+      },
+      "$syntax": "aspect"
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.23.2"
+  },
+  "$version": "1.0",
+  "@sql_mapping": "plain"
+}

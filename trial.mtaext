@@ -1,0 +1,19 @@
+_schema-version: 3.3.0
+ID: sap4kids-trial
+extends: sap4kids
+version: 1.0.0
+
+modules:
+- name: sap4kids-srv
+  parameters:
+    memory: 256M
+    instances: 1
+- name: sap4kids
+  parameters:
+    memory: 256M
+    instances: 1
+
+resources:
+ - name: SAP4KIDS-db-hdi-container
+   parameters:
+     service: "hanatrial"

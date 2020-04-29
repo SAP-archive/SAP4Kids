@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_GETASSISTANCELOC" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="HOURLY" enforceSqlExecution="false">
+<descriptions defaultDescription="CV_GETASSISTANCELOC"/>
+<localVariables>
+  <variable id="IP_LAT" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="DOUBLE" mandatory="false">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+  <variable id="IP_LON" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="DOUBLE" mandatory="false">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+  <variable id="PROXIMITY_FILTER" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="INTEGER" mandatory="false">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="SCP_CLOUD_ADDRESS">
+    <resourceUri>SCP_CLOUD_ADDRESS</resourceUri>
+  </DataSource>
+  <DataSource id="SCP_CLOUD_ASSISTANCELOCATION">
+    <resourceUri>SCP_CLOUD_ASSISTANCELOCATION</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute id="ADDRESS_ID"/>
+      <viewAttribute id="LAT"/>
+      <viewAttribute id="LONG"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="ST_POINT" datatype="ST_POINT" expressionLanguage="SQL">
+        <formula>new ST_Point('POINT(' || &quot;LONG&quot; || ' ' ||&quot;LAT&quot; || ')', 4326)</formula>
+      </calculatedViewAttribute>
+      <calculatedViewAttribute id="IP_POINT" datatype="ST_POINT" expressionLanguage="SQL">
+        <formula>new ST_Point('POINT(' || &quot;LON_IP&quot; || ' ' || &quot;LAT_IP&quot; || ')', 4326)</formula>
+      </calculatedViewAttribute>
+      <calculatedViewAttribute id="LAT_IP" datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>'$$IP_LAT$$'</formula>
+      </calculatedViewAttribute>
+      <calculatedViewAttribute id="LON_IP" datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>'$$IP_LON$$'</formula>
+      </calculatedViewAttribute>
+      <calculatedViewAttribute id="PROXIMITY" datatype="DOUBLE" expressionLanguage="SQL">
+        <formula>ST_Distance(&quot;ST_POINT&quot;,&quot;IP_POINT&quot;)/1609.4</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="SCP_CLOUD_ADDRESS">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ID"/>
+    </input>
+    <filter>&quot;PROXIMITY&quot; &lt; '$$PROXIMITY_FILTER$$'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+    <viewAttributes>
+      <viewAttribute id="ASSISTANCE_LOCATION_ID"/>
+      <viewAttribute id="ADDRESS_ID"/>
+      <viewAttribute id="NAME"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="SCP_CLOUD_ASSISTANCELOCATION">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_LOCATION_ID" source="ID"/>
+    </input>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="ADDRESS_ID" aggregationType="sum"/>
+      <viewAttribute id="ASSISTANCE_LOCATION_ID"/>
+      <viewAttribute id="LAT" aggregationType="sum"/>
+      <viewAttribute id="LONG" aggregationType="sum"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute hidden="true" id="JOIN$ADDRESS_ID$ADDRESS_ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Projection_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_LOCATION_ID" source="ASSISTANCE_LOCATION_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ADDRESS_ID$ADDRESS_ID" source="ADDRESS_ID"/>
+    </input>
+    <input node="Projection_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ADDRESS_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LAT" source="LAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LONG" source="LONG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ADDRESS_ID$ADDRESS_ID" source="ADDRESS_ID"/>
+    </input>
+    <joinAttribute name="JOIN$ADDRESS_ID$ADDRESS_ID"/>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Join_1">
+  <attributes>
+    <attribute id="ADDRESS_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ADDRESS_ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="ADDRESS_ID"/>
+    </attribute>
+    <attribute id="LAT" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LAT"/>
+      <keyMapping columnObjectName="Join_1" columnName="LAT"/>
+    </attribute>
+    <attribute id="LONG" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="LONG"/>
+      <keyMapping columnObjectName="Join_1" columnName="LONG"/>
+    </attribute>
+    <attribute id="ID" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="Join_1" columnName="ASSISTANCE_LOCATION_ID"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures>
+    <measure id="COUNT_LOC" hidden="false" order="5" aggregationType="sum" measureType="simple" calculatedMeasureType="counter" aggregatable="true" datatype="BIGINT" length="">
+      <exceptionAggregation>
+        <attribute attributeName="ADDRESS_ID"/>
+      </exceptionAggregation>
+      <formula>1</formula>
+      
+      </measure>
+  </calculatedMeasures>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="221.11302679000914" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="302.00000000000006" y="376.9999988079071"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="221.11302679000914" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="136"/>
+    </shape>
+    <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="136"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

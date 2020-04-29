@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="57px" height="64px" viewBox="0 0 57 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>Group 10 Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-35.6%" y="-30.2%" width="171.1%" height="160.4%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-Copy-16" transform="translate(-504.000000, -54.000000)">
+            <g id="Group-10-Copy-2" transform="translate(510.000000, 58.000000)">
+                <g id="Group-6-Copy-4">
+                    <g id="Group-4-Copy-5" filter="url(#filter-1)">
+                        <g id="Group-3-Copy-5" fill="#A22938" stroke="#FFFFFF" stroke-width="1.5">
+                            <rect id="Rectangle" x="0.75" y="0.75" width="43.5" height="43.5" rx="8"></rect>
+                        </g>
+                        <polygon id="Triangle" fill="#FFFFFF" transform="translate(22.500000, 49.500000) rotate(180.000000) translate(-22.500000, -49.500000) " points="22.5 47 26 52 19 52"></polygon>
+                        <polygon id="Triangle" fill="#FFFFFF" transform="translate(22.500000, 49.000000) rotate(180.000000) translate(-22.500000, -49.000000) " points="22.5 45 28 53 17 53"></polygon>
+                    </g>
+                    <g id="Childcare" transform="translate(12.000000, 11.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <circle id="Oval" cx="5.04" cy="4.2" r="4.2"></circle>
+                        <circle id="Oval" cx="20.06" cy="6.46" r="2.1"></circle>
+                        <path d="M20.8034414,12.8573068 C20.3495335,11.9602572 19.2601544,11.6462899 18.3523385,12.0948147 L12.496926,15.0999308 C11.8614549,14.1580287 6.6869043,7.16104182 1.92087087,9.85219064 C-1.12031237,11.5565849 0.150629881,19.0020966 1.01305498,22.68 L11.4075469,22.68 L11.9522365,19.4057689 L20.0317979,15.2793408 C20.894223,14.7859635 21.2573494,13.7095039 20.8034414,12.8573068 Z" id="Path"></path>
+                        <path d="M13.25035,14.28 C12.7116088,14.28 12.2177627,13.9889019 11.9483921,13.4552222 C11.5443362,12.6789607 11.8137068,11.7571501 12.5320284,11.3205031 L17.1562236,8.60358783 C17.8745451,8.16694074 18.727552,8.4580388 19.1316079,9.2343003 C19.5356638,10.0105618 19.2662932,10.9323723 18.5479716,11.3690194 L13.9237764,14.0859346 C13.699301,14.2314837 13.4748255,14.28 13.25035,14.28 Z" id="Path"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

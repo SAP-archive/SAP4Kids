@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="GenYouth" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Address" EntityType="GenYouth.Address">
+          <NavigationPropertyBinding Path="state" Target="State"/>
+        </EntitySet>
+        <EntitySet Name="Assistance" EntityType="GenYouth.Assistance">
+          <NavigationPropertyBinding Path="assistanceType" Target="AssistanceType"/>
+          <NavigationPropertyBinding Path="assistanceOfferings" Target="AssistanceOffering"/>
+        </EntitySet>
+        <EntitySet Name="AssistanceLocation" EntityType="GenYouth.AssistanceLocation">
+          <NavigationPropertyBinding Path="address" Target="Address"/>
+          <NavigationPropertyBinding Path="locationType" Target="LocationType"/>
+          <NavigationPropertyBinding Path="assistanceOfferings" Target="AssistanceOffering"/>
+        </EntitySet>
+        <EntitySet Name="AssistanceOffering" EntityType="GenYouth.AssistanceOffering">
+          <NavigationPropertyBinding Path="assistance" Target="Assistance"/>
+          <NavigationPropertyBinding Path="assistanceLocation" Target="AssistanceLocation"/>
+          <NavigationPropertyBinding Path="assistanceDeliveryMode" Target="DeliveryMode"/>
+        </EntitySet>
+        <EntitySet Name="AssistanceType" EntityType="GenYouth.AssistanceType">
+          <NavigationPropertyBinding Path="texts" Target="AssistanceType_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="AssistanceType_texts"/>
+        </EntitySet>
+        <EntitySet Name="AssistanceType_texts" EntityType="GenYouth.AssistanceType_texts"/>
+        <EntitySet Name="DeliveryMode" EntityType="GenYouth.DeliveryMode">
+          <NavigationPropertyBinding Path="texts" Target="DeliveryMode_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="DeliveryMode_texts"/>
+        </EntitySet>
+        <EntitySet Name="DeliveryMode_texts" EntityType="GenYouth.DeliveryMode_texts"/>
+        <EntitySet Name="District" EntityType="GenYouth.District">
+          <NavigationPropertyBinding Path="state" Target="State"/>
+        </EntitySet>
+        <EntitySet Name="LocationType" EntityType="GenYouth.LocationType">
+          <NavigationPropertyBinding Path="texts" Target="LocationType_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="LocationType_texts"/>
+        </EntitySet>
+        <EntitySet Name="LocationType_texts" EntityType="GenYouth.LocationType_texts"/>
+        <EntitySet Name="School" EntityType="GenYouth.School">
+          <NavigationPropertyBinding Path="district" Target="District"/>
+          <NavigationPropertyBinding Path="address" Target="Address"/>
+        </EntitySet>
+        <EntitySet Name="State" EntityType="GenYouth.State"/>
+      </EntityContainer>
+      <EntityType Name="Address">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="street" Type="Edm.String" MaxLength="100"/>
+        <Property Name="city" Type="Edm.String" MaxLength="50"/>
+        <Property Name="zip" Type="Edm.Int32"/>
+        <Property Name="lat" Type="Edm.Decimal" Scale="15" Precision="23"/>
+        <Property Name="long" Type="Edm.Decimal" Scale="15" Precision="23"/>
+        <NavigationProperty Name="state" Type="GenYouth.State">
+          <ReferentialConstraint Property="state_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="state_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="Assistance">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="name" Type="Edm.String" MaxLength="50"/>
+        <Property Name="contactName" Type="Edm.String" MaxLength="50"/>
+        <Property Name="contactEmail" Type="Edm.String" MaxLength="50"/>
+        <Property Name="documentationRequired" Type="Edm.Boolean"/>
+        <Property Name="additionalDetails" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="active" Type="Edm.Boolean"/>
+        <NavigationProperty Name="assistanceType" Type="GenYouth.AssistanceType">
+          <ReferentialConstraint Property="assistanceType_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assistanceOfferings" Type="Collection(GenYouth.AssistanceOffering)" Partner="assistance"/>
+        <Property Name="assistanceType_code" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="AssistanceLocation">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="name" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="address" Type="GenYouth.Address">
+          <ReferentialConstraint Property="address_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="locationType" Type="GenYouth.LocationType">
+          <ReferentialConstraint Property="locationType_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assistanceOfferings" Type="Collection(GenYouth.AssistanceOffering)" Partner="assistanceLocation"/>
+        <Property Name="address_ID" Type="Edm.Int32"/>
+        <Property Name="locationType_code" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="AssistanceOffering">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="timeFrom" Type="Edm.TimeOfDay"/>
+        <Property Name="timeTo" Type="Edm.TimeOfDay"/>
+        <Property Name="availableMon" Type="Edm.Boolean"/>
+        <Property Name="availableTue" Type="Edm.Boolean"/>
+        <Property Name="availableWed" Type="Edm.Boolean"/>
+        <Property Name="availableThr" Type="Edm.Boolean"/>
+        <Property Name="availableFri" Type="Edm.Boolean"/>
+        <Property Name="availableSat" Type="Edm.Boolean"/>
+        <Property Name="availableSun" Type="Edm.Boolean"/>
+        <Property Name="offerStartDate" Type="Edm.Date"/>
+        <Property Name="offerEndDate" Type="Edm.Date"/>
+        <NavigationProperty Name="assistance" Type="GenYouth.Assistance" Partner="assistanceOfferings">
+          <ReferentialConstraint Property="assistance_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assistanceLocation" Type="GenYouth.AssistanceLocation" Partner="assistanceOfferings">
+          <ReferentialConstraint Property="assistanceLocation_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="assistanceDeliveryMode" Type="GenYouth.DeliveryMode">
+          <ReferentialConstraint Property="assistanceDeliveryMode_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <Property Name="assistance_ID" Type="Edm.Guid"/>
+        <Property Name="assistanceLocation_ID" Type="Edm.Guid"/>
+        <Property Name="assistanceDeliveryMode_code" Type="Edm.String" MaxLength="20"/>
+      </EntityType>
+      <EntityType Name="AssistanceType">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(GenYouth.AssistanceType_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="GenYouth.AssistanceType_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="AssistanceType_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="DeliveryMode">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(GenYouth.DeliveryMode_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="GenYouth.DeliveryMode_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="DeliveryMode_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="District">
+        <Key>
+          <PropertyRef Name="leaid"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="leaid" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="state" Type="GenYouth.State">
+          <ReferentialConstraint Property="state_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="state_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="LocationType">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(GenYouth.LocationType_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="GenYouth.LocationType_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="LocationType_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="School">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="district" Type="GenYouth.District">
+          <ReferentialConstraint Property="district_leaid" ReferencedProperty="leaid"/>
+        </NavigationProperty>
+        <Property Name="website" Type="Edm.String" MaxLength="100"/>
+        <NavigationProperty Name="address" Type="GenYouth.Address">
+          <ReferentialConstraint Property="address_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="district_leaid" Type="Edm.Int32"/>
+        <Property Name="address_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="State">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="StateCode" Type="Edm.String" MaxLength="2"/>
+        <Property Name="Name" Type="Edm.String" MaxLength="50"/>
+        <Property Name="FIPS" Type="Edm.Int32"/>
+      </EntityType>
+      <Annotations Target="GenYouth.Address/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/ID">
+        <Annotation Term="Common.Label" String="Address Identifier"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/street">
+        <Annotation Term="Common.Label" String="Street"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/city">
+        <Annotation Term="Common.Label" String="City"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/zip">
+        <Annotation Term="Common.Label" String="Zip"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/lat">
+        <Annotation Term="Common.Label" String="Latitude"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Address/long">
+        <Annotation Term="Common.Label" String="Longitude"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/name">
+        <Annotation Term="Common.Label" String="Assistance Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/contactName">
+        <Annotation Term="Common.Label" String="Assistance Contact Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/contactEmail">
+        <Annotation Term="Common.Label" String="Contact Email"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/documentationRequired">
+        <Annotation Term="Common.Label" String="Documentation Required Indicator"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/additionalDetails">
+        <Annotation Term="Common.Label" String="Assistance Notes"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/active">
+        <Annotation Term="Common.Label" String="Active Indicator"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/assistanceType">
+        <Annotation Term="Common.Label" String="Assistance Type;"/>
+      </Annotations>
+      <Annotations Target="GenYouth.Assistance/assistanceType_code">
+        <Annotation Term="Common.Label" String="Assistance Type;"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Assistance Type;"/>
+            <PropertyValue Property="CollectionPath" String="AssistanceType"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="assistanceType_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/name">
+        <Annotation Term="Common.Label" String="Assistance Location"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/address">
+        <Annotation Term="Common.Label" String="Address"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/locationType">
+        <Annotation Term="Common.Label" String="Location Type"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/address_ID">
+        <Annotation Term="Common.Label" String="Address"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceLocation/locationType_code">
+        <Annotation Term="Common.Label" String="Location Type"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Location Type"/>
+            <PropertyValue Property="CollectionPath" String="LocationType"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="locationType_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/timeFrom">
+        <Annotation Term="Common.Label" String="Time From"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/timeTo">
+        <Annotation Term="Common.Label" String="Time To"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableMon">
+        <Annotation Term="Common.Label" String="Monday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableTue">
+        <Annotation Term="Common.Label" String="Tuesday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableWed">
+        <Annotation Term="Common.Label" String="Wednesday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableThr">
+        <Annotation Term="Common.Label" String="Thursday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableFri">
+        <Annotation Term="Common.Label" String="Friday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableSat">
+        <Annotation Term="Common.Label" String="Saturday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/availableSun">
+        <Annotation Term="Common.Label" String="Sunday Availability"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/offerStartDate">
+        <Annotation Term="Common.Label" String="Offering Start Date"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/offerEndDate">
+        <Annotation Term="Common.Label" String="Offering End Date"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistance">
+        <Annotation Term="Common.Label" String="Assistance"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistanceLocation">
+        <Annotation Term="Common.Label" String="Assistance Center"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistanceDeliveryMode">
+        <Annotation Term="Common.Label" String="Delivery Mode"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistance_ID">
+        <Annotation Term="Common.Label" String="Assistance"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistanceLocation_ID">
+        <Annotation Term="Common.Label" String="Assistance Center"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceOffering/assistanceDeliveryMode_code">
+        <Annotation Term="Common.Label" String="Delivery Mode"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Delivery Mode"/>
+            <PropertyValue Property="CollectionPath" String="DeliveryMode"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="assistanceDeliveryMode_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceType">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Path>name</Path>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.EntityContainer/AssistanceType">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceType/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceType/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceType_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.AssistanceType_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.DeliveryMode">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Path>name</Path>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.EntityContainer/DeliveryMode">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.DeliveryMode/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.DeliveryMode/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.DeliveryMode_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.DeliveryMode_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/leaid">
+        <Annotation Term="Common.Label" String="Local Education Agency ID"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/name">
+        <Annotation Term="Common.Label" String="District Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/state">
+        <Annotation Term="Common.Label" String="State"/>
+      </Annotations>
+      <Annotations Target="GenYouth.District/state_ID">
+        <Annotation Term="Common.Label" String="State"/>
+      </Annotations>
+      <Annotations Target="GenYouth.LocationType">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Path>name</Path>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.LocationType/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.LocationType/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.LocationType_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.LocationType_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/createdAt">
+        <Annotation Term="Common.Label" String="Created At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed At"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="A user's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/ID">
+        <Annotation Term="Common.Label" String="School Identifier"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/name">
+        <Annotation Term="Common.Label" String="School Name"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/district">
+        <Annotation Term="Common.Label" String="LEAID District ID"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/website">
+        <Annotation Term="Common.Label" String="School Website"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/address">
+        <Annotation Term="Common.Label" String="School Address"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/district_leaid">
+        <Annotation Term="Common.Label" String="LEAID District ID"/>
+      </Annotations>
+      <Annotations Target="GenYouth.School/address_ID">
+        <Annotation Term="Common.Label" String="School Address"/>
+      </Annotations>
+      <Annotations Target="GenYouth.EntityContainer/State">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="GenYouth.State/ID">
+        <Annotation Term="Common.Label" String="Identifier"/>
+      </Annotations>
+      <Annotations Target="GenYouth.State/StateCode">
+        <Annotation Term="Common.Label" String="State Code"/>
+      </Annotations>
+      <Annotations Target="GenYouth.State/Name">
+        <Annotation Term="Common.Label" String="name of state"/>
+      </Annotations>
+      <Annotations Target="GenYouth.State/FIPS">
+        <Annotation Term="Common.Label" String="FIPS ID"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

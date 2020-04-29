@@ -1,0 +1,16 @@
+node_modules/
+.idea/
+.mta/
+*.mtar
+dist/
+package-lock.json
+mta_archives/
+deployer/resources/
+gen/
+Makefile*
+mta-*
+sqlite.db
+.DS_store
+
+# added by cds deploy
+default-env.json

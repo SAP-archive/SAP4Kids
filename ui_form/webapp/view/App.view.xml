@@ -1,0 +1,10 @@
+<mvc:View
+	controllerName="com.sap4kids.assistanceentry.controller.App"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<App
+		id="app"
+		autoFocus="false"
+		class="sap4kids"/>
+</mvc:View>

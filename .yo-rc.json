@@ -1,0 +1,11 @@
+{
+  "generator-easy-ui5": {
+    "projectname": "sap4kids",
+    "namespace": "com.sap",
+    "platform": "Cloud Foundry HTML5 Application Repository",
+    "viewtype": "XML",
+    "viewname": "MainView",
+    "ui5libs": "Local resources (OpenUI5)",
+    "newdir": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "welcomeFile": "/index.html#fe-lrop-v4",
+  "routes": [
+    {
+      "source": "^(.*)",
+      "target": "$1",
+      "authenticationType": "xsuaa",
+      "service": "html5-apps-repo-rt",
+      "scope": [
+        "$XSAPPNAME.admin"
+      ]
+    }
+  ]
+}

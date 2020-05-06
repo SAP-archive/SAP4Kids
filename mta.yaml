@@ -1,7 +1,7 @@
 ID: sap4kids
 _schema-version: 3.2.0
 description: Enter description here
-version: 1.0.0
+version: 1.0.2
 parameters:
   enable-parallel-deployments: true
 

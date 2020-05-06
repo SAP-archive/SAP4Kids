@@ -10,6 +10,7 @@
           </layoutData>
         </SearchField>
         <ToggleButton width="100%" icon="sap-icon://locate-me" text="{i18n>useLocation}" pressed="{state>/determineLocation}" busy="{state>/locatingUser}" press=".onToggleButtonPress" />
+        <ToggleButton width="100%" icon="sap-icon://calendar" class="plannerToggle" text="{= ${state>/plannerVisible} ? ${i18n>hideCalendar} : ${i18n>showCalendar} }" pressed="{state>/plannerVisible}" />
       </HBox>
       <layoutData>
         <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>

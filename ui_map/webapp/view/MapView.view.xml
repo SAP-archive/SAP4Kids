@@ -22,7 +22,7 @@
           <gmaps:Marker id="markerTemplate" lng="{main>lng}" lat="{main>lat}" icon="{path : 'main>assistanceTypes', formatter: '.formatter.markerIconFormatter'}" click="onMarkerClick" mouseover="onMarkerHoverOver" mouseout="onMarkerHoverOut"/>
         </gmaps:Map >
 
-        <PlanningCalendar id="calendar" visible="{=${device>/system/desktop}}" busy="{state>/locatingUser}" minDate="{state>/minDate}" maxDate="{state>/maxDate}" appointmentsVisualization="Filled" appointmentSelect="ignoreAppointmentSelect" stickyHeader="true" showWeekNumbers="true" class="providerOverlay">
+        <PlanningCalendar id="calendar" visible="{= ${device>/system/desktop} &amp;&amp; ${state>/plannerVisible} }" busy="{state>/locatingUser}" minDate="{state>/minDate}" maxDate="{state>/maxDate}" appointmentsVisualization="Filled" appointmentSelect="ignoreAppointmentSelect" stickyHeader="true" showWeekNumbers="true" class="providerOverlay">
           <rows>
             <PlanningCalendarRow id="calendarRow" appointments="{path : 'main>timeslots', sorter: {path: 'subType', comparator: '.formatter.subTypeSorter' }, templateShareable: true}">
               <appointments>

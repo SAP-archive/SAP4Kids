@@ -764,11 +764,11 @@ sap.ui.define([
 			}
 		},
 
-		showSuccess: function (sText) {
+		showSuccess: function (sText, sTextLong) {
 			// avoid displaying success messages
 			if (!jQuery(".sapMMessageToast ").length) {
 				MessageToast.show(sText);
-				this.byId("successStrip").setText(sText);
+				this.byId("successStrip").setText(sTextLong);
 				this.byId("successStrip").setVisible(true);
 			}
 			Log.info(sText);
@@ -1115,7 +1115,8 @@ sap.ui.define([
 					// thats it
 					var sName = (this.getModel().getProperty("/school") ? this.getModel().getProperty("/school") : this.getModel().getProperty("/locationName"));
 					var sMessage = this.getResourceBundle().getText("successMessage", [sName]);
-					this.showSuccess(sMessage);
+					var sMessageLong = this.getResourceBundle().getText("successMessageLong", [sName]);
+					this.showSuccess(sMessage, sMessageLong);
 					this.toggleSubmit(true);
 				}
 			}.bind(this));
@@ -1142,7 +1143,8 @@ sap.ui.define([
 					// thats it
 					var sName = this.getModel().getProperty("/locationName");
 					var sMessage = this.getResourceBundle().getText("successMessage", [sName]);
-					this.showSuccess(sMessage);
+					var sMessageLong = this.getResourceBundle().getText("successMessageLong", [sName]);
+					this.showSuccess(sMessage, sMessageLong);
 					this.toggleSubmit(true);
 				}
 			}.bind(this));
@@ -1169,7 +1171,8 @@ sap.ui.define([
 					// thats it
 					var sName = this.getModel().getProperty("/locationName");
 					var sMessage = this.getResourceBundle().getText("successMessage", [sName]);
-					this.showSuccess(sMessage);
+					var sMessageLong = this.getResourceBundle().getText("successMessageLong", [sName]);
+					this.showSuccess(sMessage, sMessageLong);
 					this.toggleSubmit(true);
 				}
 			}.bind(this));

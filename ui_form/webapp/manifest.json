@@ -56,7 +56,9 @@
 				"sap.f": {},
 				"sap.m": {},
 				"sap.ui.unified": {},
-				"openui5.googlemaps": {}
+				"openui5.googlemaps": {
+					"lazy": true
+				}
 			}
 		},
 		"handleValidation": true,

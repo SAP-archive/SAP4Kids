@@ -25,6 +25,9 @@
   margin-top: 5px;
 }
 
+.sap4kids .plannerToggle {
+  margin-left: 5px;
+}
 
 /* hide scrollbar but keep functionality (scrolls away header image) */
 /* .sap4kids .sapMPage .sapMPageEnableScrolling::-webkit-scrollbar { */

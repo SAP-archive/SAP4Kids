@@ -42,6 +42,7 @@ sap.ui.define([
         locatingUser: false,
         requestingData: false,
         maxDate: inTwoWeeks,
+        plannerVisible: Device.resize.height > 1000,
         minDate: today,
         selectedResources: ["03487ac3-e0db-43af-852b-2ebf198e3a0f",
           "9847b50a-31bd-4830-b961-9b6404007482",

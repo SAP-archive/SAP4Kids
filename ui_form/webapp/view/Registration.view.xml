@@ -161,7 +161,7 @@
 							</form:FormContainer>
 						</form:formContainers>
 					</form:Form>
-					<gmaps:Map id="map" visible="false" height="250px" zoom="15" lat="{view>/lat}" lng="{view>/lng}" apiKey="{keys>/gmaps}" markers="{view>/markers}">
+					<gmaps:Map id="map" visible="false" height="250px" zoom="15" lat="{view>/lat}" lng="{view>/lng}" apiKey="{keys>/gmaps}" markers="{view>/markers}" class="sapUiSmallMarginBottom">
 						<gmaps:markers>
 							<gmaps:Marker lat="{view>lat}" lng="{view>lng}" info="{view>info}" icon="{view>icon}"/>
 						</gmaps:markers>
@@ -243,7 +243,7 @@
 									</form:FormElement>
 									<form:FormElement label="{i18n>serviceEntitlement}">
 										<form:fields>
-											<Select id="serviceEntitlement" forceSelection="true" selectedKey="{/eligibilityKey}" required="true" change=".onSelectAssistanceType" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
+											<Select id="serviceEntitlement" forceSelection="true" selectedKey="{/eligibilityKey}" required="true" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
 													path: 'backend>/EligiblityCategories',
 													sorter: {path: 'eligibilityCategory'}
 												}">

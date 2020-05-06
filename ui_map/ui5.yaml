@@ -31,6 +31,6 @@ server:
         xsappJson: approuter/xs-app.json
         destinations:
           - name: "SAP4KidsService"
-            # url: "http://localhost:4004/"
+            url: "http://localhost:4004/"
             # url: "https://sap4good-dev-sap4kids.cfapps.us10.hana.ondemand.com/public"
-            url: "https://sap4kids-prod-sap4kids.cfapps.us10.hana.ondemand.com/public/"
+            # url: "https://sap4kids-prod-sap4kids.cfapps.us10.hana.ondemand.com/public/"

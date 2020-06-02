@@ -6,6 +6,9 @@ sap.ui.define([
   return BaseController.extend("com.sap4kids.resourcelocator.controller.App", {
 
     onInit: function () {
+      this.getView().getModel("srv").attachSessionTimeout(function (oEvent) {
+        console.log("Session timeout.");
+      }, this);
     }
   });
 

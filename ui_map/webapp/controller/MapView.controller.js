@@ -18,6 +18,43 @@ sap.ui.define([
       UIComponent.getRouterFor(this).getRoute("mapview").attachPatternMatched(this._updateUI, this);
     },
 
+    onAfterRendering: function () {
+      var oMap = this.byId("map");
+
+      var oController = this;
+      oMap.attachEventOnce("ready", function () {
+        this.map.addListener('drag', oController.mapMoved.bind(this.map)(oController));
+        this.map.addListener('dragend', oController.mapMoved.bind(this.map)(oController));
+      });
+    },
+
+    mapMoved: function (oController) {
+      const oStateModel = oController.getView().getModel("state");
+      // a function with this = map and controller in a closure
+      return function () {
+        // only update after an idle time of 2s to avoid uneccesary reloads
+        clearTimeout(oController._moveTimeout);
+        oController._moveTimeout = setTimeout(function () {
+          oStateModel.setProperty("/mapMoved", true);
+          oStateModel.setProperty("/mapCenter", this.getCenter());
+        }.bind(this), 1000);
+      }.bind(this);
+    },
+
+    onSearchAgain: function (oEvent) {
+      var oController = this;
+      const oStateModel = this.getView().getModel("state");
+      var currentLocation = oStateModel.getProperty("/mapCenter");
+
+      oController._updateHash({
+        lat: currentLocation.lat(),
+        lng: currentLocation.lng(),
+        zoom: "recenter"
+      });
+
+      oStateModel.setProperty("/mapMoved", false);
+    },
+
     retrieveUserLocation: function () {
       const oView = this.getView();
       const oStateModel = oView.getModel("state");
@@ -32,19 +69,24 @@ sap.ui.define([
         }
       }.bind(this);
 
-      if (navigator.geolocation && oStateModel && !oStateModel.getProperty("/locationFromUrl")) {
+      if (navigator.geolocation) {//&& oStateModel && !oStateModel.getProperty("/locationFromUrl")) {
         navigator.geolocation.getCurrentPosition(function success(nativeLocation) {
+          oStateModel.setProperty("/determineLocation", true);
+
           this._updateHash({
             lat: nativeLocation.coords.latitude,
-            lng: nativeLocation.coords.longitude
+            lng: nativeLocation.coords.longitude,
+            zoom: "recenter"
           });
 
           oStateModel && oStateModel.setProperty("/locatingUser", false);
+          oStateModel && oStateModel.setProperty("/mapMoved", false);
         }.bind(this), errorHandler);
       } else {
         MapUtils.currentPosition()
           .then(this._updateHash.bind(this))
           .fail(errorHandler);
+        oStateModel && oStateModel.setProperty("/mapMoved", false);
       }
     },
 
@@ -67,23 +109,25 @@ sap.ui.define([
       if (oQuery) {
         // read location from URL
         oStateModel.setProperty("/locationFromUrl", true);
-        oStateModel.setProperty("/determineLocation", false);
         this._setUserLocation(oQuery);
       } else if (!oStateModel.getProperty("/retrievedUserLocation")) {
         // just locate the user once
         this.retrieveUserLocation();
         oStateModel.setProperty("/retrievedUserLocation", true);
-        oStateModel.setProperty("/determineLocation", true);
       }
     },
 
     _setUserLocation: function (location) {
       const oMap = this.getView().byId("map");
+      const zoomType = location.zoom ? location.zoom : "auto";
+
+      location.lat = typeof location.lat === "string" ? parseFloat(location.lat) : location.lat;
+      location.lng = typeof location.lng === "string" ? parseFloat(location.lng) : location.lng;
 
       oMap.getModel("state").setProperty("/locationName", location.name);
       oMap.getModel("state").setProperty("/location", location);
 
-      this.updateMarkerBinding();
+      this.updateMarkerBinding(zoomType);
     },
 
     _getProviderMarkers: function () {
@@ -98,22 +142,33 @@ sap.ui.define([
       const oStateModel = this.getView().getModel("state");
       const sLat = oStateModel.getProperty("/location/lat");
       const sLng = oStateModel.getProperty("/location/lng");
-      const sEligibilities = oStateModel.getProperty("/selectedEligibilities")[0]; //.join(",")
-      const sResources = oStateModel.getProperty("/selectedResources")[0];
+      const sResources = "''" + oStateModel.getProperty("/selectedResources").join("'',''");
+      const sResourcesLocahost = "(ASSISTANCETYPEID eq " + oStateModel.getProperty("/selectedResources").join(" or ASSISTANCETYPEID eq ") + ")";
 
-      return location.href.includes("localhost") ? "" : "(LATITUDE=" + sLat + ",LONGITUDE=" + sLng + ",DISTANCEFORSEARCH=50" + ",ELIGIBILITYCAT='''" + sEligibilities + "''',ASSISTSUBTYPE='''" + sResources + "''')/Set"; //TODO remove this if backend is ready
+      // For localhost, just pass in filter for within one lat and one long, roughly 70 miles radius
+      return location.href.includes("localhost") ?
+        "?$filter=LAT gt " + (parseFloat(sLat) - .5) + " and LAT lt " + (parseFloat(sLat) + .5) +
+        " and LONG gt " + (parseFloat(sLng) - .5) + " and LONG lt " + (parseFloat(sLng) + .5) +
+        " and " + sResourcesLocahost :
+        "(LATITUDE=" + sLat + ",LONGITUDE=" + sLng + ",DISTANCEFORSEARCH=50" + ",ASSISTANCETYPES='" + sResources + "''')/Set";
     },
 
-    updateMarkerBinding: function () {
+    updateMarkerBinding: function (zoomType) {
       const oMap = this.getView().byId("map");
       const oBundle = oMap.getModel("i18n").getResourceBundle();
+
+      if (typeof zoomType === "object") {
+        const oRouter = UIComponent.getRouterFor(this);
+        const oInfo = oRouter.getRouteInfoByHash(oRouter.getHashChanger().getHash());
+        zoomType = oInfo.arguments["?query"].zoom;
+      }
 
       this._bindOverlay();
 
       const oStateModel = this.getView().getModel("state");
       oStateModel.setProperty("/requestingData", true);
 
-      $.get("/public/map/SchoolOffers" + this._getRequestParam())
+      $.get("/public/map/SchoolOffersByType" + this._getRequestParam())
         .done(function (oResult) {
           const aTransformed = this.formatter.transformBackendData(oResult.value);
           const oMainModel = oMap.getModel("main");
@@ -127,7 +182,7 @@ sap.ui.define([
 
           oMainModel.setSizeLimit(aTransformed.length);
           oMainModel.setData(aTransformed);
-          this.markersUpdated();
+          this.markersUpdated(zoomType);
         }.bind(this))
         .fail(function () {
           MessageBox.error(oBundle.getText("datarequestfailed"), {
@@ -140,25 +195,50 @@ sap.ui.define([
         });
     },
 
-    markersUpdated: function () {
+    markersUpdated: function (zoomType) {
       const oMap = this.getView().byId("map");
       oMap.getModel("state").setProperty("/requestingData", false);
 
-      this._repositionMap(this.getClosestMarkers());
+      if (zoomType === "auto") {
+        this._repositionMap(this.getClosestMarkers());
+      } else if (zoomType === "recenter") {
+        this._repositionMap(this.getClosestMarkers());
+        const oMap = this.getView().byId("map");
+
+        setTimeout(function () {
+          oMap.fireEvent("ready");
+        }.bind(this), 500);
+
+      }
     },
 
     _repositionMap: function (aCloseMarkers) {
       const oMap = this.getView().byId("map");
+      const oStateModel = this.getView().getModel("state");
       oMap.attachEventOnce("ready", function () {
+
         const allRendered = aCloseMarkers.some(function (oM) {
           return oM.marker;
         });
         if (allRendered) {
-          oMap.fitToSelectedMarkers(aCloseMarkers);
+          if (aCloseMarkers.length > 1) {
+            oMap.fitToSelectedMarkers(aCloseMarkers);
+          } else {
+            oMap.fitToSelectedMarkers(aCloseMarkers);
+            oMap.setLat(oStateModel.getProperty("/location/lat"));
+            oMap.setLng(oStateModel.getProperty("/location/lng"));
+            oMap.setZoom(10);
+          }
         } else {
           this._repositionMap(aCloseMarkers);
         }
+
       }.bind(this));
+
+    },
+
+    isReady: function (oEvent) {
+
     },
 
     onToggleButtonPress: function (oEvent) {
@@ -239,6 +319,7 @@ sap.ui.define([
       if (input === "") {
         return;
       }
+      var currentHash = UIComponent.getRouterFor(this).getHashChanger().getHash();
       this.getView().byId("providerOverlay").setHidden(true);
       const oBundle = oEvent.getSource().getModel("i18n").getResourceBundle();
 
@@ -251,11 +332,29 @@ sap.ui.define([
           return;
         }
         this.getView().getModel("state").setProperty("/determineLocation", false);
+        this.getView().getModel("state").setProperty("/mapMoved", false);
         this._updateHash({
           name: results[0].formatted_address,
           lat: results[0].geometry.location.lat(),
-          lng: results[0].geometry.location.lng()
+          lng: results[0].geometry.location.lng(),
+          zoom: "recenter"
         });
+
+        // Fire event manually for same location (no change to url)
+        var newHash = encodeURI("?name=" + results[0].formatted_address + "&lat=" + results[0].geometry.location.lat() + "&lng=" + results[0].geometry.location.lng() + "&zoom=recenter");
+        if (currentHash === newHash) {
+          UIComponent.getRouterFor(this).getRoute("mapview").fireEvent("patternMatched",
+            {
+              arguments: {
+                "?query": {
+                  name: results[0].formatted_address,
+                  lat: results[0].geometry.location.lat(),
+                  lng: results[0].geometry.location.lng(),
+                  zoom: "recenter"
+                }
+              }
+            });
+        }
       }.bind(this));
     },
 
@@ -321,7 +420,7 @@ sap.ui.define([
 
     onTriggerNavigator: function (oEvent) {
       const oLocation = oEvent.getSource().getBindingContext("main").getObject();
-      const sDestination = oLocation.address.lat + "," + oLocation.address.lng;
+      const sDestination = oLocation.lat + "," + oLocation.lng;
       const oStateModel = this.getView().getModel("state");
       const sOrigin = "saddr=" + oStateModel.getProperty("/location/lat") + "," + oStateModel.getProperty("/location/lng") + "&";
       window.open("http://maps.google.com/maps?" + sOrigin + "daddr=" + sDestination, "_blank");

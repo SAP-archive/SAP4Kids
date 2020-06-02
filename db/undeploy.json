@@ -1,0 +1,13 @@
+[
+    "src/gen/data/scp.cloud.Address.hdbtabledata",
+    "src/gen/data/scp.cloud.Address.csv",
+    "src/gen/data/scp.cloud.AssistanceLocation.hdbtabledata",
+    "src/gen/data/scp.cloud.AssistanceLocation.csv",
+    "src/gen/data/scp.cloud.AssistanceOffering.hdbtabledata",
+    "src/gen/data/scp.cloud.AssistanceOffering.csv",
+    "src/gen/data/scp.cloud.District.hdbtabledata",
+    "src/gen/data/scp.cloud.District.csv",
+    "src/gen/data/scp.cloud.School.hdbtabledata",
+    "src/gen/data/scp.cloud.School.csv",
+    "src/admin.hdbrole"
+]

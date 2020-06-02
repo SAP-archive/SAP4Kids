@@ -1,4 +1,4 @@
-CODE,NAME
-NonProfit,Nonprofit Organization
-SchoolDistrict,School District
-Other, Other
+NAME,DESCR,code
+NonProfit,Nonprofit Organization,NonProfit
+SchoolDistrict,School District,SchoolDistrict
+Other,Other,Other

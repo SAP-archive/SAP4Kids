@@ -27,7 +27,7 @@ sap.ui.define([
 				return sString;
 			}
 			var aWords = sString.toLowerCase().split(" ");
-			aWords = aWords.map(function(sWord) {
+			aWords = aWords.map(function (sWord) {
 				return sWord.charAt(0).toUpperCase() + sWord.slice(1);
 			});
 			return aWords.join(" ");
@@ -44,6 +44,26 @@ sap.ui.define([
 				case "financial assistance": return "loan"; break;
 				default: return "error";
 			};
+		},
+
+		subTypeSorter: function (a, b) {
+			a = (a) ? a : "OTHER";
+			b = (b) ? b : "OTHER";
+			const oOrder = {
+				"BREAKFAST": 0,
+				"MORNING SNACK": 1,
+				"LUNCH": 2,
+				"AFTERNOON SNACK": 3,
+				"DINNER": 4,
+				"OTHER": 5
+			};
+			return oOrder[a.toUpperCase()] - oOrder[b.toUpperCase()];
+		},
+
+		// BugFix:
+		// Replace special characters (single quotes) for query of service
+		formatOrgName: function (orgName) {
+			return orgName.replace(/'/g, "''");
 		}
 
 	};

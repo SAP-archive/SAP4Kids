@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="CV_GETSCHOOLOFFERS_TYPE" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="HOURLY" enforceSqlExecution="false">
+  <descriptions defaultDescription="CV_GETSCHOOLOFFERS_TYPE"/>
+  <localVariables>
+    <variable id="IP_LAT" parameter="true">
+      <descriptions defaultDescription=""/>
+      <variableProperties datatype="DOUBLE" mandatory="false">
+        <valueDomain type="empty"/>
+        <selection multiLine="false" type="SingleValue"/>
+      </variableProperties>
+    </variable>
+    <variable id="IP_LON" parameter="true">
+      <descriptions defaultDescription=""/>
+      <variableProperties datatype="DOUBLE" mandatory="false">
+        <valueDomain type="empty"/>
+        <selection multiLine="false" type="SingleValue"/>
+      </variableProperties>
+    </variable>
+
+    <variable id="PROXIMITY_FILTER" parameter="true">
+      <descriptions defaultDescription=""/>
+      <variableProperties datatype="INTEGER" mandatory="false" defaultValue="30">
+        <valueDomain type="empty"/>
+        <selection multiLine="false" type="SingleValue"/>
+      </variableProperties>
+    </variable>
+    <variable id="IP_ASSISTANCETYPE_ID" parameter="true">
+      <descriptions defaultDescription=""/>
+      <variableProperties datatype="NVARCHAR" length="5000" mandatory="false" defaultValue="''11605ca6-3326-4b3f-9722-89ea1bf770a7''">
+        <valueDomain type="empty"/>
+        <selection multiLine="true" type="SingleValue"/>
+      </variableProperties>
+    </variable>
+  </localVariables>
+  <variableMappings/>
+  <dataSources>
+    <DataSource id="SCP_CLOUD_ASSISTANCEOFFERING">
+      <resourceUri>SCP_CLOUD_ASSISTANCEOFFERING</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_ELIGIBILITYCATEGORY">
+      <resourceUri>SCP_CLOUD_ELIGIBILITYCATEGORY</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_ASSISTANCESUBTYPE">
+      <resourceUri>SCP_CLOUD_ASSISTANCESUBTYPE</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_ASSISTANCELOCATION">
+      <resourceUri>SCP_CLOUD_ASSISTANCELOCATION</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_ASSISTANCETYPE">
+      <resourceUri>SCP_CLOUD_ASSISTANCETYPE</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_ADDRESS">
+      <resourceUri>SCP_CLOUD_ADDRESS</resourceUri>
+    </DataSource>
+    <DataSource id="SCP_CLOUD_LOCATIONTYPE">
+      <resourceUri>SCP_CLOUD_LOCATIONTYPE</resourceUri>
+    </DataSource>
+  </dataSources>
+  <calculationViews>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1" filterExpressionLanguage="SQL">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="CREATEDAT"/>
+        <viewAttribute id="CREATEDBY"/>
+        <viewAttribute id="MODIFIEDAT"/>
+        <viewAttribute id="MODIFIEDBY"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="ELIGIBLITYCATEGORY_ID"/>
+        <viewAttribute id="ASSISTANCELOCATION_ID"/>
+        <viewAttribute id="ASSISTANCETYPE_ID"/>
+        <viewAttribute id="ASSISTANCESUBTYPE_ID"/>
+
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTPHONE"/>
+        <viewAttribute id="CONTACTTITLE"/>
+
+        <viewAttribute id="OFFERAPPROVED"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_ASSISTANCEOFFERING"/>
+      <filter>(&quot;ENDDATE&quot; &gt;= CURRENT_DATE or &quot;ENDDATE&quot; is null)
+and (&quot;ASSISTANCETYPE_ID&quot;in($$IP_ASSISTANCETYPE_ID$$))</filter>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_2">
+      <viewAttributes>
+        <viewAttribute id="ELIGIBILITYCATEGORY_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_ELIGIBILITYCATEGORY">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY_ID" source="ID"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_1" cardinality="CN_N" joinType="inner">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="ASSISTANCELOCATION_ID"/>
+        <viewAttribute id="ASSISTANCETYPE_ID"/>
+        <viewAttribute id="ASSISTANCESUBTYPE_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTPHONE"/>
+        <viewAttribute id="CONTACTTITLE"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY_ID"/>
+        <viewAttribute hidden="true" id="JOIN$ELIGIBLITYCATEGORY_ID$ELIGIBILITYCATEGORY_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Projection_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCELOCATION_ID" source="ASSISTANCELOCATION_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE_ID" source="ASSISTANCETYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCESUBTYPE_ID" source="ASSISTANCESUBTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTPHONE" source="CONTACTPHONE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ELIGIBLITYCATEGORY_ID$ELIGIBILITYCATEGORY_ID" source="ELIGIBLITYCATEGORY_ID"/>
+      </input>
+      <input node="Projection_2">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY_ID" source="ELIGIBILITYCATEGORY_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ELIGIBLITYCATEGORY_ID$ELIGIBILITYCATEGORY_ID" source="ELIGIBILITYCATEGORY_ID"/>
+      </input>
+      <joinAttribute name="JOIN$ELIGIBLITYCATEGORY_ID$ELIGIBILITYCATEGORY_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_3">
+      <viewAttributes>
+        <viewAttribute id="ASSISTANCE_SUBTYPE_ID"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="ASSISTANCETYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_ASSISTANCESUBTYPE">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_SUBTYPE_ID" source="ID"/>
+      </input>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_2" cardinality="CN_N" joinType="leftOuter">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="ASSISTANCELOCATION_ID"/>
+        <viewAttribute id="ASSISTANCETYPE_ID"/>
+        <viewAttribute id="ASSISTANCESUBTYPE_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTPHONE"/>
+        <viewAttribute id="CONTACTTITLE"/>
+
+        <viewAttribute id="ASSISTANCE_SUBTYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Join_1">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCELOCATION_ID" source="ASSISTANCELOCATION_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE_ID" source="ASSISTANCETYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCESUBTYPE_ID" source="ASSISTANCESUBTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTPHONE" source="CONTACTPHONE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+      </input>
+      <input node="Projection_3">
+        <mapping xsi:type="Calculation:AttributeMapping" target="SUBTYPE" source="SUBTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_SUBTYPE_ID" source="ASSISTANCE_SUBTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCESUBTYPE_ID" source="ASSISTANCE_SUBTYPE_ID"/>
+      </input>
+      <joinAttribute name="ASSISTANCESUBTYPE_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_4">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="ADDRESS_ID"/>
+        <viewAttribute id="LOCATIONTYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_ASSISTANCELOCATION"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_3" cardinality="CN_N" joinType="inner">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="ADDRESS_ID"/>
+        <viewAttribute id="LOCATIONTYPE_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="LOCATION_ID"/>
+        <viewAttribute id="ASSISTANCETYPE"/>
+        <viewAttribute id="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTPHONE"/>
+        <viewAttribute id="CONTACTTITLE"/>
+        <viewAttribute hidden="true" id="JOIN$ASSISTANCELOCATION_ID$ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Join_6">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SUBTYPE" source="SUBTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE" source="ASSISTANCETYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_TYPE_DESCRIPTION" source="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTPHONE" source="CONTACTPHONE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ASSISTANCELOCATION_ID$ID" source="ASSISTANCELOCATION_ID"/>
+      </input>
+      <input node="Projection_4">
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ADDRESS_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONTYPE_ID" source="LOCATIONTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$ASSISTANCELOCATION_ID$ID" source="ID"/>
+      </input>
+      <joinAttribute name="JOIN$ASSISTANCELOCATION_ID$ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_6" cardinality="CN_N" joinType="inner">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="ASSISTANCETYPE"/>
+        <viewAttribute id="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTPHONE"/>
+        <viewAttribute id="CONTACTTITLE"/>
+
+        <viewAttribute id="ASSISTANCELOCATION_ID"/>
+        <viewAttribute id="ASSISTANCETYPE_ID"/>
+        <viewAttribute id="ASSISTANCESUBTYPE_ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Join_2">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCELOCATION_ID" source="ASSISTANCELOCATION_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE_ID" source="ASSISTANCETYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCESUBTYPE_ID" source="ASSISTANCESUBTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SUBTYPE" source="SUBTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTPHONE" source="CONTACTPHONE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+      </input>
+      <input node="Projection_7">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE" source="ASSISTANCETYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_TYPE_DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE_ID" source="ID"/>
+      </input>
+      <joinAttribute name="ASSISTANCETYPE_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_7">
+      <viewAttributes>
+        <viewAttribute id="ASSISTANCETYPE"/>
+        <viewAttribute id="DESCRIPTION"/>
+
+        <viewAttribute id="ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_ASSISTANCETYPE"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_5" filterExpressionLanguage="SQL">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="STREET"/>
+        <viewAttribute id="CITY"/>
+        <viewAttribute id="ZIP"/>
+        <viewAttribute id="LAT"/>
+        <viewAttribute id="LONG"/>
+        <viewAttribute id="STATE_STATECODE"/>
+      </viewAttributes>
+      <calculatedViewAttributes>
+        <calculatedViewAttribute id="ST_POINT" datatype="ST_POINT" expressionLanguage="SQL">
+          <formula>new ST_Point('POINT(' || &quot;LONG&quot; || ' ' ||&quot;LAT&quot; || ')', 4326)</formula>
+        </calculatedViewAttribute>
+        <calculatedViewAttribute id="IP_POINT" datatype="ST_POINT" expressionLanguage="SQL">
+          <formula>new ST_Point('POINT(' || &quot;LON_IP&quot; || ' ' ||&quot;LAT_IP&quot; || ')', 4326)</formula>
+        </calculatedViewAttribute>
+        <calculatedViewAttribute id="PROXIMITY" datatype="DOUBLE" expressionLanguage="COLUMN_ENGINE">
+          <formula>ST_Distance(&quot;ST_POINT&quot;,&quot;IP_POINT&quot;)/1609.4</formula>
+        </calculatedViewAttribute>
+
+        <calculatedViewAttribute id="LAT_IP" datatype="DOUBLE" expressionLanguage="SQL">
+
+          <formula>$$IP_LAT$$</formula>
+
+        </calculatedViewAttribute>
+        <calculatedViewAttribute id="LON_IP" datatype="DOUBLE" expressionLanguage="SQL">
+          <formula>$$IP_LON$$</formula>
+        </calculatedViewAttribute>
+      </calculatedViewAttributes>
+      <input node="SCP_CLOUD_ADDRESS"/>
+      <filter>&quot;PROXIMITY&quot; &lt; '$$PROXIMITY_FILTER$$'</filter>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_4" cardinality="CN_N" joinType="inner">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="ADDRESS_ID"/>
+        <viewAttribute id="LOCATIONTYPE_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="STREET"/>
+        <viewAttribute id="CITY"/>
+        <viewAttribute id="ZIP"/>
+        <viewAttribute id="LAT"/>
+        <viewAttribute id="LONG"/>
+
+        <viewAttribute id="PROXIMITY"/>
+
+        <viewAttribute id="LOCATION_ID"/>
+        <viewAttribute id="LOCATION_DESCRIPTION"/>
+        <viewAttribute id="LOCATION_TYPE"/>
+        <viewAttribute id="ASSISTANCETYPE"/>
+        <viewAttribute id="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTTITLE"/>
+        <viewAttribute id="STATE_STATECODE"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Join_5">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ADDRESS_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONTYPE_ID" source="LOCATIONTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SUBTYPE" source="SUBTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_ID" source="LOCATION_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_DESCRIPTION" source="LOCATION_DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_TYPE" source="LOCATION_TYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE" source="ASSISTANCETYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_TYPE_DESCRIPTION" source="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+      </input>
+      <input node="Projection_5">
+        <mapping xsi:type="Calculation:AttributeMapping" target="STREET" source="STREET"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CITY" source="CITY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ZIP" source="ZIP"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LAT" source="LAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LONG" source="LONG"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PROXIMITY" source="PROXIMITY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STATE_STATECODE" source="STATE_STATECODE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ID"/>
+      </input>
+      <joinAttribute name="ADDRESS_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:JoinView" id="Join_5" cardinality="CN_N" joinType="inner">
+      <viewAttributes>
+        <viewAttribute id="ID"/>
+        <viewAttribute id="TIMEFROM"/>
+        <viewAttribute id="TIMETO"/>
+        <viewAttribute id="AVAILABLEMON"/>
+        <viewAttribute id="AVAILABLETUE"/>
+        <viewAttribute id="AVAILABLEWED"/>
+        <viewAttribute id="AVAILABLETHR"/>
+        <viewAttribute id="AVAILABLEFRI"/>
+        <viewAttribute id="AVAILABLESAT"/>
+        <viewAttribute id="AVAILABLESUN"/>
+        <viewAttribute id="STARTDATE"/>
+        <viewAttribute id="ENDDATE"/>
+        <viewAttribute id="NAME"/>
+        <viewAttribute id="ADDRESS_ID"/>
+        <viewAttribute id="LOCATIONTYPE_ID"/>
+        <viewAttribute id="ELIGIBILITYCATEGORY"/>
+        <viewAttribute id="DESCRIPTION"/>
+        <viewAttribute id="SUBTYPE"/>
+        <viewAttribute id="LOCATION_ID"/>
+        <viewAttribute id="LOCATION_DESCRIPTION"/>
+        <viewAttribute id="LOCATION_TYPE"/>
+        <viewAttribute id="ASSISTANCETYPE"/>
+        <viewAttribute id="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <viewAttribute id="PICKUPIND"/>
+        <viewAttribute id="DELIVERYIND"/>
+        <viewAttribute id="WEBSITEURL"/>
+        <viewAttribute id="OFFERDETAILS"/>
+        <viewAttribute id="CONTACTNAME"/>
+        <viewAttribute id="CONTACTEMAIL"/>
+        <viewAttribute id="CONTACTTITLE"/>
+
+        <viewAttribute id="CONTACTPHONE"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="Join_3">
+        <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMEFROM" source="TIMEFROM"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="TIMETO" source="TIMETO"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEMON" source="AVAILABLEMON"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETUE" source="AVAILABLETUE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEWED" source="AVAILABLEWED"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLETHR" source="AVAILABLETHR"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLEFRI" source="AVAILABLEFRI"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESAT" source="AVAILABLESAT"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="AVAILABLESUN" source="AVAILABLESUN"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="STARTDATE" source="STARTDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ENDDATE" source="ENDDATE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ADDRESS_ID" source="ADDRESS_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONTYPE_ID" source="LOCATIONTYPE_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ELIGIBILITYCATEGORY" source="ELIGIBILITYCATEGORY"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="SUBTYPE" source="SUBTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_ID" source="LOCATION_ID"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCETYPE" source="ASSISTANCETYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="ASSISTANCE_TYPE_DESCRIPTION" source="ASSISTANCE_TYPE_DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="PICKUPIND" source="PICKUPIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="DELIVERYIND" source="DELIVERYIND"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="WEBSITEURL" source="WEBSITEURL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="OFFERDETAILS" source="OFFERDETAILS"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTNAME" source="CONTACTNAME"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTEMAIL" source="CONTACTEMAIL"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTPHONE" source="CONTACTPHONE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="CONTACTTITLE" source="CONTACTTITLE"/>
+      </input>
+      <input node="Projection_6">
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_TYPE" source="LOCTYPE"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATION_DESCRIPTION" source="DESCRIPTION"/>
+        <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONTYPE_ID" source="ID"/>
+      </input>
+      <joinAttribute name="LOCATIONTYPE_ID"/>
+    </calculationView>
+    <calculationView xsi:type="Calculation:ProjectionView" id="Projection_6">
+      <viewAttributes>
+        <viewAttribute id="LOCTYPE"/>
+        <viewAttribute id="DESCRIPTION"/>
+
+        <viewAttribute id="ID"/>
+      </viewAttributes>
+      <calculatedViewAttributes/>
+      <input node="SCP_CLOUD_LOCATIONTYPE"/>
+    </calculationView>
+  </calculationViews>
+  <logicalModel id="Join_4">
+    <attributes>
+      <attribute id="ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ID"/>
+        <keyMapping columnObjectName="Join_4" columnName="ID"/>
+      </attribute>
+      <attribute id="TIMEFROM" order="2" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="TIMEFROM"/>
+        <keyMapping columnObjectName="Join_4" columnName="TIMEFROM"/>
+      </attribute>
+      <attribute id="TIMETO" order="3" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="TIMETO"/>
+        <keyMapping columnObjectName="Join_4" columnName="TIMETO"/>
+      </attribute>
+      <attribute id="AVAILABLEMON" order="4" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLEMON"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLEMON"/>
+      </attribute>
+      <attribute id="AVAILABLETUE" order="5" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLETUE"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLETUE"/>
+      </attribute>
+      <attribute id="AVAILABLEWED" order="6" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLEWED"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLEWED"/>
+      </attribute>
+      <attribute id="AVAILABLETHR" order="7" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLETHR"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLETHR"/>
+      </attribute>
+      <attribute id="AVAILABLEFRI" order="8" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLEFRI"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLEFRI"/>
+      </attribute>
+      <attribute id="AVAILABLESAT" order="9" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLESAT"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLESAT"/>
+      </attribute>
+      <attribute id="AVAILABLESUN" order="10" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="AVAILABLESUN"/>
+        <keyMapping columnObjectName="Join_4" columnName="AVAILABLESUN"/>
+      </attribute>
+      <attribute id="STARTDATE" order="11" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="STARTDATE"/>
+        <keyMapping columnObjectName="Join_4" columnName="STARTDATE"/>
+      </attribute>
+      <attribute id="ENDDATE" order="12" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ENDDATE"/>
+        <keyMapping columnObjectName="Join_4" columnName="ENDDATE"/>
+      </attribute>
+      <attribute id="NAME" order="13" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="NAME"/>
+        <keyMapping columnObjectName="Join_4" columnName="NAME"/>
+      </attribute>
+      <attribute id="ELIGIBILITYCATEGORY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ELIGIBILITYCATEGORY"/>
+        <keyMapping columnObjectName="Join_4" columnName="ELIGIBILITYCATEGORY"/>
+      </attribute>
+      <attribute id="DESCRIPTION" order="15" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="DESCRIPTION"/>
+        <keyMapping columnObjectName="Join_4" columnName="DESCRIPTION"/>
+      </attribute>
+      <attribute id="ASSISTANCESUBTYPE" order="16" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ASSISTANCESUBTYPE"/>
+        <keyMapping columnObjectName="Join_4" columnName="SUBTYPE"/>
+      </attribute>
+      <attribute id="ADDRESS_ID" order="17" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ADDRESS_ID"/>
+        <keyMapping columnObjectName="Join_4" columnName="ADDRESS_ID"/>
+      </attribute>
+      <attribute id="STREET" order="18" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="STREET"/>
+        <keyMapping columnObjectName="Join_4" columnName="STREET"/>
+      </attribute>
+      <attribute id="CITY" order="19" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="CITY"/>
+        <keyMapping columnObjectName="Join_4" columnName="CITY"/>
+      </attribute>
+      <attribute id="STATECODE" order="20" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="STATECODE"/>
+        <keyMapping columnObjectName="Join_4" columnName="STATE_STATECODE"/>
+      </attribute>
+      <attribute id="ZIP" order="21" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ZIP"/>
+        <keyMapping columnObjectName="Join_4" columnName="ZIP"/>
+      </attribute>
+      <attribute id="LAT" order="22" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LAT"/>
+        <keyMapping columnObjectName="Join_4" columnName="LAT"/>
+      </attribute>
+      <attribute id="LONG" order="23" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LONG"/>
+        <keyMapping columnObjectName="Join_4" columnName="LONG"/>
+      </attribute>
+      <attribute id="LOCATION_ID" order="24" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LOCATION_ID"/>
+        <keyMapping columnObjectName="Join_4" columnName="LOCATION_ID"/>
+      </attribute>
+      <attribute id="LOCATIONTYPE_ID" order="25" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LOCATIONTYPE_ID"/>
+        <keyMapping columnObjectName="Join_4" columnName="LOCATIONTYPE_ID"/>
+      </attribute>
+      <attribute id="LOCATIONDESCRIPTION" order="26" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LOCATIONDESCRIPTION"/>
+        <keyMapping columnObjectName="Join_4" columnName="LOCATION_DESCRIPTION"/>
+      </attribute>
+      <attribute id="LOCATIONTYPE" order="27" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="LOCATIONTYPE"/>
+        <keyMapping columnObjectName="Join_4" columnName="LOCATION_TYPE"/>
+      </attribute>
+      <attribute id="ASSISTANCETYPE" order="28" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ASSISTANCETYPE"/>
+        <keyMapping columnObjectName="Join_4" columnName="ASSISTANCETYPE"/>
+      </attribute>
+      <attribute id="ASSISTANCETYPEDESCRIPTION" order="29" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="ASSISTANCETYPEDESCRIPTION"/>
+        <keyMapping columnObjectName="Join_4" columnName="ASSISTANCE_TYPE_DESCRIPTION"/>
+      </attribute>
+      <attribute id="PICKUPIND" order="30" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="PICKUPIND"/>
+        <keyMapping columnObjectName="Join_4" columnName="PICKUPIND"/>
+      </attribute>
+      <attribute id="DELIVERYIND" order="31" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="DELIVERYIND"/>
+        <keyMapping columnObjectName="Join_4" columnName="DELIVERYIND"/>
+      </attribute>
+      <attribute id="WEBSITEURL" order="32" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="WEBSITEURL"/>
+        <keyMapping columnObjectName="Join_4" columnName="WEBSITEURL"/>
+      </attribute>
+      <attribute id="OFFERDETAILS" order="33" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="OFFERDETAILS"/>
+        <keyMapping columnObjectName="Join_4" columnName="OFFERDETAILS"/>
+      </attribute>
+      <attribute id="CONTACTNAME" order="34" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="CONTACTNAME"/>
+        <keyMapping columnObjectName="Join_4" columnName="CONTACTNAME"/>
+      </attribute>
+      <attribute id="CONTACTEMAIL" order="35" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="CONTACTEMAIL"/>
+        <keyMapping columnObjectName="Join_4" columnName="CONTACTEMAIL"/>
+      </attribute>
+      <attribute id="CONTACTTITLE" order="36" displayAttribute="false" attributeHierarchyActive="false">
+        <descriptions defaultDescription="CONTACTTITLE"/>
+        <keyMapping columnObjectName="Join_4" columnName="CONTACTTITLE"/>
+      </attribute>
+    </attributes>
+    <calculatedAttributes/>
+    <baseMeasures/>
+    <calculatedMeasures/>
+    <restrictedMeasures/>
+  </logicalModel>
+  <layout>
+    <shapes>
+      <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+        <upperLeftCorner x="785" y="112"/>
+
+        <rectangleSize width="160"/>
+      </shape>
+
+      <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="92" y="1141"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_2" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="302" y="1141"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="118" y="981"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Projection_1" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="171"/>
+      </shape>
+      <shape modelObjectName="Projection_2" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="208"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_3" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="379" y="981"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_2" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="145" y="821"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Join_1" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="227"/>
+      </shape>
+      <shape modelObjectName="Projection_3" modelObjectNameSpace="Join_2" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="200"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_4" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="578" y="681"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_3" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="198" y="521"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Join_6" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="227"/>
+      </shape>
+      <shape modelObjectName="Projection_4" modelObjectNameSpace="Join_3" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="187"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_6" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="172" y="681"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Join_2" modelObjectNameSpace="Join_6" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="250"/>
+      </shape>
+      <shape modelObjectName="Projection_7" modelObjectNameSpace="Join_6" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="183"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Projection_7" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="472" y="821"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+
+      <shape expanded="true" modelObjectName="Projection_5" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="826" y="376"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_4" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="785" y="217"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Join_5" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="169"/>
+      </shape>
+      <shape modelObjectName="Projection_5" modelObjectNameSpace="Join_4" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="191"/>
+      </shape>
+      <shape expanded="true" modelObjectName="Join_5" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="225" y="380"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+      <shape modelObjectName="Join_3" modelObjectNameSpace="Join_5" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="20" y="30"/>
+        <rectangleSize width="250"/>
+      </shape>
+      <shape modelObjectName="Projection_6" modelObjectNameSpace="Join_5" modelObjectType="JoinNodeInput">
+        <upperLeftCorner x="320" y="30"/>
+        <rectangleSize width="136"/>
+      </shape>
+
+      <shape expanded="true" modelObjectName="Projection_6" modelObjectNameSpace="CalculationView">
+        <upperLeftCorner x="697" y="521"/>
+        <rectangleSize height="30" width="160"/>
+      </shape>
+    </shapes>
+  </layout>
+</Calculation:scenario>

@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <link rel="stylesheet" href="css/splash.css">
+  <link rel="manifest" href="manifest.webmanifest">
 
   <title>SAP4Kids - Resource Finder</title>
 
-  <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/1.75.0/resources/sap-ui-core.js"
+
+  <script>
+    ('serviceWorker' in navigator) && navigator.serviceWorker.register('sw.js');
+  </script>
+
+  <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/1.77.2/resources/sap-ui-core.js"
     data-sap-ui-theme="sap_fiori_3" data-sap-ui-resourceroots='{
       "com.sap4kids.resourcelocator": "./",
       "openui5.googlemaps": "./thirdparty/openui5/googlemaps/"

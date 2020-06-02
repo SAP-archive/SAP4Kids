@@ -1,0 +1,4 @@
+get http://localhost:4004/entry/AssistanceOfferings
+Content-Type: application/json
+Authorization: Basic YWxpY2U6
+

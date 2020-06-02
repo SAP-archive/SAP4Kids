@@ -1,7 +1,7 @@
 ID: sap4kids
 _schema-version: 3.2.0
 description: Enter description here
-version: 1.0.2
+version: 1.0.4
 parameters:
   enable-parallel-deployments: true
 
@@ -16,6 +16,7 @@ modules:
     requires:
       - name: sap4kids_uaa
       - name: sap4kids_html5_repo_runtime
+      - name: sap4kids_logger
       - name: srv_api
         group: destinations
         properties:
@@ -41,6 +42,7 @@ modules:
       disk-quota: 256M
     requires:
       - name: sap4kids_html5_repo_host
+      - name: sap4kids_logger
     build-parameters:
       ignore: ["node_modules/"]
       builder: custom
@@ -55,6 +57,7 @@ modules:
       disk-quota: 256M
     requires:
       - name: SAP4KIDS-db-hdi-container
+      - name: sap4kids_logger
     build-parameters:
       ignore: ["node_modules/"]
       builder: custom
@@ -71,6 +74,7 @@ modules:
     requires:
       - name: SAP4KIDS-db-hdi-container
       - name: sap4kids_uaa
+      - name: sap4kids_logger
     provides:
       - name: srv_api
         properties:
@@ -93,6 +97,11 @@ resources:
     parameters:
       service-plan: app-runtime
       service: html5-apps-repo
+  - name: sap4kids_logger
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: standard
+      service: application-logs
   - name: SAP4KIDS-db-hdi-container
     type: com.sap.xs.hdi-container
     parameters:

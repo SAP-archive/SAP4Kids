@@ -17,3 +17,6 @@ resources:
  - name: SAP4KIDS-db-hdi-container
    parameters:
      service: "hanatrial"
+ - name: sap4kids_logger
+   parameters:
+     service-plan: lite

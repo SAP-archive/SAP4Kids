@@ -1,0 +1,31 @@
+post http://localhost:4004/entry/AssistanceOfferings
+Content-Type: application/json
+Authorization: Basic YWxpY2U6
+
+{
+  "timeFrom" : "08:00:00.0",
+  "timeTo" : "09:00:00.0",     
+  "availableMon" : true,     
+  "availableTue"  : true,
+  "availableWed" : true,
+  "availableThr" : true,  
+  "availableFri" : true,
+  "availableSat" : false,
+  "availableSun" : false,
+  "startDate" : "2020-01-01",
+  "endDate" : "2020-12-31",
+  "pickupInd" : true,
+  "deliveryInd" : false,
+  "virtualInd" : true,
+  "contactName" : "",
+  "contactEmail" : "",
+  "contactPhone" : "",
+  "contactTitle" : "",
+  "websiteURL" : "",
+  "eligiblityCategory_ID" : "36a00731-7f07-42a8-a141-f4303d41a10b",
+  "offerDetails" : "TEST",
+  "offerApproved" : true,
+  "assistanceLocation_ID" : "7f030684-8939-4c76-a5e8-99af7c50123c",
+  "assistanceType_ID" : "11605ca6-3326-4b3f-9722-89ea1bf770a7",
+  "assistanceSubType_ID" : "03487ac3-e0db-43af-852b-2ebf198e3a0f"
+}

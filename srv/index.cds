@@ -20,104 +20,125 @@ using scp.cloud from '../db/schema';
 service entry {
   //@odata.draft.enabled
 
-  entity AssistanceOfferings @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity AssistanceOfferings @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.AssistanceOffering;
 
   action submitOffering(Offering : AssistanceOfferings, SchoolID : Schools.ID) returns AssistanceOfferings.ID;
 
-  entity AssistanceLocations @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity AssistanceLocations @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.AssistanceLocation;
 
-  entity Addresses @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity Addresses @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.Address;
 
-  entity DistrictOfferingAsistance @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity DistrictOfferingAsistance @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.DistrictOfferingAssistance;
 
-  entity SchoolOfferingAssistance @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity SchoolOfferingAssistance @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.SchoolOfferingAssistance;
 
-  entity OrganizationOfferingAssistance @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity OrganizationOfferingAssistance @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.organizationOfferingAssistance;
 
-  entity Organizations @(restrict : [
-  {
-    grant : 'CREATE',
-    to    : 'authenticated-user'
-  },
-  {
+  entity Organizations @(restrict : [{
     grant : [
+      'CREATE',
       'UPDATE',
       'DELETE'
     ],
-    where : 'createdBy = $user'
-  }
+    to    : 'authenticated-user'
+  },
+  // {
+  //   grant : [
+  //     'UPDATE',
+  //     'DELETE'
+  //   ],
+  //   where : 'createdBy = $user'
+  // }
   ])                          as projection on cloud.Organization;
 
   // extend entities with proper access
@@ -145,7 +166,7 @@ service entry {
   @readonly
   entity States               as projection on cloud.State;
 
-  @readonly
+  @readonly  @cds.query.limit.max : 10000
   entity Districts            as projection on cloud.District;
 
   @readonly

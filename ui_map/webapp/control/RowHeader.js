@@ -30,19 +30,19 @@ sap.ui.define(
         this.setAggregation("_navIcon", new Icon({
           src: "sap-icon://map-2",
           tooltip: "{i18n>tooltip.navigation}",
-          height: "25px",
-          width: "25px",
-          size: "22px",
+          height: "40px",
+          width: "40px",
+          size: "35px",
           press: function () {
             this.fireTriggerNavigator();
           }.bind(this)
         }));
         this.setAggregation("_webIcon", new Icon({
-          src: "sap-icon://action",
+          src: "sap-icon://world",
           tooltip: "{i18n>tooltip.website}",
-          height: "25px",
-          width: "25px",
-          size: "22px",
+          height: "40px",
+          width: "40px",
+          size: "35px",
           press: function () {
             window.open(this.getWebsite(), "_blank");
           }.bind(this)
@@ -50,9 +50,9 @@ sap.ui.define(
         this.setAggregation("_closeIcon", new Icon({
           src: "sap-icon://decline",
           tooltip: "{i18n>close}",
-          height: "25px",
-          width: "25px",
-          size: "22px",
+          height: "20px",
+          width: "20px",
+          size: "18px",
           press: function () {
             this.setHidden(true);
           }.bind(this)

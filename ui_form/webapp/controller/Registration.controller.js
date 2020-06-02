@@ -73,6 +73,14 @@ sap.ui.define([
 			this.byId("faq").open();
 		},
 
+		onHelp: function () {
+			try {
+				$("#launcher-frame").contents().find(".launcher-button").click();
+			} catch (oException) {
+				Log.warning("Could not access help iframe");
+			}
+		},
+
 		onLogout: function () {
 			window.location.href = "/do/logout";
 		},
@@ -135,6 +143,7 @@ sap.ui.define([
 				markers: [],
 				growingThreshold: 10000,
 				busyDelay: 500,
+				earlyRequests: true,
 				organziationTypes: [
 					{ key: ORGANIZATION_TYPE_SCHOOL, name: this.getResourceBundle().getText("organizationTypeSchoolDistrict") },
 					{ key: ORGANIZATION_TYPE_NONPROFIT, name: this.getResourceBundle().getText("organizationTypeNonprofit") },
@@ -179,11 +188,12 @@ sap.ui.define([
 		},
 
 		onAfterRendering: function () {
-
-			$("#recaptcha").attr("data-sitekey", window.sap4kidsTokens.recaptcha);
-
+			/*
 			// initialize google captcha
 			this._prepareCaptcha();
+			$("#recaptcha").attr("data-sitekey", window.sap4kidsTokens.recaptcha);
+			*/
+
 			// hide splash screen
 			$("#splashScreen").remove();
 		},
@@ -265,11 +275,11 @@ sap.ui.define([
 				var aSorters = [];
 				aSorters.push(new Sorter("name"));
 
-				oDistrictCombobox.bindAggregation("items", {
+				oDistrictCombobox.bindAggregation("suggestionItems", {
 					model: "backend",
 					path: "/Districts",
 					length: this.getModel("view").getProperty("/growingThreshold"),
-					template: this.byId("district").getBindingInfo("items").template.clone(),
+					template: this.byId("district").getBindingInfo("suggestionItems").template.clone(),
 					templateShareable: true,
 					sorter: aSorters,
 					filters: aFilters,
@@ -289,6 +299,16 @@ sap.ui.define([
 			}.bind(this), TYPING_DELAY);
 		},
 
+		onSuggestDistrict: function (oEvent) {
+			/*
+			var sTerm = oEvent.getParameter("suggestValue");
+			var aFilters = [];
+			if (sTerm) {
+				aFilters.push(new Filter("name", sap.ui.model.FilterOperator.StartsWith, sTerm));
+			}
+			oEvent.getSource().getBinding("suggestionItems").filter(aFilters);*/
+		},
+
 		onChangeDistrict: function (oEvent) {
 			var oViewModel = this.getModel("view");
 			var oSchoolCombobox = this.byId("school");
@@ -297,19 +317,20 @@ sap.ui.define([
 
 			// ensure that entry from the list is selected
 			if (oDistrictCombobox.getSelectedItem()) {
-				sKey = oDistrictCombobox.getSelectedItem().getKey();
+				sKey = sap.ui.getCore().byId(oDistrictCombobox.getSelectedItem()).getKey();
 				oDistrictCombobox.setValueState("None");
 				oDistrictCombobox.setValueStateText(this.getResourceBundle().getText("validationErrorGenericInputMissing"));
 			} else {
 				oDistrictCombobox.setValueState("Error");
-				oDistrictCombobox.setValueStateText(this.getResourceBundle().getText("validationErrorSelectValueFromList"));
+				oDistrictCombobox.setValueStateText(this.getResourceBundle().getText("validationErrorSelectValueFromSuggestion"));
 				return;
 			}
 
 			// optimization: handle only selection change events for loading data
+			/*
 			if (oEvent.getId() === "change") {
 				return;
-			}
+			}*/
 
 			// optimization: if key is still the same, don't rebind
 			if (sKey && sKey === this.getModel().getProperty("/districtKey")) {
@@ -350,10 +371,6 @@ sap.ui.define([
 							oSchoolCombobox.setValueState("None");
 							oSchoolCombobox.setValueStateText(this.getResourceBundle().getText("validationErrorGenericInputMissing"));
 							oSchoolCombobox.setEnabled(true);
-							/* fix: this will close the previous combobox
-							setTimeout(function () {
-								oSchoolCombobox.focus();
-							}, 0);*/
 						}.bind(this)
 					}
 				});
@@ -484,7 +501,8 @@ sap.ui.define([
 
 			// call helper service to check for existing offerings for this school
 			$.get({
-				url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" + encodeURI(sValue) + "%27",
+				url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" +
+					encodeURI(formatter.formatOrgName(sValue)) + "%27",
 				success: function (oData) {
 					// check if address matches the one entered in the form
 					var oMessageStrip = this.byId("locationExistStrip");
@@ -748,10 +766,17 @@ sap.ui.define([
 		},
 
 		/*** Form validation and submit ***/
-
 		toggleSubmit: function (bToggle) {
-			this.byId("wizard").$().find(".sapMBtn").control().pop().setEnabled(bToggle);
-			this._bSubmitting = !bToggle;
+			// fix: block submit for 3 more seconds to avoid unnecessary validation on accidential double-click
+			if (bToggle) {
+				setTimeout(function () {
+					this.byId("wizard").$().find(".sapMBtn").control().pop().setEnabled(bToggle);
+					this._bSubmitting = !bToggle;
+				}.bind(this), 3000);
+			} else {
+				this.byId("wizard").$().find(".sapMBtn").control().pop().setEnabled(bToggle);
+				this._bSubmitting = !bToggle;
+			}
 		},
 
 
@@ -766,7 +791,7 @@ sap.ui.define([
 
 		showSuccess: function (sText, sTextLong) {
 			// avoid displaying success messages
-			if (!jQuery(".sapMMessageToast ").length) {
+			if (!jQuery(".sapMMessageToast").length) {
 				MessageToast.show(sText);
 				this.byId("successStrip").setText(sTextLong);
 				this.byId("successStrip").setVisible(true);
@@ -786,7 +811,7 @@ sap.ui.define([
 
 		wizardCompleted: function () {
 			// check for form errors and block submit
-			var bValidationError = this.validateStep1() || this.validateStep2() || this.validateStep3() || this.validateCaptcha();
+			var bValidationError = this.validateStep1() || this.validateStep2() || this.validateStep3(); // || this.validateCaptcha();
 			this.errorSubmit(bValidationError);
 			if (bValidationError) {
 				return;
@@ -836,8 +861,10 @@ sap.ui.define([
 							}
 						}.bind(this),
 						error: function () {
+							this.toggleSubmit(true);
 							Log.warning("Could not find address for school id " + sSchoolId);
-						}
+							this.showError("Could not find address for school id " + sSchoolId);
+						}.bind(this)
 					});
 				} else {
 					/*** other location ***/
@@ -847,7 +874,9 @@ sap.ui.define([
 
 					// call helper service to check for existing assistance locations
 					$.get({
-						url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" + encodeURI(this.getModel().getProperty("/locationName")) + "%27",
+						url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" +
+							encodeURI(formatter.formatOrgName(this.getModel().getProperty("/locationName")))
+							+ "%27",
 						success: function (oData) {
 							// check if address matches the one entered in the form
 							var sLocationId;
@@ -943,8 +972,10 @@ sap.ui.define([
 							}
 						}.bind(this),
 						error: function () {
+							this.toggleSubmit(true);
 							Log.warning("Could not query existing locations at this address");
-						}
+							this.showError("Could not query existing locations at this address");
+						}.bind(this)
 					});
 				}
 			} catch (oException) {
@@ -958,7 +989,9 @@ sap.ui.define([
 			// check for existing organization
 			// call helper service to check for existing offerings for this school
 			$.get({
-				url: SERVICE_URL + "Organizations?$filter=name%20eq%20%27" + encodeURI(this.getModel().getProperty("/locationName")) + "%27%20and%20address_ID%20eq%20" + sAddressId,
+				url: SERVICE_URL + "Organizations?$filter=name%20eq%20%27" +
+					encodeURI(formatter.formatOrgName(this.getModel().getProperty("/locationName")))
+					+ "%27%20and%20address_ID%20eq%20" + sAddressId,
 				success: function (oData) {
 					if (oData.value.length) {
 						var sOrganizationId = oData.value[0].ID;
@@ -1259,10 +1292,12 @@ sap.ui.define([
 				}.bind(this), 0);
 			}
 
+			/*
 			// repair captcha if needed
 			if ($("#recaptcha") && !$("#recaptcha").html()) {
 				this._prepareCaptcha();
 			}
+			*/
 
 			return bValidationError;
 		},
@@ -1339,6 +1374,7 @@ sap.ui.define([
 			return bValidationError;
 		},
 
+		/*
 		validateCaptcha: function () {
 			var bValidationError = false;
 			if (!window.grecaptcha) {
@@ -1360,6 +1396,7 @@ sap.ui.define([
 			$(document.getElementById("recaptcha")).toggleClass("validationError", bValidationError);
 			this.byId("captchaValidationErrorMessage").setVisible(bValidationError);
 		},
+		*/
 
 		// reset form after successful submit
 		clearForm: function () {
@@ -1397,6 +1434,7 @@ sap.ui.define([
 		},
 
 		/*** reCAPTCHA integration ***/
+		/*
 		_prepareCaptcha: function () {
 			//these functions need to be exposed globally, otherwise captcha is not able to access them
 			window.validateMandatoryFields = function () {
@@ -1421,6 +1459,7 @@ sap.ui.define([
 		captchaChecked: function () {
 			return window.grecaptcha.getResponse().length > 0;
 		},
+		*/
 
 		_rollbackChanges: function () {
 			if (this._rollbackInProgress) {

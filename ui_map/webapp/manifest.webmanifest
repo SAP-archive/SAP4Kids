@@ -1,0 +1,20 @@
+{
+  "background_color": "#031b2f",
+  "description": "Help families in need, find resources nearby.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "resources/img/pwa192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "resources/img/pwa512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "name": "SAP4Kids - Resource Locator",
+  "short_name": "SAP4Kids",
+  "start_url": "/comsap4kidsresourcelocator/index.html"
+}

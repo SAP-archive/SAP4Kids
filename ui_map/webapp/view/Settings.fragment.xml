@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m"
+<core:FragmentDefinition xmlns="sap.m" 
   xmlns:core="sap.ui.core">
   <FlexBox class="filterbar" wrap="Wrap" justifyContent="SpaceBetween">
     <VBox visible="{=${device>/system/desktop}}">
@@ -9,11 +9,28 @@
             <FlexItemData growFactor="1" baseSize="0" />
           </layoutData>
         </SearchField>
-        <ToggleButton width="100%" icon="sap-icon://locate-me" text="{i18n>useLocation}" pressed="{state>/determineLocation}" busy="{state>/locatingUser}" press=".onToggleButtonPress" />
-        <ToggleButton width="100%" icon="sap-icon://calendar" class="plannerToggle" text="{= ${state>/plannerVisible} ? ${i18n>hideCalendar} : ${i18n>showCalendar} }" pressed="{state>/plannerVisible}" />
+        <ToggleButton width="100%" icon="sap-icon://locate-me" class="toggleButton" text="{i18n>useLocation}" pressed="{state>/determineLocation}" busy="{state>/locatingUser}" press=".onToggleButtonPress" />
+        <ToggleButton width="100%" icon="sap-icon://calendar" class="toggleButton" text="{= ${state>/plannerVisible} ? ${i18n>hideCalendar} : ${i18n>showCalendar} }" pressed="{state>/plannerVisible}" />
       </HBox>
       <layoutData>
         <FlexItemData growFactor="1" baseSize="0" minWidth="275px" styleClass="filterbarItem"/>
+      </layoutData>
+    </VBox>
+    <VBox>
+      <Label text="{i18n>type}" />
+      <MultiComboBox width="100%" selectedKeys="{state>/selectedResources}" selectionFinish="updateMarkerBinding" placeholder="Select Assistance Type" items="{ path: 'srv>/AssistanceTypes', 
+              parameters : {
+                  $$operationMode : 'Server',
+                  $orderby : 'assistanceType',                         
+                  $select : 'ID,assistanceType'
+              }
+            }">
+        <items>
+          <core:Item key="{srv>ID}" text="{srv>assistanceType}" />
+        </items>
+      </MultiComboBox>
+      <layoutData>
+        <FlexItemData growFactor="0" baseSize="0" minWidth="18rem" styleClass="filterbarItem"/>
       </layoutData>
     </VBox>
     <!-- <VBox>

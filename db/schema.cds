@@ -7,20 +7,20 @@ using {
 } from '@sap/cds/common';
 
 entity Address : cuid, managed {
-      street             : String(100)    @title : 'Street';
-      city               : String(50)     @title : 'City';
-      zip                : Integer        @title : 'Zip';
-      lat                : Decimal(23, 15)@title : 'Latitude';
-      long               : Decimal(23, 15)@title : 'Longitude';
-      state              : Association to State;
-      school             : Association to many School
-                             on school.address = $self;
-      assistanceLocation : Association to many AssistanceLocation
-                             on assistanceLocation.address = $self;
+  street             : String(100)    @title : 'Street';
+  city               : String(50)     @title : 'City';
+  zip                : Integer        @title : 'Zip';
+  lat                : Decimal(23, 15)@title : 'Latitude';
+  long               : Decimal(23, 15)@title : 'Longitude';
+  state              : Association to State;
+  school             : Association to many School
+                         on school.address = $self;
+  assistanceLocation : Association to many AssistanceLocation
+                         on assistanceLocation.address = $self;
 }
 
 entity AssistanceLocation : cuid, managed {
-  name                : String(50)                  @title : 'Assistance Location';
+  name                : String(100)                 @title : 'Assistance Location';
   address             : Association to Address      @title : 'Address';
   locationType        : Association to LocationType @title : 'Location Type';
   assistanceOfferings : Association to many AssistanceOffering
@@ -42,23 +42,24 @@ entity AssistanceOffering : cuid, managed {
   pickupInd          : Boolean                            @title : 'Indicates Pickup';
   deliveryInd        : Boolean                            @title : 'Indicates Delivery';
   virtualInd         : Boolean                            @title : 'Virtual Offering';
-  contactName        : String(50)                         @title : 'Assistance Contact Name';
-  contactEmail       : String(50)                         @title : 'Contact Email';
-  contactPhone       : String(20)                         @title : 'Contact Phone';
-  contactTitle       : String(60)                         @title : 'Contact Title';
+  contactName        : String(100)                        @title : 'Assistance Contact Name';
+  contactEmail       : String(100)                        @title : 'Contact Email';
+  contactPhone       : String(100)                        @title : 'Contact Phone';
+  contactTitle       : String(100)                        @title : 'Contact Title';
   websiteURL         : String(1000)                       @title : 'URL Associated with resource being offered';
   eligiblityCategory : Association to EligibilityCategory @title : 'Indicates category of eligiblity';
   offerDetails       : String(1000)                       @title : 'Misc offer notes';
-  offerApproved      : Boolean default false              @title : 'Indicates if offer has been approved';
+  offerApproved      : Boolean default true               @title : 'Indicates if offer has been approved';
   assistanceLocation : Association to AssistanceLocation  @title : 'Assistance Location';
   assistanceType     : Association to AssistanceType      @title : 'Assistance Type';
   assistanceSubType  : Association to AssistanceSubType   @title : 'Assistance Sub Type';
 }
 
 entity AssistanceSubType : cuid {
-  subType        : String(30) @title : 'AssistanceSubType';
+  subType        : String(30)                    @title : 'AssistanceSubType';
   assistanceType : Association to AssistanceType @title : 'Assistance Type';
   description    : String(100)                   @title : 'Assitance Sub Type Description';
+  sort           : Integer                       @title : 'Sort';
 }
 
 entity AssistanceType : cuid {

@@ -1,0 +1,16 @@
+{ 
+  "role":{ 
+    "name":"sap4kids_support", 
+    "schema_privileges":[ 
+      { 
+        "privileges":[ 
+            "SELECT METADATA", 
+            "SELECT CDS METADATA", 
+            "SELECT",
+            "EXECUTE",
+            "CREATE TEMPORARY TABLE"
+        ]
+      } 
+    ]
+  }
+}

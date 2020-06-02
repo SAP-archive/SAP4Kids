@@ -11,6 +11,7 @@
 			<Button type="Transparent" text="{i18n>about}" press=".onAboutOpen" />
 			<Button type="Transparent" text="{i18n>legal}" press=".onDisclaimerOpen" />
 			<Button type="Transparent" text="{i18n>faq}" press=".onFAQOpen" />
+			<Button type="Transparent" text="{i18n>help}" press=".onHelp" />
 			<Button type="Transparent" icon="sap-icon://log" press=".onLogout" />
 			<!--<Button type="Transparent" text="{i18n>feedback}" press=".onFeedbackOpen" />-->
 		</f:additionalContent>
@@ -37,7 +38,7 @@
 											<ComboBox id="organizationType" items="{
 													path: 'backend>/OrganizationTypes'
 												}" value="{/organizationType}" valueStateText="{i18n>validationErrorGenericInputMissing}" selectedKey="SchoolDistrict" required="true" change=".onChangeOrganizationType" selectionChange=".onChangeOrganizationType" busyIndicatorDelay="{view>/busyDelay}">
-												<core:Item key="{backend>code}" text="{backend>name}"/>
+												<core:Item key="{backend>code}" text="{backend>descr}"/>
 											</ComboBox>
 										</form:fields>
 									</form:FormElement>
@@ -67,7 +68,18 @@
 									</form:FormElement>
 									<form:FormElement id="districtElement" label="{i18n>district}">
 										<form:fields>
-											<ComboBox id="district" enabled="false" items="{backend>}" value="{/district}" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true" busy="{view>/districtBusy}" busyIndicatorDelay="{view>/busyDelay}" change=".onChangeDistrict" selectionChange=".onChangeDistrict">
+											<!--
+											<ComboBox
+												id="district"
+												enabled="false"
+												items="{backend>}"
+												value="{/district}"
+												valueStateText="{i18n>validationErrorGenericInputMissing}"
+												required="true"
+												busy="{view>/districtBusy}"
+												busyIndicatorDelay="{view>/busyDelay}"
+												change=".onChangeDistrict"
+												selectionChange=".onChangeDistrict">
 												<core:Item key="{
 														path: 'backend>leaid',
 														type: 'sap.ui.model.type.Float',
@@ -76,6 +88,31 @@
 														}
 													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}"/>
 											</ComboBox>
+											-->
+											<Input
+												id="district"
+												enabled="false"
+												type="Text"
+												placeholder="{i18n>districtPlaceholder}"
+												value="{/district}"
+												valueStateText="{i18n>validationErrorGenericInputMissing}"
+												required="true"
+												busy="{view>/districtBusy}"
+												busyIndicatorDelay="{view>/busyDelay}"
+												showSuggestion="true"
+												change=".onChangeDistrict"
+												suggest=".onSuggestDistrict"
+												suggestionItems="{backend>}" >
+												<suggestionItems>
+													<core:Item key="{
+														path: 'backend>leaid',
+														type: 'sap.ui.model.type.Float',
+														formatOptions: {
+															groupingSeparator: ''
+														}
+													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}"/>
+												</suggestionItems>
+											</Input>
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>associationToSchool}">
@@ -110,7 +147,18 @@
 									<form:FormElement id="schoolElement" label="{i18n>school}">
 										<form:fields>
 											<l:VerticalLayout width="100%">
-												<ComboBox id="school" width="100%" enabled="false" items="{backend>}" value="{/school}" required="true" valueStateText="{i18n>validationErrorGenericInputMissing}" change=".onChangeSchool" selectionChange=".onChangeSchool" busy="{view>/schoolBusy}" busyIndicatorDelay="{view>/busyDelay}">
+												<ComboBox
+													id="school"
+													width="100%"
+													enabled="false"
+													items="{backend>}"
+													value="{/school}"
+													required="true"
+													valueStateText="{i18n>validationErrorGenericInputMissing}"
+													change=".onChangeSchool"
+													selectionChange=".onChangeSchool"
+													busy="{view>/schoolBusy}"
+													busyIndicatorDelay="{view>/busyDelay}">
 													<core:Item key="{
 															path: 'backend>ID',
 															type: 'sap.ui.model.type.Float',
@@ -133,7 +181,7 @@
 									<form:FormElement visible="false" id="locationNameElement" label="{i18n>locationName}">
 										<form:fields>
 											<l:VerticalLayout width="100%">
-												<Input id="locationName" value="{/locationName}" editable="false" change=".onChangeLocationName" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true"/>
+												<Input id="locationName" maxLength="100" value="{/locationName}" editable="false" change=".onChangeLocationName" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true"/>
 												<MessageStrip id="locationExistStrip" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" showCloseButton="true">
 													<link>
 														<Link text="{i18n>resourceLocatorLink}" target="_blank" href="/comsap4kidsresourcelocator/index.html"/>
@@ -235,7 +283,8 @@
 									<form:FormElement id="assistanceSubTypeElement" label="{i18n>assistanceSubtypeFood}">
 										<form:fields>
 											<MultiComboBox id="assistanceSubType" selectionChange=".onFoodSelectionChange" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
-													path: 'backend>/AssistanceSubTypes'
+													path: 'backend>/AssistanceSubTypes',
+													sorter: { path: 'sort' }
 												}" required="true">
 												<core:Item key="{backend>ID}" text="{backend>subType}"/>
 											</MultiComboBox>
@@ -267,7 +316,7 @@
 													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssistanceInfo" class="helpIcon"/>
 												</l:fixContent>
 												<l:flexContent>
-													<TextArea value="{/additionalInformation}" width="100%"/>
+													<TextArea value="{/additionalInformation}" maxLength="1000" width="100%"/>
 												</l:flexContent>
 											</l:FixFlex>
 										</form:fields>
@@ -277,7 +326,7 @@
 											<Input id="webAddress" value="{
 													path : '/webAddress',
 													type : '.types.url'
-												}" change=".onChangeWebAddress" maxLength="200"/>
+												}" change=".onChangeWebAddress" maxLength="1000"/>
 										</form:fields>
 									</form:FormElement>
 								</form:formElements>
@@ -330,7 +379,7 @@
 						</form:formContainers>
 					</form:Form>
 
-					<form:Form editable="true">
+					<!--<form:Form editable="true">
 						<form:title>
 							<core:Title text="{i18n>reCaptchaFormTitle}"/>
 						</form:title>
@@ -354,7 +403,7 @@
 								</form:formElements>
 							</form:FormContainer>
 						</form:formContainers>
-					</form:Form>
+					</form:Form>-->
 				</WizardStep>
 			</Wizard>
 		</content>

@@ -1,0 +1,22 @@
+{ 
+  "role":{ 
+    "name":"sap4kids_admin", 
+    "schema_privileges":[ 
+      { 
+        "privileges":[ 
+          "ALTER", 
+          "CREATE ANY", 
+          "CREATE TEMPORARY TABLE", 
+          "EXECUTE", 
+          "SELECT", 
+          "SELECT CDS METADATA", 
+          "SELECT METADATA",
+          "INSERT", 
+          "UPDATE", 
+          "DELETE", 
+          "UNMASKED"
+		    ]
+      } 
+    ]
+  }
+}

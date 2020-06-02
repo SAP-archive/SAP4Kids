@@ -1,0 +1,2 @@
+DELETE http://localhost:4004/entry/AssistanceOfferings(bba866f0-df0b-4797-8f83-8925ecafc076) HTTP/1.1
+Authorization: Basic YWxpY2U6

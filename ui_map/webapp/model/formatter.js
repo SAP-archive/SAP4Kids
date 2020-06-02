@@ -81,8 +81,9 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
           const sDays = daysFormatter(oBundle, oOffering.availableMon, oOffering.availableTue, oOffering.availableWed,
             oOffering.availableThr, oOffering.availableFri, oOffering.availableSat, oOffering.availableSun);
 
+          var sType = oOffering.subType ? oOffering.subType : oOffering.assistanceType;
           return "<div class='sub-item'>" +
-            "<div class='type'>" + oOffering.subType + " " + sDays + "</div>" +
+            "<div class='type'>" + sType + " " + sDays + "</div>" +
             "<div class='time'>" + timesFormatter(oOffering.timeFrom, oOffering.timeTo) + "</div>" +
             "</div>";
         }).join("");
@@ -210,16 +211,16 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
 
     markerIconFormatter: function (aAssistanceTypes) {
       if (aAssistanceTypes.length > 1) {
-        return "resources/img/markers/more_than_one_pin.svg";
+        return "resources/img/markers/multiple_pin.svg";
       }
       const oMap = {
         "Food": "resources/img/markers/food_pin.svg",
-        "Childcare": "resources/img/markers/childcare_pin.svg",
-        "Financial": "resources/img/markers/financial_pin.svg",
-        "Medical": "resources/img/markers/medical_pin.svg",
-        "Shelter": "resources/img/markers/shelter_pin.svg",
-        "Workforce": "resources/img/markers/workforce_pin.svg",
-        "More": "resources/img/markers/more_than_one_pin.svg",
+        "Licensed Childcare": "resources/img/markers/childcare_pin.svg",
+        "Financial Assistance": "resources/img/markers/financial_pin.svg",
+        "Healthcare": "resources/img/markers/healthcare_pin.svg",
+        "Housing Assistance": "resources/img/markers/shelter_pin.svg",
+        "Workforce Assistance": "resources/img/markers/workforce_pin.svg",
+        "More": "resources/img/markers/multiple_pin.svg",
         "User": "resources/img/markers/user.png",
       };
       return oMap[aAssistanceTypes[0]];
@@ -228,18 +229,23 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
     appointmentIconFormatter: function (sAssistanceType) {
       const oMap = {
         "Food": "resources/img/services/food.svg",
-        "Childcare": "resources/img/services/childcare.svg",
-        "Financial": "resources/img/services/financial.svg",
-        "Medical": "resources/img/services/medical.svg",
-        "Shelter": "resources/img/services/shelter.svg",
-        "Workforce": "resources/img/services/workforce.svg",
+        "Licensed Childcare": "resources/img/services/childcare.svg",
+        "Financial Assistance": "resources/img/services/financial.svg",
+        "Healthcare": "resources/img/services/medical.svg",
+        "Housing Assistance": "resources/img/services/shelter.svg",
+        "Workforce Assistance": "resources/img/services/workforce.svg",
         "More": "resources/img/services/more_than_one.svg",
       };
       return oMap[sAssistanceType];
     },
 
-    offeringTypeFormatter: function (subType) {
-      return subType;
+    offeringTypeFormatter: function (assistanceType, subType) {
+      if (subType) {
+        return subType;
+      } else {
+        return assistanceType;
+      }
+
     },
 
     timeslotTooltipFormatter: function (subType, sFrom, sTo) {
@@ -256,12 +262,15 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
     },
 
     subTypeSorter: function (a, b) {
+      a = (a) ? a : "OTHER";
+      b = (b) ? b : "OTHER";
       const oOrder = {
         "BREAKFAST": 0,
         "MORNING SNACK": 1,
         "LUNCH": 2,
         "AFTERNOON SNACK": 3,
-        "DINNER": 4
+        "DINNER": 4,
+        "OTHER": 5
       };
       return oOrder[a.toUpperCase()] - oOrder[b.toUpperCase()];
     }

@@ -1,10 +1,10 @@
-<mvc:View controllerName="com.sap4kids.resourcelocator.controller.MapView" class="sap4kids" displayBlock="true"
-  xmlns="sap.m"
-  xmlns:core="sap.ui.core"
-  xmlns:f="sap.f"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns:unified="sap.ui.unified"
-  xmlns:mf="com.sap4kids.resourcelocator.control"
+<mvc:View controllerName="com.sap4kids.resourcelocator.controller.MapView" class="sap4kids" displayBlock="true" 
+  xmlns="sap.m" 
+  xmlns:core="sap.ui.core" 
+  xmlns:f="sap.f" 
+  xmlns:mvc="sap.ui.core.mvc" 
+  xmlns:unified="sap.ui.unified" 
+  xmlns:mf="com.sap4kids.resourcelocator.control" 
   xmlns:gmaps="openui5.googlemaps">
   <f:ShellBar title="Resource Finder" homeIcon="resources/img/logo.png" homeIconPressed="onHomePress">
     <f:additionalContent >
@@ -17,8 +17,12 @@
   <Page showHeader="false" enableScrolling="false">
     <content>
       <core:Fragment fragmentName="com.sap4kids.resourcelocator.view.Header" type="XML"/>
+      <VBox alignContent="Center" width="100%">
+        <Button class="refreshMapButton" type="Emphasized" text="Search Again In This Area" press="onSearchAgain" visible="{state>/mapMoved}"></Button>
+      </VBox>
       <VBox class="maincontent" width="100%">
-        <gmaps:Map id="map" ready="isReady" zoom="5" zoomControl="true" zoomControlPosition="5" height="100%" lat="40" lng="-100" busy="{state>/requestingData}" apiKey="{keys>/gmaps}" markers="{main>/}" click="onMapClick">
+
+        <gmaps:Map id="map" ready="isReady" zoom="5" zoomControl="true" clickableIcons="false" zoomControlPosition="5" height="100%" lat="40" lng="-100" busy="{state>/requestingData}" apiKey="{keys>/gmaps}" markers="{main>/}" click="onMapClick">
           <gmaps:Marker id="markerTemplate" lng="{main>lng}" lat="{main>lat}" icon="{path : 'main>assistanceTypes', formatter: '.formatter.markerIconFormatter'}" click="onMarkerClick" mouseover="onMarkerHoverOver" mouseout="onMarkerHoverOut"/>
         </gmaps:Map >
 
@@ -26,12 +30,12 @@
           <rows>
             <PlanningCalendarRow id="calendarRow" appointments="{path : 'main>timeslots', sorter: {path: 'subType', comparator: '.formatter.subTypeSorter' }, templateShareable: true}">
               <appointments>
-                <unified:CalendarAppointment startDate="{main>from}" endDate="{main>to}" icon="{path : 'main>assistanceType', formatter: '.formatter.appointmentIconFormatter'}" tooltip="{parts : [{path: 'main>subType'},{path: 'main>from', type: 'sap.ui.model.type.Time', formatOptions: { style: 'short' }},{path: 'main>to', type: 'sap.ui.model.type.Time', formatOptions: { style: 'short' }}], formatter: '.formatter.timeslotTooltipFormatter'}" title="{path: 'main>subType', formatter: '.formatter.offeringTypeFormatter'}" />
+                <unified:CalendarAppointment startDate="{main>from}" endDate="{main>to}" icon="{path : 'main>assistanceType', formatter: '.formatter.appointmentIconFormatter'}" tooltip="{parts : [{path: 'main>subType'},{path: 'main>from', type: 'sap.ui.model.type.Time', formatOptions: { style: 'short' }},{path: 'main>to', type: 'sap.ui.model.type.Time', formatOptions: { style: 'short' }}], formatter: '.formatter.timeslotTooltipFormatter'}" title="{parts: ['main>assistanceType','main>subType'], formatter: '.formatter.offeringTypeFormatter'}" />
               </appointments>
               <headerContent >
-                <mf:RowHeader title="{main>name}" noData="{i18n>noLocationSelected}" times="{path : 'main>assistanceOfferings', sorter: {path: 'subType', comparator: '.formatter.subTypeSorter' },  templateShareable: true}" address="{main>street}, {main>city}, {main>state}" website="{main>website}" type="Pickup" comment="{main>comment}" eligibility="{main>eligibility}">
+                <mf:RowHeader title="{main>name}" noData="{i18n>noLocationSelected}" times="{path : 'main>assistanceOfferings', sorter: {path: 'subType', comparator: '.formatter.subTypeSorter' },  templateShareable: true}" address="{main>street}, {main>city}, {main>state}" website="{main>website}" type="Pickup" comment="{main>comment}" eligibility="{main>eligibility}" triggerNavigator="onTriggerNavigator">
                   <mf:times>
-                    <mf:OfferingTime type="{path: 'main>subType', formatter: '.formatter.offeringTypeFormatter'}" days="{parts : [{path: 'main>availableMon', targetType: 'boolean' }, {path: 'main>availableTue', targetType: 'boolean'},{path: 'main>availableWed', targetType: 'boolean'}, {path: 'main>availableThr', targetType: 'boolean'},{path: 'main>availableFri', targetType: 'boolean'}, {path: 'main>availableSat', targetType: 'boolean'}, {path: 'main>availableSun', targetType: 'boolean'}], formatter: '.formatter.offeringDaysFormatter'}" hours="{parts : [{path: 'main>timeFrom', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}, {path: 'main>timeTo', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}], formatter: '.formatter.offeringTimesFormatter'}" />
+                    <mf:OfferingTime type="{parts: ['main>assistanceType','main>subType'], formatter: '.formatter.offeringTypeFormatter'}" days="{parts : [{path: 'main>availableMon', targetType: 'boolean' }, {path: 'main>availableTue', targetType: 'boolean'},{path: 'main>availableWed', targetType: 'boolean'}, {path: 'main>availableThr', targetType: 'boolean'},{path: 'main>availableFri', targetType: 'boolean'}, {path: 'main>availableSat', targetType: 'boolean'}, {path: 'main>availableSun', targetType: 'boolean'}], formatter: '.formatter.offeringDaysFormatter'}" hours="{parts : [{path: 'main>timeFrom', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}, {path: 'main>timeTo', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}], formatter: '.formatter.offeringTimesFormatter'}" />
                   </mf:times>
                 </mf:RowHeader>
               </headerContent>
@@ -41,7 +45,7 @@
       </VBox>
       <mf:RowHeader id="providerOverlay" times="{path: 'main>assistanceOfferings', sorter: {path: 'subType', comparator: '.formatter.subTypeSorter' } }" title="{main>name}" address="{main>street}, {main>city}, {main>state}" comment="{main>comment}" eligibility="{main>eligibility}" website="{main>website}" type="Pickup" visible="{=!${device>/system/desktop}}" hidden="true" showCloseBtn="true" triggerNavigator="onTriggerNavigator" class="providerOverlay hidden">
         <mf:times>
-          <mf:OfferingTime type="{path: 'main>subType', formatter: '.formatter.offeringTypeFormatter'}" days="{parts : [{path: 'main>availableMon', targetType: 'boolean' }, {path: 'main>availableTue', targetType: 'boolean'},{path: 'main>availableWed', targetType: 'boolean'}, {path: 'main>availableThr', targetType: 'boolean'},{path: 'main>availableFri', targetType: 'boolean'}, {path: 'main>availableSat', targetType: 'boolean'}, {path: 'main>availableSun', targetType: 'boolean'}], formatter: '.formatter.offeringDaysFormatter'}" hours="{parts : [{path: 'main>timeFrom', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}, {path: 'main>timeTo', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}], formatter: '.formatter.offeringTimesFormatter'}" />
+          <mf:OfferingTime type="{parts: ['main>assistanceType','main>subType'], formatter: '.formatter.offeringTypeFormatter'}" days="{parts : [{path: 'main>availableMon', targetType: 'boolean' }, {path: 'main>availableTue', targetType: 'boolean'},{path: 'main>availableWed', targetType: 'boolean'}, {path: 'main>availableThr', targetType: 'boolean'},{path: 'main>availableFri', targetType: 'boolean'}, {path: 'main>availableSat', targetType: 'boolean'}, {path: 'main>availableSun', targetType: 'boolean'}], formatter: '.formatter.offeringDaysFormatter'}" hours="{parts : [{path: 'main>timeFrom', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}, {path: 'main>timeTo', type: 'sap.ui.model.type.Time', formatOptions: { source: {pattern: 'hh:mm:ss'}, style: 'short' }}], formatter: '.formatter.offeringTimesFormatter'}" />
         </mf:times>
       </mf:RowHeader>
 

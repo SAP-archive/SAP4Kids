@@ -1,4 +1,4 @@
-// eslint-disable-next-line sap-no-global-define
+// eslint-disable-next-line
 window.suite = function () {
 	"use strict";
 	/* eslint-disable new-cap */

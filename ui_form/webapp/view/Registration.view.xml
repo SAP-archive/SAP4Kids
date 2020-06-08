@@ -1,13 +1,13 @@
-<mvc:View controllerName="com.sap4kids.assistanceentry.controller.Registration"
-	xmlns="sap.m"
-	xmlns:l="sap.ui.layout"
-	xmlns:f="sap.f"
-	xmlns:form="sap.ui.layout.form"
-	xmlns:core="sap.ui.core"
-	xmlns:mvc="sap.ui.core.mvc"
+<mvc:View controllerName="com.sap4kids.assistanceentry.controller.Registration" 
+	xmlns="sap.m" 
+	xmlns:l="sap.ui.layout" 
+	xmlns:f="sap.f" 
+	xmlns:form="sap.ui.layout.form" 
+	xmlns:core="sap.ui.core" 
+	xmlns:mvc="sap.ui.core.mvc" 
 	xmlns:gmaps="openui5.googlemaps">
 	<f:ShellBar id="shell" title="{i18n>pageHeaderTitle}" homeIcon="img/logo.png">
-		<f:additionalContent >
+		<f:additionalContent>
 			<Button type="Transparent" text="{i18n>about}" press=".onAboutOpen" />
 			<Button type="Transparent" text="{i18n>legal}" press=".onDisclaimerOpen" />
 			<Button type="Transparent" text="{i18n>faq}" press=".onFAQOpen" />
@@ -18,17 +18,17 @@
 	</f:ShellBar>
 	<Page id="page" showHeader="false">
 		<content>
-			<Image visible="{=!${device>/system/phone}}" src="img/header.jpg" width="100%" height="200px" mode="Background" densityAware="false" backgroundSize="cover" backgroundPosition="center"/>
-			<Text text="{i18n>pageHeaderDescription}" class="headerText"/>
-			<Wizard id="wizard" finishButtonText="{i18n>submitButtonText}" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" complete=".wizardCompleted">
-				<WizardStep id="Step1" title="{i18n>wizardStep1}" validated="true" complete=".validateStep1">
-					<MessageStrip id="successStrip" visible="false" type="Success" showIcon="true" showCloseButton="true"/>
+			<Image visible="{=!${device>/system/phone}}" src="img/header.jpg" width="100%" height="200px" mode="Background" densityAware="false" backgroundSize="cover" backgroundPosition="center" />
+			<Text text="{i18n>pageHeaderDescription}" class="headerText" />
+			<Wizard enableBranching="true" id="wizard" finishButtonText="{i18n>submitButtonText}" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" complete=".wizardCompleted">
+				<WizardStep id="Step1" title="{i18n>wizardStep1}" validated="true" complete=".validateStep1" nextStep="StepSelectOfferingMode">
+					<MessageStrip id="successStrip" visible="false" type="Success" showIcon="true" showCloseButton="true" />
 					<form:Form editable="true">
 						<form:title>
-							<core:Title text="{i18n>organizationType}"/>
+							<core:Title text="{i18n>organizationType}" />
 						</form:title>
 						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
 						</form:layout>
 						<form:formContainers>
 							<form:FormContainer>
@@ -38,7 +38,7 @@
 											<ComboBox id="organizationType" items="{
 													path: 'backend>/OrganizationTypes'
 												}" value="{/organizationType}" valueStateText="{i18n>validationErrorGenericInputMissing}" selectedKey="SchoolDistrict" required="true" change=".onChangeOrganizationType" selectionChange=".onChangeOrganizationType" busyIndicatorDelay="{view>/busyDelay}">
-												<core:Item key="{backend>code}" text="{backend>descr}"/>
+												<core:Item key="{backend>code}" text="{backend>descr}" />
 											</ComboBox>
 										</form:fields>
 									</form:FormElement>
@@ -48,10 +48,10 @@
 					</form:Form>
 					<form:Form editable="true" id="schoolForm">
 						<form:title>
-							<core:Title text="{i18n>stateAndCounty}"/>
+							<core:Title text="{i18n>stateAndCounty}" />
 						</form:title>
 						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
 						</form:layout>
 						<form:formContainers>
 							<form:FormContainer>
@@ -62,47 +62,23 @@
 													path: 'backend>/States',
 													sorter: {path: 'StateCode'}
 												}" value="{/state}" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true" change=".onChangeState" selectionChange=".onChangeState" busyIndicatorDelay="{view>/busyDelay}">
-												<core:Item key="{backend>StateCode}" text="{backend>StateCode} {path: 'backend>Name', formatter: '.formatter.titleCase'}"/>
+												<core:Item key="{backend>StateCode}" text="{backend>StateCode} {path: 'backend>Name', formatter: '.formatter.titleCase'}" />
 											</ComboBox>
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement id="districtElement" label="{i18n>district}">
 										<form:fields>
-											<!--
-											<ComboBox
-												id="district"
-												enabled="false"
-												items="{backend>}"
-												value="{/district}"
-												valueStateText="{i18n>validationErrorGenericInputMissing}"
-												required="true"
-												busy="{view>/districtBusy}"
-												busyIndicatorDelay="{view>/busyDelay}"
-												change=".onChangeDistrict"
-												selectionChange=".onChangeDistrict">
+											<!-- <ComboBox id="district" enabled="false" items="{backend>}" value="{/district}" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true" busy="{view>/districtBusy}" busyIndicatorDelay="{view>/busyDelay}" change=".onChangeDistrict" selectionChange=".onChangeDistrict">
 												<core:Item key="{
 														path: 'backend>leaid',
 														type: 'sap.ui.model.type.Float',
 														formatOptions: {
 															groupingSeparator: ''
 														}
-													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}"/>
+													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}" />
 											</ComboBox>
 											-->
-											<Input
-												id="district"
-												enabled="false"
-												type="Text"
-												placeholder="{i18n>districtPlaceholder}"
-												value="{/district}"
-												valueStateText="{i18n>validationErrorGenericInputMissing}"
-												required="true"
-												busy="{view>/districtBusy}"
-												busyIndicatorDelay="{view>/busyDelay}"
-												showSuggestion="true"
-												change=".onChangeDistrict"
-												suggest=".onSuggestDistrict"
-												suggestionItems="{backend>}" >
+											<Input id="district" enabled="false" type="Text" placeholder="{i18n>districtPlaceholder}" value="{/district}" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true" busy="{view>/districtBusy}" busyIndicatorDelay="{view>/busyDelay}" showSuggestion="true" change=".onChangeDistrict" suggest=".onSuggestDistrict" suggestionItems="{backend>}">
 												<suggestionItems>
 													<core:Item key="{
 														path: 'backend>leaid',
@@ -110,7 +86,7 @@
 														formatOptions: {
 															groupingSeparator: ''
 														}
-													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}"/>
+													}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}" />
 												</suggestionItems>
 											</Input>
 										</form:fields>
@@ -119,10 +95,10 @@
 										<form:fields>
 											<l:FixFlex vertical="false" fixFirst="false" class="associationToSchoolHelpFixFlex">
 												<l:fixContent>
-													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssociationToSchoolInfo" class="helpIcon"/>
+													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssociationToSchoolInfo" class="helpIcon" />
 												</l:fixContent>
 												<l:flexContent>
-													<CheckBox id="associationToSchool" class="associationToSchoolCheckbox" text="{i18n>associationToSchoolCheckBox}" selected="true" select=".onAssociatedToSchool"/>
+													<CheckBox id="associationToSchool" class="associationToSchoolCheckbox" text="{i18n>associationToSchoolCheckBox}" selected="true" select=".onAssociatedToSchool" wrapping="true"/>
 												</l:flexContent>
 											</l:FixFlex>
 										</form:fields>
@@ -131,112 +107,318 @@
 							</form:FormContainer>
 						</form:formContainers>
 					</form:Form>
-					<form:Form editable="true">
-						<form:toolbar>
-							<Toolbar>
-								<Title text="{i18n>schoolAndAddress}"/>
-								<Button icon="sap-icon://sys-help" press=".onSchoolInfo"/>
-							</Toolbar>
-						</form:toolbar>
-						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
-						</form:layout>
-						<form:formContainers>
-							<form:FormContainer>
-								<form:formElements>
-									<form:FormElement id="schoolElement" label="{i18n>school}">
-										<form:fields>
-											<l:VerticalLayout width="100%">
-												<ComboBox
-													id="school"
-													width="100%"
-													enabled="false"
-													items="{backend>}"
-													value="{/school}"
-													required="true"
-													valueStateText="{i18n>validationErrorGenericInputMissing}"
-													change=".onChangeSchool"
-													selectionChange=".onChangeSchool"
-													busy="{view>/schoolBusy}"
-													busyIndicatorDelay="{view>/busyDelay}">
-													<core:Item key="{
+					<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12" id="SchoolMapGrid" hSpacing="0">
+						<form:Form editable="true">
+							<form:toolbar>
+								<Toolbar height="auto">
+									<Title text="{i18n>schoolAndAddress}" wrapping="true" />
+									<Button icon="sap-icon://sys-help" press=".onSchoolInfo" />
+								</Toolbar>
+							</form:toolbar>
+							<form:layout>
+								<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
+							</form:layout>
+							<form:formContainers>
+								<form:FormContainer>
+									<form:formElements>
+										<form:FormElement id="schoolElement" label="{i18n>school}">
+											<form:fields>
+												<l:VerticalLayout width="100%">
+													<ComboBox id="school" width="100%" enabled="false" items="{backend>}" value="{/school}" required="true" valueStateText="{i18n>validationErrorGenericInputMissing}" change=".onChangeSchool" selectionChange=".onChangeSchool" busy="{view>/schoolBusy}" busyIndicatorDelay="{view>/busyDelay}">
+														<core:Item key="{
 															path: 'backend>ID',
 															type: 'sap.ui.model.type.Float',
 															formatOptions: {
 																groupingSeparator: ''
 															}
-														}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}"/>
-													<customData>
-														<core:CustomData key="address_ID" value="{backend>address_ID}"/>
-													</customData>
-												</ComboBox>
-												<MessageStrip id="entriesExistStrip" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" showCloseButton="true">
-													<link>
-														<Link text="{i18n>resourceLocatorLink}" target="_blank" href="/comsap4kidsresourcelocator/index.html"/>
-													</link>
-												</MessageStrip>
-											</l:VerticalLayout>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement visible="false" id="locationNameElement" label="{i18n>locationName}">
-										<form:fields>
-											<l:VerticalLayout width="100%">
-												<Input id="locationName" maxLength="100" value="{/locationName}" editable="false" change=".onChangeLocationName" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true"/>
-												<MessageStrip id="locationExistStrip" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" showCloseButton="true">
-													<link>
-														<Link text="{i18n>resourceLocatorLink}" target="_blank" href="/comsap4kidsresourcelocator/index.html"/>
-													</link>
-												</MessageStrip>
-											</l:VerticalLayout>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement visible="false" id="locationTypeElement" label="{i18n>locationType}">
-										<form:fields>
-											<Select id="locationType" items="{
+														}" text="{path: 'backend>name', formatter: '.formatter.titleCase'}" />
+														<customData>
+															<core:CustomData key="address_ID" value="{backend>address_ID}" />
+														</customData>
+													</ComboBox>
+													<MessageStrip id="entriesExistStrip" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" showCloseButton="true">
+														<link>
+															<Link text="{i18n>resourceLocatorLink}" target="_blank" href="/comsap4kidsresourcelocator/index.html" />
+														</link>
+													</MessageStrip>
+												</l:VerticalLayout>
+											</form:fields>
+										</form:FormElement>
+										<form:FormElement visible="false" id="locationNameElement" label="{i18n>locationName}">
+											<form:fields>
+												<l:VerticalLayout width="100%">
+													<Input id="locationName" maxLength="100" value="{/locationName}" editable="false" change=".onChangeLocationName" valueStateText="{i18n>validationErrorGenericInputMissing}" required="true" />
+													<MessageStrip id="locationExistStrip" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" showCloseButton="true">
+														<link>
+															<Link text="{i18n>resourceLocatorLink}" target="_blank" href="/comsap4kidsresourcelocator/index.html" />
+														</link>
+													</MessageStrip>
+												</l:VerticalLayout>
+											</form:fields>
+										</form:FormElement>
+										<form:FormElement visible="false" id="locationTypeElement" label="{i18n>locationType}">
+											<form:fields>
+												<Select id="locationType" items="{
 													path: 'backend>/LocationTypes',
 													sorter: {path: 'locType'}
 												}" selectedKey="{/locationTypeKey}" forceSelection="true" required="true">
-												<core:Item key="{backend>ID}" text="{backend>locType}"/>
-											</Select>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>address}">
-										<form:fields>
-											<Input id="address" value="{/address}" valueStateText="{i18n>validationErrorAddress}" change=".onChangeAddress" editable="false"/>
-										</form:fields>
-									</form:FormElement>
-								</form:formElements>
-							</form:FormContainer>
-						</form:formContainers>
-					</form:Form>
-					<gmaps:Map id="map" visible="false" height="250px" zoom="15" lat="{view>/lat}" lng="{view>/lng}" apiKey="{keys>/gmaps}" markers="{view>/markers}" class="sapUiSmallMarginBottom">
-						<gmaps:markers>
-							<gmaps:Marker lat="{view>lat}" lng="{view>lng}" info="{view>info}" icon="{view>icon}"/>
-						</gmaps:markers>
-					</gmaps:Map>
+													<core:Item key="{backend>ID}" text="{backend>locType}" />
+												</Select>
+											</form:fields>
+										</form:FormElement>
+										<form:FormElement label="{i18n>address}">
+											<form:fields>
+												<Input id="address" value="{/address}" valueStateText="{i18n>validationErrorAddress}" change=".onChangeAddress" editable="false" />
+											</form:fields>
+										</form:FormElement>
+									</form:formElements>
+								</form:FormContainer>
+							</form:formContainers>
+						</form:Form>
+						<form:Form editable="true" id="mapForm" visible="false" class="fixMapFormSpacing">
+
+							<form:layout>
+								<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
+							</form:layout>
+							<form:formContainers>
+								<form:FormContainer>
+									<form:formElements>
+										<form:FormElement>
+											<form:fields>
+												<VBox>
+													<Button id="showMapButton" text="Display/Hide Map" press="onDialogPress" type="Transparent" />
+													<gmaps:Map id="map" visible="{=!${device>/system/phone}}" height="250px" zoom="15" lat="{view>/lat}" lng="{view>/lng}" apiKey="{keys>/gmaps}" markers="{view>/markers}" class="sapUiSmallMarginBottom">
+														<gmaps:markers>
+															<gmaps:Marker lat="{view>lat}" lng="{view>lng}" info="{view>info}" icon="{view>icon}" />
+														</gmaps:markers>
+													</gmaps:Map>
+												</VBox>
+											</form:fields>
+										</form:FormElement>
+									</form:formElements>
+								</form:FormContainer>
+							</form:formContainers>
+						</form:Form>
+					</l:Grid>
 				</WizardStep>
-				<WizardStep id="Step2" title="{i18n>wizardStep2}" validated="true" complete=".validateStep2">
+				<WizardStep id="StepSelectOfferingMode" title="Select Offering Mode" subsequentSteps="Step2, StepModifyOffering" complete="goToOfferingStep">
+					<l:Grid defaultSpan="XL12 L12 M12 S12" position="Center">
+						<SegmentedButton selectionChange="setOfferingMode" id="modeSelection" selectedKey="Create">
+							<items>
+								<SegmentedButtonItem key="create" text="New Offering" />
+								<SegmentedButtonItem key="modify" text="Modify Offering" />
+							</items>
+						</SegmentedButton>
+						<MessageStrip id="schoolOfferingsNoData" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" text="No offerings for the selected school."></MessageStrip>
+						<Select id="schoolOfferings" width="100%" change="onSchoolOfferingsChange" visible="false" items="{/schoolAssistance}" required="true" busy="{view>/schoolBusy}" busyIndicatorDelay="{view>/busyDelay}">
+							<core:Item key="{assistance_ID}" text="{
+								parts :[ 'assistance/assistanceType_ID', 
+									'assistance/assistanceSubType_ID',
+									'assistance/offerDetails'], formatter: '.formatter.offeringName'
+								}" />
+						</Select>
+						<MessageStrip id="orgOfferingsNoData" class="entriesExistStrip" visible="false" type="Warning" showIcon="true" text="No offerings for the selected school."></MessageStrip>
+						<Select id="orgOfferings" width="100%" change="onSchoolOfferingsChange" visible="false" items="{/value}" required="true" busy="{view>/schoolBusy}" busyIndicatorDelay="{view>/busyDelay}">
+							<core:Item key="{assistance_ID}" text="{
+								parts :[ 'assistance/assistanceType_ID', 
+									'assistance/assistanceSubType_ID',
+									'assistance/offerDetails'], formatter: '.formatter.offeringName'
+								}" />
+						</Select>
+
+					</l:Grid>
+				</WizardStep>
+				<WizardStep id="StepModifyOffering" title="Modify Offering" complete="validateStepModifyOffering" activate="onActivateStepSelectOfferingMode">
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button id="ButtonDeleteOffering" text="Delete Offering" type="Reject" visible="false" press="onPressDeleteOfferingButton" />
+						<ToolbarSpacer/>
+					</Toolbar>
 					<form:Form editable="true">
 						<form:toolbar>
 							<Toolbar>
-								<Title text="{i18n>serviceContact}"/>
-								<Button icon="sap-icon://sys-help" press=".onContactInfo"/>
+								<Title text="{i18n>serviceContact}" />
+								<Button icon="sap-icon://sys-help" press=".onContactInfo" />
 							</Toolbar>
 						</form:toolbar>
 						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
 						</form:layout>
 						<form:formContainers>
 							<form:FormContainer>
 								<form:formElements>
 									<form:FormElement label="{i18n>name}">
 										<form:fields>
-											<Input id="contactName" enabled="true" required="false" value="{path: '/name', type: 'sap.ui.model.type.String'}" valueStateText="{i18n>validationErrorGenericInputMissing}" change=".onChangeContactName" maxLength="100"/>
+											<Input id="contactNameModify" enabled="true" required="false" valueStateText="{i18n>validationErrorGenericInputMissing}" change=".onChangeContactNameModify" maxLength="100" />
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>title}">
 										<form:fields>
-											<Input id="contactTitle" enabled="true" required="false" value="{path: '/title', type: 'sap.ui.model.type.String'}" maxLength="100"/>
+											<Input id="contactTitleModify" enabled="true" required="false" maxLength="100" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>email}">
+										<form:fields>
+											<Input id="contactEmailModify" enabled="true" required="false" type="Email" valueStateText="E-Mail must be a valid email address." change=".onChangeContactEmailModify" maxLength="100" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>phone}">
+										<form:fields>
+											<Input id="contactPhoneModify" enabled="true" maxLength="100" />
+										</form:fields>
+									</form:FormElement>
+								</form:formElements>
+							</form:FormContainer>
+						</form:formContainers>
+					</form:Form>
+					<form:Form editable="true">
+						<form:toolbar>
+							<Toolbar>
+								<Title text="{i18n>assistanceHeader}" />
+							</Toolbar>
+						</form:toolbar>
+						<form:layout>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
+						</form:layout>
+						<form:formContainers>
+							<form:FormContainer>
+								<form:formElements>
+									<form:FormElement label="{i18n>assistance}">
+										<form:fields>
+											<Select id="assistanceTypeModify" forceSelection="true" required="true" editable="false" change=".onSelectAssistanceTypeModify" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
+													path: 'backend>/AssistanceTypes',
+													sorter: {path: 'assistanceType'}
+												}">
+												<core:ListItem key="{backend>ID}" text="{backend>assistanceType}" icon="sap-icon://{path: 'backend>assistanceType', formatter: '.formatter.assistanceIcon'}" />
+											</Select>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement id="assistanceSubTypeElementModify" visible="false" label="{i18n>assistanceSubtypeFood}">
+										<form:fields>
+											<ComboBox id="assistanceSubTypeModify" selectionChange="onFoodSelectionChangeModify" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
+													path: 'backend>/AssistanceSubTypes',
+													sorter: { path: 'sort' }
+												}" required="true">
+												<core:Item key="{backend>ID}" text="{backend>subType}" />
+											</ComboBox>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>serviceEntitlement}">
+										<form:fields>
+											<Select id="serviceEntitlementModify" forceSelection="true" required="true" valueStateText="{i18n>validationErrorGenericInputMissing}" items="{
+													path: 'backend>/EligiblityCategories',
+													sorter: {path: 'eligibilityCategory'}
+												}">
+												<core:ListItem key="{backend>ID}" text="{backend>eligibilityCategory}" />
+											</Select>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>serviceType}">
+										<form:fields>
+											<VBox>
+												<CheckBox id="pickupModify" text="{i18n>assistancePickup}" />
+												<CheckBox id="deliveryModify" text="{i18n>assistanceDelivery}" />
+												<CheckBox visible="true" id="virtualModify" text="{i18n>assistanceVirtual}" />
+											</VBox>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>additionalInformation}">
+										<form:fields>
+											<l:FixFlex vertical="false" fixFirst="false" class="assistanceHelpFixFlex">
+												<l:fixContent>
+													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssistanceInfo" class="helpIcon" />
+												</l:fixContent>
+												<l:flexContent>
+													<TextArea id="offerDetailsModify" maxLength="1000" width="100%" />
+												</l:flexContent>
+											</l:FixFlex>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>webAddress}">
+										<form:fields>
+											<Input id="webAddressModify" change=".onChangeWebAddressModify" maxLength="1000" />
+										</form:fields>
+									</form:FormElement>
+								</form:formElements>
+							</form:FormContainer>
+						</form:formContainers>
+					</form:Form>
+					<form:Form id="scheduleFormModify" visible="true" editable="true">
+						<form:title>
+							<core:Title text="{i18n>scheduleHeader}" />
+						</form:title>
+						<form:layout>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="6" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false" />
+						</form:layout>
+						<form:formContainers>
+							<form:FormContainer id="scheduleFormModify_0" visible="false">
+								<form:formElements>
+									<form:FormElement>
+										<form:fields>
+											<MessageStrip id="modifyDaysMessageStrip" text="Please select a day." visible="false" type="Error" showIcon="true" showCloseButton="true" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>schedule}">
+										<form:fields>
+											<VBox justifyContent="Start">
+												<CheckBox id="availableMon_0" select=".onSelectDay" text="Monday" />
+												<CheckBox id="availableTue_0" select=".onSelectDay" text="Tuesday" />
+												<CheckBox id="availableWed_0" select=".onSelectDay" text="Wednesday" />
+												<CheckBox id="availableThu_0" select=".onSelectDay" text="Thursday" />
+												<CheckBox id="availableFri_0" select=".onSelectDay" text="Friday" />
+												<CheckBox id="availableSat_0" select=".onSelectDay" text="Saturday" />
+												<CheckBox id="availableSun_0" select=".onSelectDay" text="Sunday" />
+											</VBox>
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement>
+										<form:fields>
+											<MessageStrip id="modifyTimeMessageStrip" text="Please select a time range." visible="false" type="Error" showIcon="true" showCloseButton="true" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>timerangeFrom}">
+										<form:fields>
+											<TimePicker id="timerangeFromModify_0" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectFromTimeModify" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeFromPlaceholder}" required="true" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>timerangeTo}">
+										<form:fields>
+											<TimePicker id="timerangeToModify_0" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectToTimeModify" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeToPlaceholder}" required="true" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>dateRange}">
+										<form:fields>
+											<DateRangeSelection id="daterangeModify_0" valueStateText="{i18n>validationErrorDateRangeTo}" showFooter="true" change=".onSelectDateRangeModify" />
+										</form:fields>
+									</form:FormElement>
+								</form:formElements>
+							</form:FormContainer>
+						</form:formContainers>
+					</form:Form>
+					<!-- <MessageStrip id="modifyMessageStrip" visible="false" type="Error" showIcon="true" showCloseButton="true" /> -->
+				</WizardStep>
+				<WizardStep id="Step2" title="{i18n>wizardStep2}" validated="true" complete=".validateStep2" subsequentSteps="Step3" nextStep="Step3">
+					<form:Form editable="true">
+						<form:toolbar>
+							<Toolbar>
+								<Title text="{i18n>serviceContact}" />
+								<Button icon="sap-icon://sys-help" press=".onContactInfo" />
+							</Toolbar>
+						</form:toolbar>
+						<form:layout>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
+						</form:layout>
+						<form:formContainers>
+							<form:FormContainer>
+								<form:formElements>
+									<form:FormElement label="{i18n>name}">
+										<form:fields>
+											<Input id="contactName" enabled="true" required="false" value="{path: '/name', type: 'sap.ui.model.type.String'}" valueStateText="{i18n>validationErrorGenericInputMissing}" change=".onChangeContactName" maxLength="100" />
+										</form:fields>
+									</form:FormElement>
+									<form:FormElement label="{i18n>title}">
+										<form:fields>
+											<Input id="contactTitle" enabled="true" required="false" value="{path: '/title', type: 'sap.ui.model.type.String'}" maxLength="100" />
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>email}">
@@ -244,12 +426,12 @@
 											<Input id="contactEmail" enabled="true" required="false" type="Email" valueStateText="E-Mail must be a valid email address." value="{
 													path : '/email',
 													type : '.types.email'
-												}" change=".onChangeContactEmail" maxLength="100"/>
+												}" change=".onChangeContactEmail" maxLength="100" />
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>phone}">
 										<form:fields>
-											<Input id="contactPhone" enabled="true" value="{/phone}" maxLength="100"/>
+											<Input id="contactPhone" enabled="true" value="{/phone}" maxLength="100" />
 										</form:fields>
 									</form:FormElement>
 								</form:formElements>
@@ -261,11 +443,11 @@
 					<form:Form editable="true">
 						<form:toolbar>
 							<Toolbar>
-								<Title text="{i18n>assistanceHeader}"/>
+								<Title text="{i18n>assistanceHeader}" />
 							</Toolbar>
 						</form:toolbar>
 						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true" />
 						</form:layout>
 						<form:formContainers>
 							<form:FormContainer>
@@ -276,7 +458,7 @@
 													path: 'backend>/AssistanceTypes',
 													sorter: {path: 'assistanceType'}
 												}">
-												<core:ListItem key="{backend>ID}" text="{backend>assistanceType}" icon="sap-icon://{path: 'backend>assistanceType', formatter: '.formatter.assistanceIcon'}"/>
+												<core:ListItem key="{backend>ID}" text="{backend>assistanceType}" icon="sap-icon://{path: 'backend>assistanceType', formatter: '.formatter.assistanceIcon'}" />
 											</Select>
 										</form:fields>
 									</form:FormElement>
@@ -286,7 +468,7 @@
 													path: 'backend>/AssistanceSubTypes',
 													sorter: { path: 'sort' }
 												}" required="true">
-												<core:Item key="{backend>ID}" text="{backend>subType}"/>
+												<core:Item key="{backend>ID}" text="{backend>subType}" />
 											</MultiComboBox>
 										</form:fields>
 									</form:FormElement>
@@ -296,16 +478,16 @@
 													path: 'backend>/EligiblityCategories',
 													sorter: {path: 'eligibilityCategory'}
 												}">
-												<core:ListItem key="{backend>ID}" text="{backend>eligibilityCategory}"/>
+												<core:ListItem key="{backend>ID}" text="{backend>eligibilityCategory}" />
 											</Select>
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>serviceType}">
 										<form:fields>
 											<VBox>
-												<CheckBox id="pickup" text="{i18n>assistancePickup}" selected="{/pickup}"/>
-												<CheckBox id="delivery" text="{i18n>assistanceDelivery}" selected="{/delivery}"/>
-												<CheckBox visible="true" id="virtual" text="{i18n>assistanceVirtual}" selected="{/virtual}"/>
+												<CheckBox id="pickup" text="{i18n>assistancePickup}" selected="{/pickup}" />
+												<CheckBox id="delivery" text="{i18n>assistanceDelivery}" selected="{/delivery}" />
+												<CheckBox visible="true" id="virtual" text="{i18n>assistanceVirtual}" selected="{/virtual}" />
 											</VBox>
 										</form:fields>
 									</form:FormElement>
@@ -313,10 +495,10 @@
 										<form:fields>
 											<l:FixFlex vertical="false" fixFirst="false" class="assistanceHelpFixFlex">
 												<l:fixContent>
-													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssistanceInfo" class="helpIcon"/>
+													<Button type="Transparent" icon="sap-icon://sys-help" press=".onAssistanceInfo" class="helpIcon" />
 												</l:fixContent>
 												<l:flexContent>
-													<TextArea value="{/additionalInformation}" maxLength="1000" width="100%"/>
+													<TextArea value="{/additionalInformation}" maxLength="1000" width="100%" />
 												</l:flexContent>
 											</l:FixFlex>
 										</form:fields>
@@ -326,7 +508,7 @@
 											<Input id="webAddress" value="{
 													path : '/webAddress',
 													type : '.types.url'
-												}" change=".onChangeWebAddress" maxLength="1000"/>
+												}" change=".onChangeWebAddress" maxLength="1000" />
 										</form:fields>
 									</form:FormElement>
 								</form:formElements>
@@ -338,10 +520,10 @@
 							sorter: {path: 'sort'}
 						}">
 						<form:title>
-							<core:Title text="{i18n>scheduleHeader}"/>
+							<core:Title text="{i18n>scheduleHeader}" />
 						</form:title>
 						<form:layout>
-							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false"/>
+							<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="3" emptySpanL="3" emptySpanM="1" emptySpanS="0" columnsXL="3" columnsL="3" columnsM="3" singleContainerFullSize="false" />
 						</form:layout>
 						<form:formContainers>
 							<form:FormContainer title="{subType}">
@@ -349,29 +531,29 @@
 									<form:FormElement label="{i18n>schedule}">
 										<form:fields>
 											<VBox>
-												<CheckBox select=".onSelectDay" text="Monday" selected="{monday}"/>
-												<CheckBox select=".onSelectDay" text="Tuesday" selected="{tuesday}"/>
-												<CheckBox select=".onSelectDay" text="Wednesday" selected="{wednesday}"/>
-												<CheckBox select=".onSelectDay" text="Thursday" selected="{thursday}"/>
-												<CheckBox select=".onSelectDay" text="Friday" selected="{friday}"/>
-												<CheckBox select=".onSelectDay" text="Saturday" selected="{saturday}"/>
-												<CheckBox select=".onSelectDay" text="Sunday" selected="{sunday}"/>
+												<CheckBox select=".onSelectDay" text="Monday" selected="{monday}" />
+												<CheckBox select=".onSelectDay" text="Tuesday" selected="{tuesday}" />
+												<CheckBox select=".onSelectDay" text="Wednesday" selected="{wednesday}" />
+												<CheckBox select=".onSelectDay" text="Thursday" selected="{thursday}" />
+												<CheckBox select=".onSelectDay" text="Friday" selected="{friday}" />
+												<CheckBox select=".onSelectDay" text="Saturday" selected="{saturday}" />
+												<CheckBox select=".onSelectDay" text="Sunday" selected="{sunday}" />
 											</VBox>
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>timerangeFrom}">
 										<form:fields>
-											<TimePicker id="timerangeFrom" value="{timerangeFrom}" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectFromTime" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeFromPlaceholder}" required="true"/>
+											<TimePicker id="timerangeFrom" value="{timerangeFrom}" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectFromTime" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeFromPlaceholder}" required="true" />
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>timerangeTo}">
 										<form:fields>
-											<TimePicker id="timerangeTo" value="{timerangeTo}" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectToTime" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeToPlaceholder}" required="true"/>
+											<TimePicker id="timerangeTo" value="{timerangeTo}" valueFormat="hh:mm a" displayFormat="hh:mm a" change=".onSelectToTime" minutesStep="15" valueStateText="{i18n>validationErrorGenericInputMissing}" placeholder="{i18n>timerangeToPlaceholder}" required="true" />
 										</form:fields>
 									</form:FormElement>
 									<form:FormElement label="{i18n>dateRange}">
 										<form:fields>
-											<DateRangeSelection id="daterange" dateValue="{dateFrom}" secondDateValue="{dateTo}" valueStateText="{i18n>validationErrorDateRangeTo}" showFooter="true" change=".onSelectDateRange"/>
+											<DateRangeSelection id="daterange" dateValue="{dateFrom}" secondDateValue="{dateTo}" valueStateText="{i18n>validationErrorDateRangeTo}" showFooter="true" change=".onSelectDateRange" />
 										</form:fields>
 									</form:FormElement>
 								</form:formElements>
@@ -410,28 +592,28 @@
 
 		<dependents>
 			<Dialog id="disclaimer" title="{i18n>legal}" contentWidth="600px" type="Message">
-				<content >
-					<Text text="{i18n>disclaimerText}"/>
+				<content>
+					<Text text="{i18n>disclaimerText}" />
 				</content>
-				<buttons >
-					<Button text="{i18n>print}" press=".onPrintLegal"/>
-					<Button text="{i18n>close}" press=".onCloseDialog"/>
+				<buttons>
+					<Button text="{i18n>print}" press=".onPrintLegal" />
+					<Button text="{i18n>close}" press=".onCloseDialog" />
 				</buttons>
 			</Dialog>
-			<Dialog id="about" title="{i18n>about}" contentWidth="600px" type="Message">
-				<content >
-					<Text text="{i18n>aboutText}"/>
+			<Dialog id="about" title="{i18n>about} (Version {app>/version})" contentWidth="600px" type="Message">
+				<content>
+					<Text text="{i18n>aboutText}" />
 				</content>
-				<buttons >
-					<Button text="{i18n>close}" press=".onCloseDialog"/>
+				<buttons>
+					<Button text="{i18n>close}" press=".onCloseDialog" />
 				</buttons>
 			</Dialog>
 			<Dialog id="faq" title="{i18n>faqTitle}" contentWidth="600px" type="Message">
-				<content >
-					<FormattedText htmlText="{i18n>faqText}"/>
+				<content>
+					<FormattedText htmlText="{i18n>faqText}" />
 				</content>
-				<buttons >
-					<Button text="{i18n>close}" press=".onCloseDialog"/>
+				<buttons>
+					<Button text="{i18n>close}" press=".onCloseDialog" />
 				</buttons>
 			</Dialog>
 			<!--<Popover id="profile" title="Some User" contentWidth="400px" placement="Bottom">
@@ -439,16 +621,16 @@
 				</List>
 			</Popover>-->
 			<Popover id="schoolInfo" title="{i18n>helpHeader}" contentWidth="400px" class="sapUiPopupWithPadding" placement="Bottom">
-				<Text text="{i18n>helpAssistance}"/>
+				<Text text="{i18n>helpAssistance}" />
 			</Popover>
 			<Popover id="onAssociationToSchoolInfo" title="{i18n>helpHeader}" contentWidth="400px" class="sapUiPopupWithPadding" placement="Bottom">
-				<Text text="{i18n>helpAssociationToSchoolInfo}"/>
+				<Text text="{i18n>helpAssociationToSchoolInfo}" />
 			</Popover>
 			<Popover id="assistanceInfo" title="{i18n>helpHeader}" contentWidth="400px" class="sapUiPopupWithPadding" placement="Bottom">
-				<Text text="{i18n>helpFurtherInformation}"/>
+				<Text text="{i18n>helpFurtherInformation}" />
 			</Popover>
 			<Popover id="contactInfo" title="{i18n>helpHeader}" contentWidth="400px" class="sapUiPopupWithPadding" placement="Bottom">
-				<Text text="{i18n>helpContactPerson}"/>
+				<Text text="{i18n>helpContactPerson}" />
 			</Popover>
 			<Popover id="validationInfo" title="{i18n>validationErrorPopoverInfoHeader}" contentWidth="250px" class="sapUiPopupWithPadding" placement="Top">
 				<customHeader>
@@ -458,7 +640,7 @@
 						</contentLeft>
 					</Bar>
 				</customHeader>
-				<Text text="{i18n>validationErrorPopoverInfoMessage}"/>
+				<Text text="{i18n>validationErrorPopoverInfoMessage}" />
 			</Popover>
 		</dependents>
 	</Page>

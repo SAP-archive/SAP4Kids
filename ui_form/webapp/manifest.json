@@ -7,7 +7,7 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"applicationVersion": {
-			"version": "1.0.0"
+			"version": "1.0.5"
 		},
 		"ach": "set-ach",
 		"resources": "resources.json",
@@ -89,7 +89,8 @@
 				"settings": {
 					"operationMode": "Server",
 					"groupId": "$auto",
-					"synchronizationMode": "None"
+					"synchronizationMode": "None",
+					"earlyRequests": "true"
 				}
 			}
 		},

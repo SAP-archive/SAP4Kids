@@ -73,7 +73,7 @@
         </buttons>
       </Dialog>
 
-      <Dialog id="about" title="{i18n>about}" contentWidth="600px" type="Message">
+      <Dialog id="about" title="{i18n>about} (Version {state>/version})" contentWidth="600px" type="Message">
         <content >
           <Text text="{i18n>aboutText}"/>
         </content>

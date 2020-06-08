@@ -29,7 +29,7 @@ sap.ui.define([
       return oModel;
     },
 
-    createUIModel: function () {
+    createUIModel: function (Component) {
       const today = new Date();
       today.setHours(0);
       today.setMinutes(0);
@@ -60,7 +60,8 @@ sap.ui.define([
           "104cc2a5-62a5-4290-a800-0bc83ba1c730"
         ],
         mapMoved: false,
-        mapCenter: {}
+        mapCenter: {},
+        version: Component.getManifestEntry("/sap.app/applicationVersion/version")
       });
 
       return oStateModel;

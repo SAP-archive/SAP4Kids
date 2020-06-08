@@ -60,6 +60,33 @@ sap.ui.define([
 			return oOrder[a.toUpperCase()] - oOrder[b.toUpperCase()];
 		},
 
+		assistanceType_ID_toText: function (assistanceType_ID) {
+			switch (assistanceType_ID) {
+				case "11605ca6-3326-4b3f-9722-89ea1bf770a7": return "Food"; break;
+				case "4e4e2690-560f-4ce9-98e4-eea1dfdf11cf": return "Healthcare"; break;
+				case "d19a7059-d22d-478b-8bf6-ecfc728e8ede": return "Licensed Childcare"; break;
+				case "df18e591-f087-4366-81e7-01beec8142a3": return "Housing Assistance"; break;
+				case "e488ef60-bc20-452b-b8aa-bdd8c2934edb": return "Financial Assistance"; break;
+				case "ffc27506-c57a-4073-bf8a-1d2c0a0584c5": return "Workforce Assistance"; break;
+			};
+		},
+		assistanceSubType_ID_toText: function (assistanceSubType_ID) {
+			switch (assistanceSubType_ID) {
+				case "03487ac3-e0db-43af-852b-2ebf198e3a0f": return "Breakfast"; break;
+				case "33db847a-8ab3-4542-99ad-bc628a41c9f0": return "Morning Snack"; break;
+				case "9847b50a-31bd-4830-b961-9b6404007482": return "Lunch"; break;
+				case "81A5ACE3-A30F-2D00-F000-000275DC3B00": return "Afternoon Snack"; break;
+				case "06c9b85c-6ffc-4417-bbfe-7168410e0114": return "Dinner"; break;
+			};
+		},
+		offeringName: function (assistanceTypeID, assistanceSubTypeID, offerDetails) {
+			var formatter = this.getView().getController().formatter;
+			var offeringName = formatter.assistanceType_ID_toText(assistanceTypeID);
+			offeringName += assistanceSubTypeID ? " - " + formatter.assistanceSubType_ID_toText(assistanceSubTypeID) : "";
+			offeringName += offerDetails ? " (" + offerDetails + ")" : "";
+			return offeringName;
+		},
+
 		// BugFix:
 		// Replace special characters (single quotes) for query of service
 		formatOrgName: function (orgName) {

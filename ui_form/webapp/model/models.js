@@ -9,6 +9,14 @@ sap.ui.define([
 
 	return {
 
+		createAppModel: function (Component) {
+			var oModel = new JSONModel({
+				version: Component.getManifestEntry("/sap.app/applicationVersion/version")
+			});
+			oModel.setDefaultBindingMode("OneWay");
+			return oModel;
+		},
+
 		createDeviceModel: function () {
 			var oModel = new JSONModel(Device);
 			oModel.setDefaultBindingMode("OneWay");

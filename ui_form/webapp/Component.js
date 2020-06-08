@@ -22,6 +22,8 @@ sap.ui.define([
 			// call the base component's init function
 			UIComponent.prototype.init.apply(this, arguments);
 
+			this.setModel(models.createAppModel(this), "app");
+
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
 

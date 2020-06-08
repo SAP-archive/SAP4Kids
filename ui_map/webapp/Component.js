@@ -25,7 +25,7 @@ sap.ui.define([
       this.setModel(models.createDeviceModel(), "device");
       this.setModel(models.createKeyModel(), "keys");
       this.setModel(models.createMainModel(), "main");
-      this.setModel(models.createUIModel(), "state");
+      this.setModel(models.createUIModel(this), "state");
     }
   });
 });

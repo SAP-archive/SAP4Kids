@@ -1,3 +1,8 @@
+/* helpdesk widget - override settings */
+#launcher-frame {
+	bottom: 35px !important;   
+}
+
 /* remove arrow in shell header */
 .sap4kids .sapFShellBar .sapFSHMegaMenu .sapMBtnInner::after {
 	display: none;
@@ -37,7 +42,7 @@
 
 /* bugfix for Flex without specific height issue */
 .sap4kids .associationToSchoolHelpFixFlex {
-	height: 3rem !important;
+	height: 4rem !important;
 }
 
 /* bugfix for proper Checkbox label truncation in form */
@@ -71,3 +76,8 @@
 	top: inherit !important;
 	width: calc(100% - 20px) !important;
 }
+
+
+/* .fixMapFormSpacing {
+	margin-left: 2rem;
+} */

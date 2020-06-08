@@ -16,9 +16,12 @@ sap.ui.define([
 	"sap/base/Log",
 	"sap/m/MessageToast",
 	"sap/m/TimePicker",
-	"sap/ui/Device"
-], function (BaseController, models, formatter, EmailType, URLType, ODataModel, JSONModel, MessageBox, DateFormat, MapUtils, Marker, Filter, FilterOperator, Sorter, Log, MessageToast, TimePicker, Device) {
+	"sap/ui/Device",
+	"sap/m/Dialog",
+	"sap/m/Button"
+], function (BaseController, models, formatter, EmailType, URLType, ODataModel, JSONModel, MessageBox, DateFormat, MapUtils, Marker, Filter, FilterOperator, Sorter, Log, MessageToast, TimePicker, Device, Dialog, Button) {
 	"use strict";
+	var that = this;
 
 	const SERVICE_URL = "/odata/entry/";
 	const ORGANIZATION_TYPE_SCHOOL = "SchoolDistrict";
@@ -378,6 +381,21 @@ sap.ui.define([
 		},
 
 		onChangeSchool: function (oEvent) {
+			this._wizard = this.byId("wizard");
+			var currentStep = this._wizard.getCurrentStep();
+			switch (currentStep) {
+				case "container-com.sap4kids.assistanceentry---registration--StepModifyOffering":
+					this._wizard.previousStep();
+					break;
+				case "container-com.sap4kids.assistanceentry---registration--Step2":
+					this._wizard.previousStep();
+					break;
+				case "container-com.sap4kids.assistanceentry---registration--Step3":
+					this._wizard.previousStep();
+					this._wizard.previousStep();
+					break;
+			}
+
 			var oSchoolCombobox = this.byId("school");
 			var sKey;
 
@@ -461,6 +479,29 @@ sap.ui.define([
 					}
 				});
 			}.bind(this), TYPING_DELAY);
+
+			if (this.byId("modeSelection").getSelectedKey() === "modify") {
+				this.setOfferingMode();
+			}
+
+			//var isMapVisible = this.byId("map").getVisible();
+			//if (isMapVisible) {
+			this.byId("mapForm").setVisible(true);
+			this.byId("SchoolMapGrid").setDefaultSpan("XL6 L6 M12 S12");
+			//} else {
+			//this.byId("SchoolMapGrid").setDefaultSpan("XL12 L12 M12 S12");
+			//}
+			/* var defaultSpan = this.byId("SchoolMapGrid").getDefaultSpan();
+			if (this.byId("showMapButton")) {
+				switch (defaultSpan) {
+					case "XL6 L6 M12 S12":
+						this.byId("showMapButton").setVisible(false);
+						break;
+					case "XL12 L12 M12 S12":
+						this.byId("showMapButton").setVisible(true);
+						break;
+				}
+			} */
 		},
 
 		onAssociatedToSchool: function (vEvent) {
@@ -549,14 +590,15 @@ sap.ui.define([
 					this.checkLocationExists();
 				}.bind(this));
 			}
+
+			this.byId("mapForm").setVisible(true);
+			this.byId("SchoolMapGrid").setDefaultSpan("XL6 L6 M12 S12");
 		},
 
 		updateMap: function (sAddress) {
 			var oPromise = MapUtils.search({
 				"address": sAddress
-			});
-
-			oPromise.done(function (results) {
+			}).then(function (results) {
 				// first entry is the most useful result
 				var oItem = results.shift();
 				var oViewModel = this.getModel("view");
@@ -574,10 +616,481 @@ sap.ui.define([
 				}
 				// store address lookup context in client model
 				this.getModel().setProperty("/addressLookup", oItem);
-			}.bind(this));
-			this.byId("map").setVisible(true);
+			}.bind(this),
+				function (error) {
+					console.log("map search error : " + error.toString());
+				});
+			//this.byId("map").setVisible(true);
 
 			return oPromise;
+		},
+
+		onDialogPress: function () {
+			switch (this.byId("map").getVisible()) {
+				case false:
+					this.byId("map").setVisible(true);
+					break;
+				case true:
+					this.byId("map").setVisible(false);
+					break;
+			}
+
+			// if (!this.pressDialog) {
+			// 	this.pressDialog = new Dialog({
+			// 		title: "Available Products",
+			// 		content: new Text({
+			// 			text: "Hello"
+			// 		}),
+			// 		/* beginButton: new Button({
+			// 			type: ButtonType.Emphasized,
+			// 			text: "OK",
+			// 			press: function () {
+			// 				this.pressDialog.close();
+			// 			}.bind(this)
+			// 		}), */
+			// 		endButton: new Button({
+			// 			text: "Close",
+			// 			press: function () {
+			// 				this.pressDialog.close();
+			// 			}.bind(this)
+			// 		})
+			// 	});
+
+			// 	//to get access to the global model
+			// 	this.getView().addDependent(this.pressDialog);
+			// }
+
+			// this.pressDialog.open();
+		},
+
+		/** Step Select Offering Mode **/
+		setOfferingMode: function () {
+			this._wizard = this.byId("wizard");
+			switch (this.byId("modeSelection").getSelectedKey()) {
+				case "create":
+					this._wizard = this.byId("wizard");
+					var currentStep = this._wizard.getCurrentStep();
+					switch (currentStep) {
+						case "container-com.sap4kids.assistanceentry---registration--StepModifyOffering":
+							this._wizard.previousStep();
+							break;
+					}
+					this.byId("schoolOfferings").setVisible(false);
+					this.byId("ButtonDeleteOffering").setVisible(false);
+					this.byId("schoolOfferingsNoData").setVisible(false);
+					this.byId("orgOfferings").setVisible(false);
+					this.byId("schoolOfferingsNoData").setVisible(false);
+					this._wizard.validateStep(this.byId("StepSelectOfferingMode"));
+					break;
+				case "modify":
+					this._wizard = this.byId("wizard");
+					var currentStep = this._wizard.getCurrentStep();
+					switch (currentStep) {
+						case "container-com.sap4kids.assistanceentry---registration--Step2":
+							this._wizard.previousStep();
+							break;
+						case "container-com.sap4kids.assistanceentry---registration--Step3":
+							this._wizard.previousStep();
+							this._wizard.previousStep();
+							break;
+					}
+					this.byId("ButtonDeleteOffering").setVisible(true);
+
+					//container-com.sap4kids.assistanceentry---registration--StepSelectOfferingMode
+					if (currentStep === "container-com.sap4kids.assistanceentry---registration--StepModifyOffering") {
+						this.onActivateStepSelectOfferingMode();
+					}
+
+					var organizationTypeKey = this.byId("organizationType").getSelectedKey();
+
+					switch (organizationTypeKey) {
+						case "NonProfit":
+						case "Other":
+							var sKey = formatter.formatOrgName(this.byId("locationName").getValue());
+							$.get({
+								url: SERVICE_URL + "Organizations?$filter=name%20eq%20%27" + sKey + "%27",
+								success: function (oData) {
+									if (oData.value.length > 0) {
+										sKey = oData.value[0].ID;
+										$.get({
+											url: SERVICE_URL + "OrganizationOfferingAssistance?$expand=*&$filter=organization_ID%20eq%20" + sKey,
+											success: function (oData) {
+												if (oData.value.length > 0) {
+													this._wizard.validateStep(this.byId("StepSelectOfferingMode"));
+													this.byId("orgOfferings").setVisible(true);
+													var orgAssistanceModel = new JSONModel(oData);
+													this.byId("orgOfferings").setModel(orgAssistanceModel);
+												} else {
+													this._wizard.invalidateStep(this.byId("StepSelectOfferingMode"));
+													this.byId("schoolOfferingsNoData").setVisible(true);
+												}
+											}.bind(this),
+											error: function () {
+												Log.warning("Error" + sKey);
+											}
+										});
+									} else {
+										this._wizard.invalidateStep(this.byId("StepSelectOfferingMode"));
+										this.byId("schoolOfferingsNoData").setVisible(true);
+										this.byId("schoolOfferingsNoData").setText("No offerings available at this location.");
+									}
+
+								}.bind(this),
+								error: function () {
+									Log.warning("Error" + sKey);
+								}
+							});
+							break;
+						case "SchoolDistrict":
+							var oSchoolCombobox = this.byId("school");
+							var sKey = oSchoolCombobox.getSelectedKey();
+							$.get({
+								url: SERVICE_URL + "Schools('" + sKey + "')?$expand=schoolAssistance($expand=assistance)",
+								success: function (oData) {
+									if (oData.schoolAssistance.length > 0) {
+										this._wizard.validateStep(this.byId("StepSelectOfferingMode"));
+										this.byId("schoolOfferings").setVisible(true);
+										var schoolAssistanceModel = new JSONModel(oData);
+										this.byId("schoolOfferings").setModel(schoolAssistanceModel);
+										this.byId("schoolOfferingsNoData").setVisible(false);
+									} else {
+										this._wizard.invalidateStep(this.byId("StepSelectOfferingMode"));
+										this.byId("schoolOfferingsNoData").setVisible(true);
+										this.byId("schoolOfferings").setVisible(false);
+									}
+								}.bind(this),
+								error: function () {
+									Log.warning("Error" + sKey);
+								}
+							});
+							break;
+					}
+					break;
+			}
+		},
+
+		onSchoolOfferingsChange: function () {
+			//this.byId("ButtonDeleteOffering").setVisible(true);
+			var currentStep = this.byId("wizard").getCurrentStep();
+			//container-com.sap4kids.assistanceentry---registration--StepSelectOfferingMode
+			if (currentStep === "container-com.sap4kids.assistanceentry---registration--StepModifyOffering") {
+				this.onActivateStepSelectOfferingMode();
+			}
+		},
+
+		goToOfferingStep: function () {
+			var selectedKey = this.byId("modeSelection").getSelectedKey();
+			switch (selectedKey) {
+				case "create":
+					this.byId("StepSelectOfferingMode").setNextStep(this.getView().byId("Step2"));
+					break;
+				case "modify":
+					this.byId("StepSelectOfferingMode").setNextStep(this.getView().byId("StepModifyOffering"));
+					break;
+			}
+		},
+
+		onPressDeleteOfferingButton: function () {
+			var selectedKeyOffering = this.byId("schoolOfferings").getSelectedItem() ?
+				this.byId("schoolOfferings").getSelectedItem().getKey() :
+				this.byId("orgOfferings").getSelectedItem().getKey();
+			var oBinding = this.getModel("backend").bindContext("/AssistanceOfferings(" + selectedKeyOffering + ")");
+			var oContext = oBinding.getBoundContext();
+
+			// Confirm
+			MessageBox.confirm("Are you sure you want to delete this offering?", {
+				onClose: function (oAction) {
+					if (oAction === MessageBox.Action.OK) {
+						// Delete Offering
+						var deleteSuccess = "Offering deleted successfully!";
+						var deleteError = "Error deleting offering.";
+
+						try {
+							oContext.requestObject().then(function () {
+								this.toggleSubmit(false);
+								oContext.delete()
+									.then(function (err) {
+										if (err) {
+											MessageBox.error(deleteError);
+										} else {
+											// thats it
+											//var sName = this.getModel().getProperty("/locationName");
+											var sMessage = this.getResourceBundle().getText("successMessageDelete");
+											var sMessageLong = this.getResourceBundle().getText("successMessageLongModify");
+											this.showSuccess(sMessage, sMessageLong);
+											this.toggleSubmit(true);
+										}
+									}.bind(this));
+							}.bind(this));
+						} catch (ex) {
+							MessageBox.error(deleteError);
+						}
+					}
+				}.bind(this)
+			});
+		},
+
+		onActivateStepSelectOfferingMode: function () {
+			var selectedKeyOffering;
+			var organizationTypeKey = this.byId("organizationType").getSelectedKey();
+
+			switch (organizationTypeKey) {
+				case "NonProfit":
+				case "Other":
+					selectedKeyOffering = this.getView().byId("orgOfferings").getSelectedKey();
+					break;
+				case "SchoolDistrict":
+					selectedKeyOffering = this.getView().byId("schoolOfferings").getSelectedKey();
+					break;
+			}
+
+			$.get({
+				url: SERVICE_URL + "AssistanceOfferings(" + selectedKeyOffering + ")",
+				success: function (oData) {
+					this.byId("scheduleFormModify_0").setTitle(this.formatter.assistanceSubType_ID_toText(oData.assistanceSubType_ID));
+					this.byId("scheduleFormModify_0").setVisible(true);
+					this.byId("contactNameModify").setValue(oData.contactName);
+					this.byId("contactTitleModify").setValue(oData.contactTitle);
+					this.byId("contactEmailModify").setValue(oData.contactEmail);
+					this.byId("contactPhoneModify").setValue(oData.contactPhone);
+					this.byId("assistanceTypeModify").setSelectedKey(oData.assistanceType_ID);
+					if (oData.assistanceSubType_ID === null || oData.assistanceType_ID !== "11605ca6-3326-4b3f-9722-89ea1bf770a7") {
+						this.byId("assistanceSubTypeElementModify").setVisible(false);
+					} else {
+						this.byId("assistanceSubTypeModify").setSelectedKey(oData.assistanceSubType_ID);
+						this.byId("assistanceSubTypeElementModify").setVisible(true);
+					}
+
+					this.byId("serviceEntitlementModify").setSelectedKey(oData.eligiblityCategory_ID);
+					this.byId("pickupModify").setSelected(oData.pickupInd);
+					this.byId("deliveryModify").setSelected(oData.deliveryInd);
+					this.byId("virtualModify").setSelected(oData.virtualInd);
+					this.byId("offerDetailsModify").setValue(oData.offerDetails);
+					this.byId("webAddressModify").setValue(oData.websiteURL);
+					this.byId("availableMon_0").setSelected(oData.availableMon);
+					this.byId("availableTue_0").setSelected(oData.availableTue);
+					this.byId("availableWed_0").setSelected(oData.availableWed);
+					this.byId("availableThu_0").setSelected(oData.availableThr);
+					this.byId("availableFri_0").setSelected(oData.availableFri);
+					this.byId("availableSat_0").setSelected(oData.availableSat);
+					this.byId("availableSun_0").setSelected(oData.availableSun);
+
+					var timeFrom = oData.timeFrom;
+					var timeTo = oData.timeTo;
+					var startDate = oData.startDate;
+					var endDate = oData.endDate;
+					if (startDate === null) {
+						//console.log("startDate is null");
+					} else {
+						startDate = startDate.split("-");
+						startDate = new Date(startDate[0], Number(startDate[1]) - 1, startDate[2]);
+					}
+					if (endDate === null) {
+						//console.log("endDate is null");
+					} else {
+						endDate = endDate.split("-");
+						endDate = new Date(endDate[0], Number(endDate[1]) - 1, endDate[2]);
+					}
+					this.byId("timerangeFromModify_0").setValue(timeFrom);
+					this.byId("timerangeToModify_0").setValue(timeTo);
+					this.byId("daterangeModify_0").setDateValue(startDate);
+					this.byId("daterangeModify_0").setSecondDateValue(endDate);
+				}.bind(this),
+				error: function () {
+					console.log("Error getting assistance offering.");
+				}
+			});
+			//this.byId("contactNameModify").setValue(contactName);
+		},
+
+		/*setDiscardableProperty: function (params) {
+			if (this._wizard.getProgressStep() !== params.discardStep) {
+				MessageBox.warning(params.message, {
+					actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+					onClose: function (oAction) {
+						if (oAction === MessageBox.Action.YES) {
+							this._wizard.discardProgress(params.discardStep);
+							history[params.historyPath] = this.model.getProperty(params.modelPath);
+						} else {
+							this.model.setProperty(params.modelPath, history[params.historyPath]);
+						}
+					}.bind(this)
+				});
+			} else {
+				history[params.historyPath] = this.model.getProperty(params.modelPath);
+			}
+		},*/
+
+		/** Step Modify Offering **/
+
+		onSelectAssistanceTypeModify: function () {
+			var oAssistanceTypeControl = this.byId("assistanceTypeModify");
+			var oAssistanceSubTypeControl = this.byId("assistanceSubTypeModify");
+			var sKey = oAssistanceTypeControl.getSelectedItem().getKey();
+
+			// build filter array
+			var aFilter = [];
+			if (sKey) {
+				aFilter.push(new Filter("assistanceType_ID", FilterOperator.EQ, sKey));
+			}
+
+			// filter binding
+			oAssistanceSubTypeControl.getBinding("items").filter(aFilter);
+
+			// write key to view model
+			this.getModel().setProperty("/assistanceType", sKey);
+
+			// show/hide food subtype choice in step 3
+			this.byId("assistanceSubTypeElementModify").setVisible(sKey === ASSISTANCE_TYPE_FOOD);
+
+			// just add one generic schedule entry in step 3
+			var aSelectedTypes = [];
+			if (sKey !== ASSISTANCE_TYPE_FOOD) {
+				var oScheduleTemplate = {
+					"subType": "", // no text for header
+					"monday": true,
+					"tuesday": true,
+					"wednesday": true,
+					"thursday": true,
+					"friday": true,
+					"saturday": false,
+					"sunday": false,
+					"dateFrom": null,
+					"dateTo": null
+				};
+				aSelectedTypes.push(oScheduleTemplate);
+			}
+			this.getModel().setProperty("/selectedTypes", aSelectedTypes);
+			this.byId("assistanceSubTypeModify").setSelectedItems([]);
+			this.byId("scheduleFormModify").setVisible(sKey !== ASSISTANCE_TYPE_FOOD);
+		},
+
+		onFoodSelectionChangeModify: function (oEvent) {
+			/*var oChangedItem = oEvent.getParameter("changedItem");
+			var bSelected = oEvent.getParameter("selected");
+			var sKey = oChangedItem.getKey();
+	
+			var aTypes = this.getModel().getProperty("/selectedTypes");
+			var bKeyExists = aTypes.some(function (oItem) {
+				return oItem.ID === sKey;
+			});
+	
+			if (!bKeyExists) {
+				var oContext = oChangedItem.getBindingContext("backend").getObject();
+				var oScheduleTemplate = {
+					"monday": true,
+					"tuesday": true,
+					"wednesday": true,
+					"thursday": true,
+					"friday": true,
+					"saturday": false,
+					"sunday": false,
+					"dateFrom": null,
+					"dateTo": null
+				};
+				var oContext = Object.assign(oContext, oScheduleTemplate);
+	
+				// add custom sort value
+				switch (oContext.subType) {
+					case "Breakfast": oContext.sort = 1; break;
+					case "Lunch": oContext.sort = 2; break;
+					case "Dinner": oContext.sort = 3; break;
+					case "Snack": oContext.sort = 4; break;
+					default:
+						oContext.sort = 99;
+				}
+	
+				aTypes.push(oContext);
+			} else {
+				if (!bSelected) {
+					var iIndex = aTypes.map(function (oItem) {
+						return oItem.ID;
+					}).indexOf(sKey);
+					aTypes.splice(iIndex, 1);
+				}
+			}
+			this.getModel().setProperty("/selectedTypes", aTypes);
+			if (oEvent.getSource().getSelectedItems().length) {
+				oEvent.getSource().setValueState("None");
+			}
+			this.byId("scheduleFormModify").setVisible(!!oEvent.getSource().getSelectedItems().length);
+			*/
+		},
+
+		onSelectFromTimeModify: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var sOtherValue = this.getModel().getProperty(oEvent.getSource().getBindingContext() + "/timerangeTo");
+			var oOtherTimePicker = $(oEvent.getSource().getParent().getParent().getParent().$().find(".sapMTimePicker")[1]).control(0);
+
+			oEvent.getSource().setValueState(sValue ? "None" : "Warning");
+			if (sValue && sOtherValue) {
+				var oTimeInstance = DateFormat.getTimeInstance("hh:mm a");
+				var oFromDate = oTimeInstance.parse(sValue);
+				var oToDate = oTimeInstance.parse(sOtherValue);
+
+				if (oFromDate > oToDate) {
+					oEvent.getSource().setValueState("Error");
+					oEvent.getSource().setValueStateText(this.getResourceBundle().getText("validationErrorFromTime"));
+				} else {
+					oEvent.getSource().setValueState("None");
+					oEvent.getSource().setValueStateText(this.getResourceBundle().getText("validationErrorGenericInputMissing"));
+					if (oOtherTimePicker.getValueState() === "Error") {
+						oOtherTimePicker.setValueState("None");
+					}
+				}
+			}
+		},
+
+		onSelectToTimeModify: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var sOtherValue = this.getModel().getProperty(oEvent.getSource().getBindingContext() + "/timerangeFrom");
+			var oOtherTimePicker = $(oEvent.getSource().getParent().getParent().getParent().$().find(".sapMTimePicker")[0]).control(0);
+
+			oEvent.getSource().setValueState(sValue ? "None" : "Warning");
+			if (sValue && sOtherValue) {
+				var oTimeInstance = DateFormat.getTimeInstance("hh:mm a");
+				var oFromDate = oTimeInstance.parse(sOtherValue);
+				var oToDate = oTimeInstance.parse(sValue);
+
+				if (oFromDate > oToDate) {
+					oEvent.getSource().setValueState("Error");
+					oEvent.getSource().setValueStateText(this.getResourceBundle().getText("validationErrorFromTime"));
+				} else {
+					oEvent.getSource().setValueState("None");
+					oEvent.getSource().setValueStateText(this.getResourceBundle().getText("validationErrorGenericInputMissing"));
+					if (oOtherTimePicker.getValueState() === "Error") {
+						oOtherTimePicker.setValueState("None");
+					}
+				}
+			}
+		},
+
+		onSelectDateRangeModify: function (oEvent) {
+			var oControl = oEvent.getSource();
+			if (oControl.getSecondDateValue() && oControl.getSecondDateValue() < Date.now()) {
+				oEvent.getSource().setValueState("Warning");
+			} else {
+				oEvent.getSource().setValueState("None");
+			}
+		},
+
+		onChangeWebAddressModify: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			// add http:// on the fly
+			if (sValue && !/^https?:\/\//.test(sValue)) {
+				sValue = "http://" + sValue;
+				oEvent.getSource().setValue(sValue);
+			}
+		},
+
+		onChangeContactNameModify: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			oEvent.getSource().setValueState(sValue ? "None" : "Warning");
+		},
+
+		onChangeContactEmailModify: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			oEvent.getSource().setValueState(sValue ? "None" : "Warning");
 		},
 
 		/** Step 2 **/
@@ -742,7 +1255,6 @@ sap.ui.define([
 			}
 		},
 
-
 		onChangeWebAddress: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 			// add http:// on the fly
@@ -758,7 +1270,6 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("value");
 			oEvent.getSource().setValueState(sValue ? "None" : "Warning");
 		},
-
 
 		onChangeContactEmail: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
@@ -778,7 +1289,6 @@ sap.ui.define([
 				this._bSubmitting = !bToggle;
 			}
 		},
-
 
 		errorSubmit: function (bToggle) {
 			var sCurrentStep = this.byId("wizard").getCurrentStep();
@@ -810,177 +1320,303 @@ sap.ui.define([
 		},
 
 		wizardCompleted: function () {
-			// check for form errors and block submit
-			var bValidationError = this.validateStep1() || this.validateStep2() || this.validateStep3(); // || this.validateCaptcha();
-			this.errorSubmit(bValidationError);
-			if (bValidationError) {
-				return;
-			}
-			this.toggleSubmit(false);
-			this._rollbackStack = [];
+			var screenMode = this.getModel().getProperty("/screenMode");
 
-			try {
-				if (this.byId("associationToSchool").getSelected()) {
-					/*** school assistance ***/
-					// step 1: check for existing association
-					var sSchoolId = this.getModel().getProperty("/schoolKey");
+			switch (screenMode) {
+				case "Create":
+					// check for form errors and block submit
+					var bValidationError = this.validateStep1() || this.validateStep2() || this.validateStep3(); // || this.validateCaptcha();
+					this.errorSubmit(bValidationError);
+					if (bValidationError) {
+						return;
+					}
+					this.toggleSubmit(false);
+					this._rollbackStack = [];
 
-					// call helper service to check for existing offerings for this school
-					$.get({
-						url: SERVICE_URL + "Schools('" + sSchoolId + "')?$expand=schoolAssistance($expand=assistance)",
-						success: function (oData) {
-							if (oData.schoolAssistance.length) {
-								var sLocationID = oData.schoolAssistance[0].assistance.assistanceLocation_ID;
-								// only add assistance offerings
-								Log.info("Location exists, using id '" + sLocationID + "' to create the new offering");
-								this.createAssistanceOfferingEntries(sLocationID, sSchoolId);
-							} else {
-								// create entry in assistance location table first
-								var oSchool = this.byId("school").getSelectedItem().getBindingContext("backend").getObject();
-								var oNewLocation = {
-									"locationType_ID": this.byId("locationType").getSelectedKey(),
-									"name": oSchool.name,
-									"address_ID": oSchool.address_ID
-								};
+					try {
+						if (this.byId("associationToSchool").getSelected()) {
+							/*** school assistance ***/
+							// step 1: check for existing association
+							var sSchoolId = this.getModel().getProperty("/schoolKey");
 
-								Log.info("Location does not exist yet, creating a new one");
-								var oBinding = this.getModel("backend").bindList("/AssistanceLocations");
-								oBinding.attachCreateCompleted(function (oEvent) {
-									if (!oEvent.getParameter("success")) {
-										this.showError("Could not create assistance location");
-										this._rollbackChanges();
-										this.toggleSubmit(true);
+							// call helper service to check for existing offerings for this school
+							$.get({
+								url: SERVICE_URL + "Schools('" + sSchoolId + "')?$expand=schoolAssistance($expand=assistance)",
+								success: function (oData) {
+									if (oData.schoolAssistance.length) {
+										var sLocationID = oData.schoolAssistance[0].assistance.assistanceLocation_ID;
+										// only add assistance offerings
+										Log.info("Location exists, using id '" + sLocationID + "' to create the new offering");
+										this.createAssistanceOfferingEntries(sLocationID, sSchoolId);
 									} else {
-										this._rollbackStack.push(oEvent.getParameter("context"));
-										var sNewLocationID = oEvent.getParameter("context").getObject().ID;
-										// step 2: write entries
-										this.createAssistanceOfferingEntries(sNewLocationID, sSchoolId);
-									}
-								}.bind(this));
-								oBinding.create(oNewLocation);
-							}
-						}.bind(this),
-						error: function () {
-							this.toggleSubmit(true);
-							Log.warning("Could not find address for school id " + sSchoolId);
-							this.showError("Could not find address for school id " + sSchoolId);
-						}.bind(this)
-					});
-				} else {
-					/*** other location ***/
-
-					// step 1: check for existing assistanceLocations at this name and address
-					var oAddressLookup = this.getModel().getProperty("/addressLookup");
-
-					// call helper service to check for existing assistance locations
-					$.get({
-						url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" +
-							encodeURI(formatter.formatOrgName(this.getModel().getProperty("/locationName")))
-							+ "%27",
-						success: function (oData) {
-							// check if address matches the one entered in the form
-							var sLocationId;
-							var sAddressId;
-							if (oData.value.length && oAddressLookup && oAddressLookup.geometry && oAddressLookup.geometry.location) {
-								var iLat = oAddressLookup.geometry.location.lat();
-								var iLng = oAddressLookup.geometry.location.lng();
-
-								for (var i = 0; i < oData.value.length; i++) {
-									// compare lat and lon from lookup to the service and return the first match
-									if (oData.value[i].address && oData.value[i].address.lat === iLat && oData.value[i].address.long === iLng) {
-										sLocationId = oData.value[i].ID;
-										sAddressId = oData.value[i].address.ID;
-										break;
-									}
-								}
-							}
-
-							if (!sLocationId) {
-								// step 2: create address and location
-								// extract information from google maps address info object
-								function getAddressComponent(sType, bLong) {
-									var aResults = oAddressLookup.address_components.filter(function (oItem) {
-										return oItem.types.indexOf(sType) >= 0;
-									});
-									if (aResults.length) {
-										return (bLong ? aResults[0].long_name : aResults[0].short_name);
-									} else {
-										return "";
-									}
-								}
-
-								var oAddress = {
-									street: getAddressComponent("locality", true) + "" + getAddressComponent("street_number", true),
-									city: getAddressComponent("locality", true),
-									zip: parseInt(getAddressComponent("postal_code", true)),
-									lat: "" + oAddressLookup.geometry.location.lat(),
-									long: "" + oAddressLookup.geometry.location.lng(),
-									state_StateCode: this.getModel("state") || getAddressComponent("administrative_area_level_1", false)
-								};
-
-								Log.info("Address does not exist yet, creating a new one");
-								var oAddressBinding = this.getModel("backend").bindList("/Addresses");
-								oAddressBinding.attachCreateCompleted(function (oEvent) {
-									if (!oEvent.getParameter("success")) {
-										this.showError("Could not create assistance location");
-										this._rollbackChanges();
-										this.toggleSubmit(true);
-									} else {
-										this._rollbackStack.push(oEvent.getParameter("context"));
-										sAddressId = oEvent.getParameter("context").getObject().ID;
-
-										// step 2: create location
-										var oLocation = {
+										// create entry in assistance location table first
+										var oSchool = this.byId("school").getSelectedItem().getBindingContext("backend").getObject();
+										var oNewLocation = {
 											"locationType_ID": this.byId("locationType").getSelectedKey(),
-											"name": this.getModel().getProperty("/locationName"), //"name": oAddressLookup.formatted_address,
-											"address_ID": sAddressId
+											"name": oSchool.name,
+											"address_ID": oSchool.address_ID
 										};
 
 										Log.info("Location does not exist yet, creating a new one");
-										var oLocationBinding = this.getModel("backend").bindList("/AssistanceLocations");
-										oLocationBinding.attachCreateCompleted(function (oLocationEvent) {
-											if (!oLocationEvent.getParameter("success")) {
+										var oBinding = this.getModel("backend").bindList("/AssistanceLocations");
+										oBinding.attachCreateCompleted(function (oEvent) {
+											if (!oEvent.getParameter("success")) {
 												this.showError("Could not create assistance location");
 												this._rollbackChanges();
 												this.toggleSubmit(true);
 											} else {
 												this._rollbackStack.push(oEvent.getParameter("context"));
-												sLocationId = oEvent.getParameter("context").getObject().ID;
-												// step 3: write entries
-												var sDistrictId = this.getModel().getProperty("/districtKey");
-												if (sDistrictId) {
-													this.createAssistanceOfferingEntries(sLocationId, "", sDistrictId);
-												} else if (this.getModel().getProperty("/organizationType") !== ORGANIZATION_TYPE_SCHOOL) {
-													// Step 4: NonProfit or others was selected, create an Organization
-													this.createOrganization(sLocationId, sAddressId);
-												}
+												var sNewLocationID = oEvent.getParameter("context").getObject().ID;
+												// step 2: write entries
+												this.createAssistanceOfferingEntries(sNewLocationID, sSchoolId);
 											}
 										}.bind(this));
-										oLocationBinding.create(oLocation);
+										oBinding.create(oNewLocation);
 									}
-								}.bind(this));
-								oAddressBinding.create(oAddress).created();
-							} else {
-								// step 3: create organization
-								var sDistrictId = this.getModel().getProperty("/districtKey");
-								if (sDistrictId) {
-									this.createAssistanceOfferingEntries(sLocationId, "", sDistrictId);
-								} else if (this.getModel().getProperty("/organizationType") !== ORGANIZATION_TYPE_SCHOOL) {
-									// Step 4: NonProfit or others was selected, create an Organization
-									this.createOrganization(sLocationId, sAddressId);
+								}.bind(this),
+								error: function () {
+									Log.warning("Could not find address for school id " + sSchoolId);
 								}
-							}
-						}.bind(this),
-						error: function () {
+							});
+
+						} else {
+							/*** other location ***/
+
+							// step 1: check for existing assistanceLocations at this name and address
+							var oAddressLookup = this.getModel().getProperty("/addressLookup");
+
+							// call helper service to check for existing assistance locations
+							$.get({
+								url: SERVICE_URL + "AssistanceLocations?$expand=address&$filter=name%20eq%20%27" + encodeURI(formatter.formatOrgName(this.getModel().getProperty("/locationName"))) + "%27",
+								success: function (oData) {
+									// check if address matches the one entered in the form
+									var sLocationId;
+									var sAddressId;
+									if (oData.value.length && oAddressLookup && oAddressLookup.geometry && oAddressLookup.geometry.location) {
+										var iLat = oAddressLookup.geometry.location.lat();
+										var iLng = oAddressLookup.geometry.location.lng();
+
+										for (var i = 0; i < oData.value.length; i++) {
+											// compare lat and lon from lookup to the service and return the first match
+											if (oData.value[i].address && oData.value[i].address.lat === iLat && oData.value[i].address.long === iLng) {
+												sLocationId = oData.value[i].ID;
+												sAddressId = oData.value[i].address.ID;
+												break;
+											}
+										}
+									}
+
+									if (!sLocationId) {
+										// step 2: create address and location
+										// extract information from google maps address info object
+										function getAddressComponent(sType, bLong) {
+											var aResults = oAddressLookup.address_components.filter(function (oItem) {
+												return oItem.types.indexOf(sType) >= 0;
+											});
+											if (aResults.length) {
+												return (bLong ? aResults[0].long_name : aResults[0].short_name);
+											} else {
+												return "";
+											}
+										}
+
+										var oAddress = {
+											street: getAddressComponent("locality", true) + "" + getAddressComponent("street_number", true),
+											city: getAddressComponent("locality", true),
+											zip: parseInt(getAddressComponent("postal_code", true)),
+											lat: "" + oAddressLookup.geometry.location.lat(),
+											long: "" + oAddressLookup.geometry.location.lng(),
+											state_StateCode: this.getModel("state") || getAddressComponent("administrative_area_level_1", false)
+										};
+
+										Log.info("Address does not exist yet, creating a new one");
+										var oAddressBinding = this.getModel("backend").bindList("/Addresses");
+										oAddressBinding.attachCreateCompleted(function (oEvent) {
+											if (!oEvent.getParameter("success")) {
+												this.showError("Could not create assistance location");
+												this._rollbackChanges();
+												this.toggleSubmit(true);
+											} else {
+												this._rollbackStack.push(oEvent.getParameter("context"));
+												sAddressId = oEvent.getParameter("context").getObject().ID;
+
+												// step 2: create location
+												var oLocation = {
+													"locationType_ID": this.byId("locationType").getSelectedKey(),
+													"name": this.getModel().getProperty("/locationName"), //"name": oAddressLookup.formatted_address,
+													"address_ID": sAddressId
+												};
+
+												Log.info("Location does not exist yet, creating a new one");
+												var oLocationBinding = this.getModel("backend").bindList("/AssistanceLocations");
+												oLocationBinding.attachCreateCompleted(function (oLocationEvent) {
+													if (!oLocationEvent.getParameter("success")) {
+														this.showError("Could not create assistance location");
+														this._rollbackChanges();
+														this.toggleSubmit(true);
+													} else {
+														this._rollbackStack.push(oEvent.getParameter("context"));
+														sLocationId = oEvent.getParameter("context").getObject().ID;
+														// step 3: write entries
+														var sDistrictId = this.getModel().getProperty("/districtKey");
+														if (sDistrictId) {
+															this.createAssistanceOfferingEntries(sLocationId, "", sDistrictId);
+														} else if (this.getModel().getProperty("/organizationType") !== ORGANIZATION_TYPE_SCHOOL) {
+															// Step 4: NonProfit or others was selected, create an Organization
+															this.createOrganization(sLocationId, sAddressId);
+														}
+													}
+												}.bind(this));
+												oLocationBinding.create(oLocation);
+											}
+										}.bind(this));
+										oAddressBinding.create(oAddress).created();
+									} else {
+										// step 3: create organization
+										var sDistrictId = this.getModel().getProperty("/districtKey");
+										if (sDistrictId) {
+											this.createAssistanceOfferingEntries(sLocationId, "", sDistrictId);
+										} else if (this.getModel().getProperty("/organizationType") !== ORGANIZATION_TYPE_SCHOOL) {
+											// Step 4: NonProfit or others was selected, create an Organization
+											this.createOrganization(sLocationId, sAddressId);
+										}
+									}
+								}.bind(this),
+								error: function () {
+									this.toggleSubmit(true);
+									Log.warning("Could not query existing locations at this address");
+									this.showError("Could not query existing locations at this address");
+								}.bind(this)
+
+							});
+						}
+					} catch (oException) {
+						this.showError(oException);
+						this.toggleSubmit(true);
+					}
+
+					break;
+				case "Modify":
+					// check for form errors and block submit
+					var bValidationError = this.validateStepModifyOffering();
+					this.errorSubmit(bValidationError);
+					if (bValidationError) {
+						return;
+					}
+
+					this.toggleSubmit(false);
+
+					var assistance_ID;
+					var organizationTypeKey = this.byId("organizationType").getSelectedKey();
+					var assistanceTypeName = this.byId("assistanceTypeModify").getSelectedItem().getText();
+					var assistanceSubType_ID = this.byId("assistanceSubTypeModify").getSelectedKey();
+
+
+					switch (organizationTypeKey) {
+						case "NonProfit":
+						case "Other":
+							assistance_ID = this.getView().byId("orgOfferings").getSelectedKey();
+							break;
+						case "SchoolDistrict":
+							assistance_ID = this.getView().byId("schoolOfferings").getSelectedKey();
+							break;
+					}
+
+					var timeFrom = this.byId("timerangeFromModify_0").getValue();
+					var timeTo = this.byId("timerangeToModify_0").getValue();
+
+					//Convert to 24 hours time
+					switch (timeFrom.includes("PM")) {
+						case false:
+							timeFrom = timeFrom.slice(0, 5) + ":00";
+							break;
+						case true:
+							timeFrom = timeFrom.slice(0, 5) + ":00";
+							var hours = Number(timeFrom.slice(0, 2)) + 12;
+							timeFrom = hours + timeFrom.slice(2, 8);
+							break;
+					}
+					switch (timeTo.includes("PM")) {
+						case false:
+							timeTo = timeTo.slice(0, 5) + ":00";
+							break;
+						case true:
+							timeTo = timeTo.slice(0, 5) + ":00";
+							var hours = Number(timeTo.slice(0, 2)) + 12;
+							timeTo = hours + timeTo.slice(2, 8);
+							break;
+					}
+					var startDate = this.byId("daterangeModify_0").getDateValue();
+					var endDate = this.byId("daterangeModify_0").getSecondDateValue();
+					if (startDate === null) {
+						//console.log("startDate is null");
+					} else {
+						var startDateMonth = String(startDate.getMonth() + 1);
+						if (startDateMonth.length === 1) { startDateMonth = "0" + startDateMonth }
+						var startDateDay = String(startDate.getDate());
+						if (startDateDay.length === 1) { startDateDay = "0" + startDateDay }
+						startDate = startDate.getFullYear() + "-" + startDateMonth + "-" + startDateDay;
+					}
+					if (endDate === null) {
+						//console.log("startDate is null");
+					} else {
+						var endDateMonth = String(endDate.getMonth() + 1);
+						if (endDateMonth.length === 1) { endDateMonth = "0" + endDateMonth; }
+						var endDateDay = String(endDate.getDate());
+						if (endDateDay.length === 1) { endDateDay = "0" + endDateDay; }
+						endDate = endDate.getFullYear() + "-" + endDateMonth + "-" + endDateDay;
+					}
+
+					var updateSuccess = "Offering modified successfully!";
+					var updateError = "Error updating offering.";
+					//var messageStrip = this.byId("modifyMessageStrip");
+					//messageStrip.setVisible(true);
+
+					var oBinding = this.getModel("backend").bindContext("/AssistanceOfferings(" + assistance_ID + ")");
+					oBinding.attachPatchCompleted(function (oEvent) {
+						if (!oEvent.getParameter("success")) {
+							//messageStrip.setType("Error");
+							//messageStrip.setText(updateError);
+						} else {
+							//messageStrip.setType("Success");
+							//messageStrip.setText(updateSuccess);
+
+							// thats it
+							//var sName = this.getModel().getProperty("/locationName");
+							var sMessage = this.getResourceBundle().getText("successMessageModify");
+							var sMessageLong = this.getResourceBundle().getText("successMessageLongModify");
+							this.showSuccess(sMessage, sMessageLong);
 							this.toggleSubmit(true);
-							Log.warning("Could not query existing locations at this address");
-							this.showError("Could not query existing locations at this address");
-						}.bind(this)
-					});
-				}
-			} catch (oException) {
-				this.showError(oException);
-				this.toggleSubmit(true);
+						}
+					}.bind(this));
+
+
+					if ((assistanceTypeName === "Food") && (assistanceSubType_ID)) {
+						oBinding.getBoundContext().setProperty("assistanceSubType_ID", this.byId("assistanceSubTypeModify").getSelectedKey(), "offerings");
+					}
+					oBinding.getBoundContext().setProperty("timeFrom", timeFrom, "offerings");
+					oBinding.getBoundContext().setProperty("timeTo", timeTo, "offerings");
+					oBinding.getBoundContext().setProperty("availableMon", this.byId("availableMon_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableTue", this.byId("availableTue_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableWed", this.byId("availableWed_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableThr", this.byId("availableThu_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableFri", this.byId("availableFri_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableSat", this.byId("availableSat_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("availableSun", this.byId("availableSun_0").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("startDate", startDate, "offerings");
+					oBinding.getBoundContext().setProperty("endDate", endDate, "offerings");
+					oBinding.getBoundContext().setProperty("pickupInd", this.byId("pickupModify").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("deliveryInd", this.byId("deliveryModify").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("virtualInd", this.byId("virtualModify").getSelected(), "offerings");
+					oBinding.getBoundContext().setProperty("contactName", this.byId("contactNameModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("contactEmail", this.byId("contactEmailModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("contactPhone", this.byId("contactPhoneModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("contactTitle", this.byId("contactTitleModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("websiteURL", this.byId("webAddressModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("offerDetails", this.byId("offerDetailsModify").getValue(), "offerings");
+					oBinding.getBoundContext().setProperty("eligiblityCategory_ID", this.byId("serviceEntitlementModify").getSelectedKey(), "offerings");
+					oBinding.getBoundContext().setProperty("assistanceType_ID", this.byId("assistanceTypeModify").getSelectedKey(), "offerings");
+					oBinding.getModel().submitBatch("offerings");
 			}
 		},
 
@@ -1371,6 +2007,118 @@ sap.ui.define([
 				}.bind(this), 0);
 			}
 
+			var screenMode = "Create";
+			this.getModel().setProperty("/screenMode", screenMode);
+
+			return bValidationError;
+		},
+
+		validateStepModifyOffering: function (oEvent) {
+			var bValidationError = false;
+
+			// validate step 1 and 2 first when step 3 button is pressed
+			/*if (oEvent && oEvent.getParameter("id").indexOf("StepModifyOffering") >= 0) {
+				bValidationError = this.validateStep1();
+			}
+	
+			if (this.byId("contactEmailModify").getValueState() !== "None") {
+				bValidationError = true;
+			}*/
+
+			//StepModifyOffering
+
+
+			/*
+			// repair captcha if needed
+			if ($("#recaptcha") && !$("#recaptcha").html()) {
+				this._prepareCaptcha();
+			}
+			*/
+
+			//var bFoodType = this.byId("assistanceTypeModify").getSelectedKey() === ASSISTANCE_TYPE_FOOD;
+
+			/* if (bFoodType && !this.byId("assistanceSubTypeModify").getSelectedItems().length) {
+				this.byId("assistanceSubTypeModify").setValueState("Warning");
+				bValidationError = true;
+			} */
+
+			// at least 1 day has to be selected
+			var availableMon = this.byId("availableMon_0").getSelected();
+			var availableTue = this.byId("availableTue_0").getSelected();
+			var availableWed = this.byId("availableWed_0").getSelected();
+			var availableThr = this.byId("availableThu_0").getSelected();
+			var availableFri = this.byId("availableFri_0").getSelected();
+			var availableSat = this.byId("availableSat_0").getSelected();
+			var availableSun = this.byId("availableSun_0").getSelected();
+
+			if (availableMon === false && availableTue === false && availableWed === false && availableThr === false && availableFri === false && availableSat === false && availableSun === false) {
+				this.byId("modifyDaysMessageStrip").setVisible(true);
+				bValidationError = true;
+			}
+			else {
+				this.byId("modifyDaysMessageStrip").setVisible(false);
+			}
+
+			/* 	var i, j;
+				var aCheckboxContainers = this.byId("scheduleFormModify").$().find(".sapMVBox");
+				for (i = 0; i < aCheckboxContainers.length; i++) {
+					var aCheckBoxes = $(aCheckboxContainers[i]).find(".sapMCb ");
+					var bAny = false;
+					for (j = 0; j < aCheckBoxes.length; j++) {
+						if ($(aCheckBoxes[j]).control(0).getSelected()) {
+							bAny = true;
+						}
+					}
+					if (!bAny) {
+						bValidationError = true;
+						for (j = 0; j < aCheckBoxes.length; j++) {
+							$(aCheckBoxes[j]).control(0).setValueState("Warning");
+						}
+					}
+				} */
+
+			// time range for subtypes has to be selected
+			var timeFrom = this.byId("timerangeFromModify_0").getValue();
+			var timeTo = this.byId("timerangeToModify_0").getValue();
+			if (timeFrom.length > 0 && timeTo.length > 0) {
+			} else {
+				this.byId("modifyTimeMessageStrip").setVisible(true);
+				bValidationError = true;
+			}
+
+			/* var aTimePickers = this.byId("scheduleFormModify").$().find(".sapMTimePicker");
+			var oControl;
+			for (i = 0; i < aTimePickers.length; i++) {
+				oControl = $(aTimePickers[i]).control(0);
+				if (!oControl.getValue()) {
+					oControl.setValueState("Warning");
+					bValidationError = true;
+				}
+			} */
+
+			// if a date is chosen, the end date should be after the current date
+			var secondDateValue = this.byId("daterangeModify_0").getSecondDateValue();
+			if ((secondDateValue) && (secondDateValue < Date.now())) {
+				this.byId("daterangeModify_0").setValueState("Warning");
+				bValidationError = true;
+			}
+
+			// check web address (is validated by type anyway)
+			if (this.byId("webAddressModify").getValueState() !== "None") {
+				bValidationError = true;
+			}
+
+			// stay on this step and display errors
+			/*if (oEvent && bValidationError) {
+				setTimeout(function () {
+					this.errorSubmit(bValidationError);
+					setTimeout(function () {
+						this.errorSubmit(bValidationError);
+					}.bind(this), 300);
+				}.bind(this), 0);
+			}*/
+			var screenMode = "Modify";
+			this.getModel().setProperty("/screenMode", screenMode);
 			return bValidationError;
 		},
 
@@ -1380,17 +2128,17 @@ sap.ui.define([
 			if (!window.grecaptcha) {
 				bValidationError = true;
 			}
-
+		
 			var captchaToken = window.grecaptcha.getResponse();
 			if (!captchaToken) {
 				bValidationError = true;
 			}
-
+		
 			this.toggleCaptchaValidationMessage(bValidationError);
-
+		
 			return bValidationError;
 		},
-
+		
 		// toggle warning state
 		toggleCaptchaValidationMessage: function (bValidationError) {
 			$(document.getElementById("recaptcha")).toggleClass("validationError", bValidationError);
@@ -1401,6 +2149,9 @@ sap.ui.define([
 		// reset form after successful submit
 		clearForm: function () {
 			if (this._bSubmitting) {
+				// Discard progress to roll back steps on screen
+				this.byId("wizard").discardProgress(this.byId("wizard").getSteps()[0]);
+
 				// create new client model
 				this.setModel(models.createFrontendModel());
 				this.byId("assistanceType").setSelectedKey(ASSISTANCE_TYPE_FOOD);
@@ -1441,7 +2192,7 @@ sap.ui.define([
 				this.toggleCaptchaValidationMessage(false);
 			}.bind(this);
 			window.captchaExpired = this.captchaExpired.bind(this);
-
+		
 			var captchaScript = document.createElement("script");
 			captchaScript.setAttribute(
 				"src",
@@ -1449,13 +2200,13 @@ sap.ui.define([
 			);
 			document.head.appendChild(captchaScript);
 		},
-
+		
 		captchaExpired: function () {
 			if (window.grecaptcha) {
 				window.grecaptcha.reset();
 			}
 		},
-
+		
 		captchaChecked: function () {
 			return window.grecaptcha.getResponse().length > 0;
 		},

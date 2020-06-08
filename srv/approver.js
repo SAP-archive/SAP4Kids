@@ -40,10 +40,12 @@ module.exports = cds.service.impl(async (srv) => {
           })
       )
       .then(
-        DELETE(SchoolOfferingAssistance)
-          .where({
-            ASSISTANCE_ID: req.data.ID
-          })
+        await tx.run(
+          DELETE(SchoolOfferingAssistance)
+            .where({
+              ASSISTANCE_ID: req.data.ID
+            })
+        )
       );
   });
 

@@ -1,0 +1,14 @@
+{
+    "@odata.context": "$metadata#Addresses/$entity",
+    "ID": "36a00731-7f07-42a8-a141-f4303d41a10d",
+    "createdAt": "2020-05-18T16:04:27.061Z",
+    "createdBy": "anonymous",
+    "modifiedAt": "2020-05-18T16:04:27.061Z",
+    "modifiedBy": "anonymous",
+    "street": "3045 Santiago St",
+    "city": "San Francisco",
+    "zip": 94116,
+    "lat": 37.7436,
+    "long": -122.5001,
+    "state_StateCode": "CA"
+}

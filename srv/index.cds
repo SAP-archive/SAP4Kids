@@ -21,9 +21,11 @@ service entry {
   //@odata.draft.enabled
 
   entity AssistanceOfferings @(restrict : [{
+    //DANIEL: Edit made here. Added UPDATE to grant.
     grant : [
       'CREATE',
       'UPDATE',
+      'PATCH',
       'DELETE'
     ],
     to    : 'authenticated-user'

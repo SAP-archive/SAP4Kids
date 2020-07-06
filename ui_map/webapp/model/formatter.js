@@ -99,7 +99,8 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
         "</div>" +
         "</div>" +
         "</div>" +
-        "</div>";
+        "</div>" +
+        "<div class='institution-popup-byline'>" + (oLocationInfo.assistanceOfferings[0].contactEmail === 'USDA' ? oBundle.getText('marker.usda') : '') + "</div>";
     },
 
     transformBackendData: function (aRaw) {
@@ -162,7 +163,8 @@ sap.ui.define(["sap/ui/model/type/Time"], function (TimeFormatter) {
           startDate: oRaw.STARTDATE,
           endDate: oRaw.ENDDATE,
           assistanceType: oRaw.ASSISTANCETYPE,
-          subType: oRaw.ASSISTANCESUBTYPE
+          subType: oRaw.ASSISTANCESUBTYPE,
+          contactEmail: oRaw.CONTACTEMAIL
         };
       }
 

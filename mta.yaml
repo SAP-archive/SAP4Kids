@@ -1,7 +1,7 @@
 ID: sap4kids
 _schema-version: 3.2.0
 description: Enter description here
-version: 1.0.5
+version: 1.0.6
 parameters:
   enable-parallel-deployments: true
 
@@ -75,6 +75,7 @@ modules:
       - name: SAP4KIDS-db-hdi-container
       - name: sap4kids_uaa
       - name: sap4kids_logger
+      - name: sap4kids_destination
     provides:
       - name: srv_api
         properties:
@@ -116,3 +117,5 @@ resources:
       service: html5-apps-repo
       config:
         sizeLimit: 5
+  - name: sap4kids_destination
+    type: org.cloudfoundry.existing-service

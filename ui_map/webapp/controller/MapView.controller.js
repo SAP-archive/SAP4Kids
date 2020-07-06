@@ -149,8 +149,8 @@ sap.ui.define([
       return location.href.includes("localhost") ?
         "?$filter=LAT gt " + (parseFloat(sLat) - .5) + " and LAT lt " + (parseFloat(sLat) + .5) +
         " and LONG gt " + (parseFloat(sLng) - .5) + " and LONG lt " + (parseFloat(sLng) + .5) +
-        " and " + sResourcesLocahost :
-        "(LATITUDE=" + sLat + ",LONGITUDE=" + sLng + ",DISTANCEFORSEARCH=50" + ",ASSISTANCETYPES='" + sResources + "''')/Set";
+        " and " + sResourcesLocahost
+        : "(LATITUDE=" + sLat + ",LONGITUDE=" + sLng + ",DISTANCEFORSEARCH=50" + ",ASSISTANCETYPES='" + sResources + "''')/Set";
     },
 
     updateMarkerBinding: function (zoomType) {

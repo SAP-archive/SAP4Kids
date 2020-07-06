@@ -1,7 +1,7 @@
 using scp.cloud from '../db/schema';
 
 
-service Map {
+service Map @(impl : 'map.js') {
 
   entity SchoolOffers       as
     select from cloud.AssistanceOffering {

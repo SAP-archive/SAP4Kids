@@ -7,7 +7,7 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"applicationVersion": {
-			"version": "1.0.5"
+			"version": "1.0.6"
 		},
 		"ach": "set-ach",
 		"resources": "resources.json",

@@ -22,6 +22,16 @@
             "db": {
                 "kind": "hana",
                 "model": "gen/csn.json"
+            },
+            "API_USDA_ARCGIS": {
+                "kind": "rest",
+                "credentials": {
+                    "destination": "API_USDA_ARCGIS"
+                },
+                "pool": {
+                    "min": 1,
+                    "max": 10
+                }
             }
         }
     }

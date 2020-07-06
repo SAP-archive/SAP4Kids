@@ -7,7 +7,7 @@ using {
   CV_GETSCHOOLOFFERS_TYPE
 } from '../db/cvschema';
 
-service Map {
+service Map @(impl : 'map.js') {
 
   entity SchoolOffers(LATITUDE : Double, LONGITUDE : Double, DISTANCEFORSEARCH : Integer)                                 as
     select from CV_GETSCHOOLOFFERS (

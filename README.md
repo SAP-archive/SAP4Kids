@@ -127,3 +127,7 @@ This content is provided "as-is" with no other support.
 
 Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
+
+
+## Env Variables for USDA API
+cf set-env sap4kids-srv destinations "[{name: \"usda_arcgis\",url: \"https://services1.arcgis.com/RLQu0rK7h4kbsBq5/ArcGIS/rest/services/Summer_Meal_Sites_2020/FeatureServer/0/\"}]"

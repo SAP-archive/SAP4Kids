@@ -203,6 +203,11 @@
   width: fit-content;
 }
 
+.institution-popup-byline {
+  text-align: center;
+  font-size: .6rem;
+}
+
 .item-food {
   color: orange;
 }

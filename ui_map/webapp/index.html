@@ -1,54 +1,69 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-itunes-app" content="app-id=1513648385" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="resources/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-  <link rel="stylesheet" href="css/splash.css">
-  <link rel="manifest" href="manifest.webmanifest">
+    <link
+      href="resources/img/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="css/splash.css" />
+    <link rel="manifest" href="manifest.webmanifest" />
 
-  <title>SAP4Kids - Resource Finder</title>
+    <title>SAP4Kids - Resource Finder</title>
 
+    <script>
+      "serviceWorker" in navigator && navigator.serviceWorker.register("sw.js");
+    </script>
 
-  <script>
-    ('serviceWorker' in navigator) && navigator.serviceWorker.register('sw.js');
-  </script>
-
-  <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/1.77.2/resources/sap-ui-core.js"
-    data-sap-ui-theme="sap_fiori_3" data-sap-ui-resourceroots='{
+    <script
+      id="sap-ui-bootstrap"
+      src="https://sapui5.hana.ondemand.com/1.77.2/resources/sap-ui-core.js"
+      data-sap-ui-theme="sap_fiori_3"
+      data-sap-ui-resourceroots='{
       "com.sap4kids.resourcelocator": "./",
       "openui5.googlemaps": "./thirdparty/openui5/googlemaps/"
-      }' data-sap-ui-libs="sap.m,openui5.googlemaps" data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
-    data-sap-ui-compatVersion="edge" data-sap-ui-async="true" data-sap-ui-frameOptions="trusted"> </script>
+      }'
+      data-sap-ui-libs="sap.m,openui5.googlemaps"
+      data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+      data-sap-ui-compatVersion="edge"
+      data-sap-ui-async="true"
+      data-sap-ui-frameOptions="trusted"
+    ></script>
 
-  <script src="resources/keys.js"></script>
-  <script>
+    <script src="resources/keys.js"></script>
+    <script>
+      var swa = window.sap4kidsTokens.webAnalytics;
+      (function () {
+        var d = document,
+          g = d.createElement("script"),
+          s = d.getElementsByTagName("script")[0];
+        g.type = "text/javascript";
+        g.defer = true;
+        g.async = true;
+        g.src = swa.baseUrl + "js/track.js";
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+  </head>
 
-    var swa = window.sap4kidsTokens.webAnalytics;
-    (function () {
-      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript'; g.defer = true; g.async = true; g.src = swa.baseUrl + 'js/track.js';
-      s.parentNode.insertBefore(g, s);
-    })();
-  </script>
-
-</head>
-
-<body class="sapUiBody">
-  <div id="splashScreen">
-    <div class="splashAnimation splashAnimationStandard">
-      <div></div>
-      <div></div>
-      <div></div>
+  <body class="sapUiBody">
+    <div id="splashScreen">
+      <div class="splashAnimation splashAnimationStandard">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-  </div>
 
-  <div data-sap-ui-component data-name="com.sap4kids.resourcelocator" data-id="container"
-    data-settings='{"id" : "resourcelocator"}'>
-  </div>
-
-
-</body>
-
+    <div
+      data-sap-ui-component
+      data-name="com.sap4kids.resourcelocator"
+      data-id="container"
+      data-settings='{"id" : "resourcelocator"}'
+    ></div>
+  </body>
 </html>

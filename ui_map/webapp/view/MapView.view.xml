@@ -9,6 +9,7 @@
   <f:ShellBar title="Resource Finder" homeIcon="resources/img/logo.png" homeIconPressed="onHomePress">
     <f:additionalContent >
       <Button type="Transparent" text="{i18n>about}" press="onAboutOpen" />
+      <Button type="Transparent" text="{i18n>iosapp}" press="onIOSAppOpen" />
       <Button type="Transparent" text="{i18n>enter}" press="onEnterResOpen" />
       <Button type="Transparent" text="{i18n>legal}" press="onDisclaimerOpen" />
       <Button type="Transparent" text="{i18n>feedback}" press="onFeedbackOpen" />

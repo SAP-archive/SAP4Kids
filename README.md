@@ -1,4 +1,5 @@
 # SAP4Kids
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/SAP4Kids/)](https://api.reuse.software/info/github.com/SAP-samples/SAP4Kids/)
 
 In response to the current COVID-19 pandemic and its resulting impact on students and families, GENYOUth, child health and wellness nonprofit, and SAP, market leader in enterprise software sales, have created the SAP4Kids application.
 
@@ -122,12 +123,6 @@ Have a look at the [detailed architecture page](./docs/architecture.md) for more
 ## How to obtain support
 
 This content is provided "as-is" with no other support.
-
-## License
-
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
-This file is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) file.
-
 
 ## Env Variables for USDA API
 cf set-env sap4kids-srv destinations "[{name: \"usda_arcgis\",url: \"https://services1.arcgis.com/RLQu0rK7h4kbsBq5/ArcGIS/rest/services/Summer_Meal_Sites_2020/FeatureServer/0/\"}]"

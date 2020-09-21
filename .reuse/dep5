@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: SAP4Kids
+Upstream-Contact: Marius Obert <marius.obert@sap.com>
+Source: https://github.com/SAP-samples/SAP4Kids
+
+Files: *
+Copyright:  2020 SAP SE or an SAP affiliate company and generator-easy-ui5 contributors
+License: Apache-2.0

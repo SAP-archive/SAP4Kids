@@ -1,5 +1,5 @@
 # SAP4Kids
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/SAP4Kids/)](https://api.reuse.software/info/github.com/SAP-samples/SAP4Kids/)
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/SAP4Kids)](https://api.reuse.software/info/github.com/SAP-samples/SAP4Kids)
 
 In response to the current COVID-19 pandemic and its resulting impact on students and families, GENYOUth, child health and wellness nonprofit, and SAP, market leader in enterprise software sales, have created the SAP4Kids application.
 

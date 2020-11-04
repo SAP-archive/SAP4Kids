@@ -32,7 +32,7 @@ This project consists of three distinct web applications:
 ## Requirements
 
 - Create your own [Google Maps API Key](https://developers.google.com/maps/documentation/javascript/get-api-key)
-- Install Node.js LTS version 10 from <https://nodejs.org/en/download/>.
+- Install Node.js LTS version 12 from <https://nodejs.org/en/download/>.
 - [Create](https://developers.sap.com/tutorials/hcp-create-trial-account.html) an SAP Cloud Platform trial account in the region Europe (Frankfurt)
 - [Follow this tutorial](https://developers.sap.com/tutorials/cp-cf-download-cli.html) to install the Cloud Foundry command-line tool.
 - Add the Multi-Target Application Cloud Foundry [CLI Plugin](https://github.com/cloudfoundry-incubator/multiapps-cli-plugin).
